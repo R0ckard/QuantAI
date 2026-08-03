@@ -1,32 +1,255 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NooMoo - Australia's Vegan Food Map - Coming Soon</title>
-<link href="style.css" rel="stylesheet"/><!-- Add Google Fonts: Poppins and Inter -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Poppins:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="QuantAI, fractional AI operations. Dave Richardson helps professional services firms redesign how their work gets done with AI: less admin, more consistent quality, and teams who actually use the tools.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>QuantAI · Fractional AI Operations · Dave Richardson</title>
+<style>
+  :root{
+    --ink:#0F1B2A;--navy:#1B2C42;--slate:#40536B;--graphite:#7A8899;--line:#E7EBEF;--paper:#F6F5F1;--white:#FFFFFF;
+    --viridian:#14655C;--viridian400:#2E9C8E;--viridian050:#E5F8F5;--brass:#A9803E;
+    --qa-display:"Source Serif 4",Cambria,Georgia,serif;--qa-text:Inter,"Helvetica Neue",Arial,system-ui,sans-serif;--qa-mono:"IBM Plex Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--qa-text);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--viridian);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  /* nav */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(15,27,42,.96);backdrop-filter:saturate(150%) blur(6px);border-bottom:1px solid rgba(255,255,255,.08)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+  .nav .logo{height:22px;width:auto;display:block}
+  .nav .links{display:flex;gap:22px;align-items:center}
+  .nav .links a{color:#c7d0dc;font-size:14px;font-weight:500}
+  .nav .links a:hover{color:#fff;text-decoration:none}
+  .nav .cta{background:var(--viridian400);color:#08221f !important;padding:7px 14px;border-radius:4px;font-weight:600;font-size:13.5px}
+  .nav .cta:hover{background:#4bb3a4;text-decoration:none}
+  @media(max-width:720px){.nav .links a.hide{display:none}}
+  /* hero */
+  .hero{background:radial-gradient(1100px 520px at 70% -10%,#20344f,#0F1B2A);color:#fff;padding:76px 0 84px}
+  .eyebrow{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--viridian400);font-weight:700}
+  .hero h1{font-family:var(--qa-display);font-weight:700;font-size:44px;line-height:1.08;letter-spacing:-.02em;margin:14px 0 16px;max-width:15ch}
+  .hero p.lead{font-size:19px;color:#dbe2ec;max-width:60ch;margin:0 0 28px}
+  .btnrow{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:12px 20px;border-radius:5px;font-weight:600;font-size:15px}
+  .btn.primary{background:var(--viridian400);color:#08221f}
+  .btn.primary:hover{background:#4bb3a4;text-decoration:none}
+  .btn.ghost{border:1px solid rgba(255,255,255,.28);color:#eaf0fa}
+  .btn.ghost:hover{border-color:#fff;text-decoration:none}
+  .hero .tiny{margin-top:22px;font-size:13px;color:#9fb0c4}
+  .hero .tiny b{color:#dbe2ec;font-weight:600}
+  /* sections */
+  section{padding:64px 0}
+  .sec-head{max-width:64ch}
+  h2{font-family:var(--qa-display);font-weight:600;font-size:28px;letter-spacing:-.01em;color:var(--ink);margin:0 0 8px}
+  .sec-head p{color:var(--slate);font-size:16.5px;margin:0}
+  .kick{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--viridian);font-weight:700;margin-bottom:10px}
+  .grid{display:grid;gap:18px;margin-top:30px}
+  .g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+  .card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:20px 22px}
+  .card h3{margin:0 0 6px;font-size:16px;color:var(--ink)}
+  .card p{margin:0;color:var(--slate);font-size:14.5px}
+  .card .tag{display:inline-block;font-size:11px;font-family:var(--qa-mono);color:var(--graphite);margin-bottom:8px;letter-spacing:.02em}
+  a.card{color:inherit;text-decoration:none;transition:transform .12s ease, border-color .12s ease}
+  a.card:hover{text-decoration:none;border-color:var(--viridian400);transform:translateY(-2px)}
+  a.card h3{color:var(--ink)}
+  .subhead{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--graphite);font-weight:700;margin:28px 0 2px}
+  /* engagements */
+  section.work{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .eng{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:center;padding:26px 0;border-top:1px solid var(--line)}
+  .eng:first-of-type{border-top:0}
+  .eng img{width:100%;border:1px solid var(--line);border-radius:6px;display:block}
+  .eng .num{font-family:var(--qa-mono);font-size:12.5px;color:var(--viridian);font-weight:600}
+  .eng h3{font-family:var(--qa-display);font-size:21px;margin:4px 0 8px;color:var(--ink)}
+  .eng p{margin:0 0 12px;color:var(--slate);font-size:15px}
+  .eng .links a{font-size:14px;font-weight:600;margin-right:16px;white-space:nowrap}
+  .eng.rev{grid-template-columns:1fr 340px}
+  .eng.rev .media{order:2}
+  @media(max-width:820px){.eng,.eng.rev{grid-template-columns:1fr}.eng.rev .media{order:0}}
+  /* approach */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:26px}
+  .step{border-left:3px solid var(--viridian);padding:4px 0 4px 16px}
+  .step .n{font-family:var(--qa-mono);font-size:12px;color:var(--viridian);font-weight:600}
+  .step h4{margin:4px 0 4px;font-size:15px;color:var(--ink)}
+  .step p{margin:0;font-size:13.5px;color:var(--slate)}
+  /* contact */
+  section.contact{background:linear-gradient(135deg,var(--ink),var(--navy));color:#fff;text-align:center}
+  section.contact h2{color:#fff}
+  section.contact p{color:#dbe2ec;font-size:17px;max-width:52ch;margin:8px auto 26px}
+  /* footer */
+  footer{background:var(--ink);color:#9fb0c4;font-size:13px;padding:26px 0 40px;border-top:1px solid rgba(255,255,255,.08)}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+  footer a{color:#c7d0dc}
+  .note{color:#7a8899;font-size:12px;max-width:70ch;margin-top:8px}
+  @media(max-width:820px){.g4,.g3{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.hero h1{font-size:34px}}
+  @media(max-width:520px){.g4,.g3,.g2{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-<div class="container">
-<header class="hero-section"><img alt="NooMoo Logo" class="logo" src="noomoo_logo_transparent.png"/>
-<h1>Moo-ve Over Boring Meals!</h1>
-<h2>Australia's ultimate vegan food map is coming soon. Discover hidden gems &amp; support local eats.</h2>
-<p>Sign up below for early access and tell us your favourite spot!</p>
-</header>
-<section class="form-section">
-<h3>Get Early Access &amp; Share Your Faves!</h3>
-<!-- HubSpot Form Placeholder - Replace this entire div with your HubSpot form embed code --><script defer="" src="https://js-ap1.hsforms.net/forms/embed/441911793.js"></script>
-<div class="hs-form-frame" data-form-id="7d410d29-73a4-4cfb-9518-f656da14c0fa" data-portal-id="441911793" data-region="ap1"></div>
-</section>
-<div id="confirmation-message" style="display: none;">
-<p>Thanks for your interest in NooMoo.com.au, we'll keep you updated!</p>
-</div>
-<footer>
-<p>© 2025 NooMoo. Launching soon!</p>
-<div class="social-links"><p>Follow us: <a href="https://www.instagram.com/noomooau/" target="_blank" title="Instagram">Instagram</a> | <a href="https://www.facebook.com/profile.php?id=61577107311797" target="_blank" title="Facebook">Facebook</a> | <a href="https://www.tiktok.com/@noomooau" target="_blank" title="TikTok">TikTok</a> | <a href="https://x.com/noomooAU" target="_blank" title="X">X</a> | <a href="https://www.linkedin.com/company/noomooau/about/" target="_blank" title="LinkedIn">LinkedIn</a></p></div>
-</footer>
-<!-- Optional: Add custom JavaScript if needed --><script src="script.js"></script></div>
+
+<!-- NAV -->
+<div class="nav"><div class="wrap">
+  <a href="#top" aria-label="QuantAI home"><svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.99 85.12" role="img" aria-label="QuantAI"><g transform="translate(0.000 0.000) scale(1.88489)"><rect x="0" y="36" width="20" height="8" fill="#FFFFFF"/><rect x="12" y="18" width="8" height="26" fill="#FFFFFF"/><rect x="12" y="18" width="16" height="8" fill="#FFFFFF"/><rect x="28" y="0" width="8" height="26" fill="#2E9C8E"/><rect x="28" y="0" width="20" height="8" fill="#2E9C8E"/></g><g transform="translate(117.45 78.82)"><path fill="#FFFFFF" fill-rule="nonzero" d="M38.48 0.98 C43.17 0.98 47.56 0.14 51.52 -1.47 L57.62 6.30 L70.12 6.30 L60.02 -6.69 C67.33 -13.03 71.83 -23.14 71.83 -36.33 C71.83 -59.86 57.52 -73.73 38.48 -73.73 C19.39 -73.73 5.03 -59.86 5.03 -36.33 C5.03 -12.89 19.39 0.98 38.48 0.98 Z M34.38 -24.27 L44.09 -11.47 C42.33 -10.98 40.44 -10.69 38.48 -10.69 C26.56 -10.69 18.11 -19.78 18.11 -36.33 C18.11 -52.98 26.56 -62.06 38.48 -62.06 C50.30 -62.06 58.69 -53.03 58.69 -36.33 C58.69 -27.39 56.30 -20.66 52.20 -16.36 L46.09 -24.27 L34.38 -24.27 Z M102.73 0.69 C110.64 0.69 116.36 -3.12 119.62 -10.94 L119.73 -0.00 L131.79 -0.00 L131.79 -54.59 L119.04 -54.59 L119.04 -22.61 C119.04 -14.70 114.15 -10.11 107.42 -10.11 C100.78 -10.11 96.73 -14.50 96.73 -21.83 L96.73 -54.59 L84.03 -54.59 L84.03 -19.88 C84.03 -6.73 91.50 0.69 102.73 0.69 Z M160.49 1.12 C168.99 1.12 174.17 -2.83 176.56 -7.52 L177.06 -7.52 L177.06 -0.00 L189.21 -0.00 L189.21 -36.47 C189.21 -51.03 177.20 -55.28 166.95 -55.28 C156.01 -55.28 147.03 -50.64 143.81 -41.02 L155.57 -38.62 C156.88 -42.23 160.65 -45.52 166.99 -45.52 C173.20 -45.52 176.51 -42.39 176.51 -37.06 L176.51 -36.81 C176.51 -33.06 172.51 -32.91 163.04 -31.89 C152.49 -30.77 142.24 -27.64 142.24 -15.33 C142.24 -4.59 150.10 1.12 160.49 1.12 Z M163.78 -8.30 C158.40 -8.30 154.54 -10.75 154.54 -15.48 C154.54 -20.45 158.84 -22.56 164.56 -23.34 C167.82 -23.78 174.90 -24.66 176.62 -26.03 L176.62 -19.58 C176.62 -13.53 171.59 -8.30 163.78 -8.30 Z M215.38 -31.98 C215.38 -39.89 220.26 -44.48 227.06 -44.48 C233.70 -44.48 237.70 -40.09 237.70 -32.77 L237.70 -0.00 L250.38 -0.00 L250.38 -34.72 C250.38 -47.86 242.96 -55.28 231.74 -55.28 C223.73 -55.28 218.07 -51.38 214.84 -43.70 L214.70 -54.59 L202.68 -54.59 L202.68 -0.00 L215.38 -0.00 L215.38 -31.98 Z M289.11 -54.59 L278.57 -54.59 L278.57 -67.58 L265.86 -67.58 L265.86 -54.59 L258.11 -54.59 L258.11 -44.62 L265.86 -44.62 L265.86 -14.31 C265.86 -4.64 271.68 0.73 282.13 0.73 C284.82 0.73 287.85 0.39 290.63 -0.44 L288.63 -10.25 C287.41 -9.97 285.16 -9.62 283.99 -9.62 C280.13 -9.62 278.57 -11.42 278.57 -15.38 L278.57 -44.62 L289.11 -44.62 L289.11 -54.59 Z M294.87 -0.00 L309.13 -0.00 L315.09 -18.02 L342.29 -18.02 L348.49 -0.00 L362.79 -0.00 L336.82 -72.75 L320.26 -72.75 L294.87 -0.00 Z M318.56 -28.52 L321.63 -37.80 C323.63 -44.28 325.84 -52.44 328.42 -62.59 C331.10 -52.55 333.40 -44.48 335.54 -37.80 L338.73 -28.52 L318.56 -28.52 Z M385.54 -72.75 L372.51 -72.75 L372.51 -0.00 L385.54 -0.00 L385.54 -72.75 Z"/></g></svg></a>
+  <div class="links">
+    <a href="#build" class="hide">What I build</a>
+    <a href="#help" class="hide">What I help with</a>
+    <a href="#work" class="hide">Worked examples</a>
+    <a href="#contact" class="cta">Get in touch</a>
+  </div>
+</div></div>
+
+<!-- HERO -->
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">QuantAI · Fractional AI operations · Melbourne</div>
+  <h1>We redesign how your business actually works with AI.</h1>
+  <p class="lead">I help professional services firms find the workflows worth changing, design practical AI into them, and get teams genuinely using it. Less admin, more consistent quality, and a qualified human kept in charge of the decisions that matter.</p>
+  <div class="btnrow">
+    <a class="btn primary" href="mailto:dave@quantai.com.au?subject=QuantAI%20enquiry">Email me</a>
+    <a class="btn ghost" href="https://calendly.com/dave-quantai/zoom-meeting" target="_blank" rel="noopener">Book a call</a>
+  </div>
+  <div class="tiny">I'm <b>Dave Richardson</b>. I build AI products and agent tooling myself, every day, then help firms put the same thinking to work. Built on <b>Claude, Cowork and Code</b>.</div>
+</div></header>
+
+<!-- WHAT I BUILD -->
+<section id="build"><div class="wrap">
+  <div class="sec-head">
+    <div class="kick">What I actually build</div>
+    <h2>I don't just advise on AI. I build with it, daily.</h2>
+    <p>Before I redesign how your firm uses AI, it probably helps to know I live in this stuff. Here is some of what I've built and run myself, at various stages, from shipping products to the agent tooling behind them.</p>
+  </div>
+
+  <div class="subhead">Products and ventures</div>
+  <div class="grid g3">
+    <a class="card" href="https://noomoo.com.au" target="_blank" rel="noopener"><span class="tag">Product · self-built CRM</span><h3>noomoo &#8599;</h3><p>One of my ventures. I built its client-outreach CRM myself, vibe-coded on Lovable.dev, then extended with Claude, Cowork and Code on Supabase and Resend.</p></a>
+    <a class="card" href="https://wattlebid.com.au" target="_blank" rel="noopener"><span class="tag">SaaS · govtech</span><h3>Wattlebid &#8599;</h3><p>An Australian platform that pulls government tenders from federal, state and council portals and filters them to what a business can actually win. AI tender drafting on the way.</p></a>
+    <div class="card"><span class="tag">Launching soon</span><h3>CarbonCut</h3><p>Launching shortly: helping SMBs of 50 to 200 people cut their carbon footprint and lift their sustainability.</p></div>
+  </div>
+
+  <div class="subhead">Tools and agent infrastructure</div>
+  <div class="grid g3">
+    <div class="card"><span class="tag">Agent environments</span><h3>Openclaw</h3><p>Self-hosted environments for running AI agents safely and repeatably.</p></div>
+    <div class="card"><span class="tag">Autonomous agents</span><h3>Paperclip</h3><p>Agent-run company building, testing how far autonomous agents can take a venture.</p></div>
+    <div class="card"><span class="tag">PM &amp; PA</span><h3>Hermes</h3><p>My command centre. I run Hermes as the hub connecting all my projects (Openclaw, Paperclip and Claude), and as a PA across my calendar and inbox.</p></div>
+    <div class="card"><span class="tag">Team &amp; agent comms</span><h3>Discord tooling</h3><p>Team and agent communications wired through Discord, so humans and agents work in one place.</p></div>
+    <div class="card"><span class="tag">Voice</span><h3>Voice interfaces</h3><p>Real voice conversations with AI agents, not just text in a box.</p></div>
+    <div class="card"><span class="tag">Web app</span><h3>AI Job Description Assistant</h3><p>A web app that sharpens job ads and flags issues as you write, with the AI kept on a leash.</p></div>
+  </div>
+  <p class="note" style="color:var(--graphite);margin-top:18px">These are my own projects, built to learn and to ship. Some are businesses, some are the plumbing behind them. The point is simple: I use this technology, I don't just talk about it.</p>
+</div></section>
+
+<!-- WHAT I HELP WITH -->
+<section id="help" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+  <div class="sec-head">
+    <div class="kick">What I help firms with</div>
+    <h2>Practical AI, put to work where it pays off.</h2>
+    <p>I focus on professional services: accounting, advice, recruitment, engineering, consulting. The work is always the same shape, find the workflows worth changing, design AI into them, and make it stick, with a human owning the decisions.</p>
+  </div>
+  <div class="grid g3">
+    <div class="card"><h3>AI Workflow Audit</h3><p>Find the handful of workflows where AI genuinely pays off, and the ones it shouldn't go near. A clear, scored plan, not a wish list.</p></div>
+    <div class="card"><h3>AI Operating Systems</h3><p>The standards, configured tools and governance that make good AI use the default across a firm, instead of a lottery based on who you ask.</p></div>
+    <div class="card"><h3>Meeting Intelligence</h3><p>Turn every meeting into a reliable, owned record, with actions that carry forward and a dashboard managers can actually see.</p></div>
+    <div class="card"><h3>Client Onboarding</h3><p>One warm, consistent onboarding across service lines, faster, with nothing falling through the cracks and the relationship kept human.</p></div>
+    <div class="card"><h3>Recruitment AI</h3><p>Recruiter-controlled AI that drafts and documents, keeps summaries to evidence, and never screens, ranks or decides on a candidate.</p></div>
+    <div class="card"><h3>Enablement &amp; Champions</h3><p>The training, playbooks and internal champions that turn a good design into a habit the whole firm actually adopts.</p></div>
+  </div>
+</div></section>
+
+<!-- WORKED EXAMPLES -->
+<section class="work" id="work"><div class="wrap">
+  <div class="sec-head">
+    <div class="kick">Worked examples</div>
+    <h2>Five engagements, built end to end.</h2>
+    <p>These are demonstration engagements, built around representative client scenarios to show the method and the standard of the work, not paid client jobs. Every figure is a modelled estimate under stated assumptions, and the governance line in each (human review, no regulated advice from AI, professional accountability kept human) is real and deliberate. Two of them include a working, clickable dashboard.</p>
+  </div>
+
+  <div class="eng">
+    <div class="media"><a href="03_northstar-meeting-intelligence/case-study/index.html"><img src="assets/03-northstar.png" alt="NorthStar meeting intelligence dashboard"></a></div>
+    <div>
+      <div class="num">Meeting intelligence</div>
+      <h3>NorthStar, turning 120 meetings a week into one accountable memory</h3>
+      <p>A five-type meeting taxonomy, an assistant that turns a transcript into an owned record and never invents an action owner, and a live dashboard where managers finally see overdue and carried-forward work by team.</p>
+      <div class="links"><a href="03_northstar-meeting-intelligence/case-study/index.html">Case study</a><a href="03_northstar-meeting-intelligence/dashboard/index.html">Live dashboard</a><a href="https://github.com/R0ckard/QuantAI/tree/main/03_northstar-meeting-intelligence">Source</a></div>
+    </div>
+  </div>
+
+  <div class="eng rev">
+    <div class="media"><a href="04_elevate-accounting-client-onboarding/case-study/index.html"><img src="assets/04-elevate.png" alt="Elevate onboarding tracker"></a></div>
+    <div>
+      <div class="num">Client onboarding</div>
+      <h3>Elevate, one warm, standard onboarding across three service lines</h3>
+      <p>An onboarding assistant plus a live tracker that flags a stall at day 10 and switches the next step to a personal call, not another automated email. 75% less admin, and the relationship stays personal.</p>
+      <div class="links"><a href="04_elevate-accounting-client-onboarding/case-study/index.html">Case study</a><a href="04_elevate-accounting-client-onboarding/tracker/index.html">Live tracker</a><a href="https://github.com/R0ckard/QuantAI/tree/main/04_elevate-accounting-client-onboarding">Source</a></div>
+    </div>
+  </div>
+
+  <div class="eng">
+    <div class="media"><a href="05_vertex-engineering-ai-operating-model/case-study/index.html"><img src="assets/05-vertex.png" alt="Vertex engineering AI operating model case study"></a></div>
+    <div>
+      <div class="num">AI operating model</div>
+      <h3>Vertex, three under-used AI platforms turned into one governed model</h3>
+      <p>A firm-wide operating model with a signature "which AI for which task" framework, and an engineering assurance line where AI drafts the words around a report but never performs, checks, verifies or certifies the engineering.</p>
+      <div class="links"><a href="05_vertex-engineering-ai-operating-model/case-study/index.html">Case study</a><a href="05_vertex-engineering-ai-operating-model/walkthrough/demo.html">Walkthrough</a><a href="https://github.com/R0ckard/QuantAI/tree/main/05_vertex-engineering-ai-operating-model">Source</a></div>
+    </div>
+  </div>
+
+  <div class="eng rev">
+    <div class="media"><a href="02_futurehire-recruitment-ai/case-study/index.html"><img src="assets/02-futurehire.png" alt="FutureHire recruitment AI case study"></a></div>
+    <div>
+      <div class="num">Recruitment AI</div>
+      <h3>FutureHire, recruiter-controlled AI, with fairness built in</h3>
+      <p>Three workflows where AI drafts and a recruiter decides, with a fairness guard that keeps interview summaries to job-relevant evidence and never lets AI screen, rank or select a candidate.</p>
+      <div class="links"><a href="02_futurehire-recruitment-ai/case-study/index.html">Case study</a><a href="02_futurehire-recruitment-ai/walkthrough/demo.html">Walkthrough</a><a href="https://github.com/R0ckard/QuantAI/tree/main/02_futurehire-recruitment-ai">Source</a></div>
+    </div>
+  </div>
+
+  <div class="eng">
+    <div class="media"><a href="01_brightpath-ai-operating-system/case-study/index.html"><img src="assets/01-brightpath.png" alt="BrightPath AI operating system case study"></a></div>
+    <div>
+      <div class="num">AI operating system</div>
+      <h3>BrightPath, ad-hoc AI turned into a governed operating system</h3>
+      <p>A four-layer operating system for a financial-advice firm, proven on two pilots, with an unavoidable human-review gate and the best-interests duty kept front and centre. AI never issues advice.</p>
+      <div class="links"><a href="01_brightpath-ai-operating-system/case-study/index.html">Case study</a><a href="01_brightpath-ai-operating-system/walkthrough/demo.html">Walkthrough</a><a href="https://github.com/R0ckard/QuantAI/tree/main/01_brightpath-ai-operating-system">Source</a></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- APPROACH -->
+<section id="approach"><div class="wrap">
+  <div class="sec-head">
+    <div class="kick">How I work</div>
+    <h2>Interviews, a clear brief, delivery, then enablement.</h2>
+    <p>No big-bang transformation, no shelfware. I start by understanding how the work really happens, agree exactly what we're changing, build it, and then make sure the team actually uses it.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="n">01</div><h4>Understand</h4><p>Consent-based interviews to find the real workflows and where the time and risk actually sit.</p></div>
+    <div class="step"><div class="n">02</div><h4>Agree the brief</h4><p>A clear, scoped plan we both sign off, so there are no surprises and no scope creep.</p></div>
+    <div class="step"><div class="n">03</div><h4>Deliver</h4><p>Built with Claude, Cowork and Code: the workflows, the prompts, the dashboards, the governance.</p></div>
+    <div class="step"><div class="n">04</div><h4>Enable</h4><p>Playbooks, training and internal champions, so it becomes how the firm works, not a pilot that fades.</p></div>
+  </div>
+  <p style="margin-top:24px;color:var(--slate);font-size:15px">There's a short one-pager on how I work <a href="how-i-work/QuantAI_How_I_Work.html">here</a>, and everything above is open on <a href="https://github.com/R0ckard/QuantAI">GitHub</a>.</p>
+</div></section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact"><div class="wrap">
+  <h2>Let's find the workflows worth changing.</h2>
+  <p>If your firm is using AI in bits and pieces and you want it to actually add up to something, I'd be glad to talk.</p>
+  <div class="btnrow" style="justify-content:center">
+    <a class="btn primary" href="mailto:dave@quantai.com.au?subject=QuantAI%20enquiry">Email me</a>
+    <a class="btn ghost" href="https://calendly.com/dave-quantai/zoom-meeting" target="_blank" rel="noopener">Book a call</a>
+  </div>
+</div></section>
+
+<!-- FOOTER -->
+<footer><div class="wrap">
+  <div>
+    <div style="color:#c7d0dc;font-weight:600">QuantAI · Dave Richardson</div>
+    <div><a href="mailto:dave@quantai.com.au">dave@quantai.com.au</a> · <a href="https://github.com/R0ckard/QuantAI">github.com/R0ckard/QuantAI</a> · Melbourne, Australia</div>
+    <div class="note">The five worked examples are demonstration engagements built around representative client scenarios, not paid client work. Figures are modelled estimates under stated assumptions. My own products and tools are real projects at various stages.</div>
+  </div>
+</div></footer>
+
 </body>
 </html>
