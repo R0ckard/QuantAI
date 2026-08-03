@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>NorthStar Consulting · Meeting Intelligence Process Maps</title>
+<style>
+  :root{
+    --ink:#0F1B2A;--navy:#1B2C42;--slate:#40536B;--graphite:#7A8899;--line:#E7EBEF;--paper:#F6F5F1;--white:#fff;
+    --viridian:#14655C;--viridian400:#2E9C8E;--brass:#A9803E;
+    --manual:#EEF0F2;--manualbd:#D7DEE5;
+    --pain:#F5EDE0;--painbd:#E4D3B6;--painink:#7a5a24;
+    --ai:#E5F8F5;--aibd:#A6D8D1;--aiink:#0E4B45;
+    --gate:#ECEFF3;--gatebd:#C9D2DB;--gateink:#1B2C42;
+    --done:#E6F0EA;--donebd:#B6D3C1;--doneink:#2E6F4E;
+    --qa-display:"Source Serif 4",Cambria,Georgia,serif;--qa-text:Inter,"Helvetica Neue",Arial,system-ui,sans-serif;--qa-mono:"IBM Plex Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--qa-text);color:var(--slate);background:var(--paper);line-height:1.5}
+  .wrap{max-width:1180px;margin:0 auto;padding:32px 24px 72px}
+  header{background:linear-gradient(135deg,var(--ink),var(--navy));color:#fff;padding:30px 0;border-bottom:2px solid var(--viridian400)}
+  .qa-logo{height:26px;width:auto;display:block;margin-bottom:12px}
+  .brand{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9fb0c4;font-weight:700}
+  h1{margin:6px 0 4px;font-size:25px;font-family:var(--qa-display);color:#fff}
+  .sub{color:#dbe2ec;font-size:15px}
+  h2{color:var(--ink);font-size:19px;margin:34px 0 4px;font-family:var(--qa-display)}
+  .cap{color:var(--graphite);font-size:14px;margin:0 0 12px}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0 6px;font-size:12.5px;color:var(--graphite)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:14px;height:14px;border-radius:3px;border:1px solid}
+  .sw.manual{background:var(--manual);border-color:var(--manualbd)}.sw.pain{background:var(--pain);border-color:var(--painbd)}
+  .sw.ai{background:var(--ai);border-color:var(--aibd)}.sw.gate{background:var(--gate);border-color:var(--gatebd)}
+  .sw.done{background:var(--done);border-color:var(--donebd)}
+  .band{background:#fff;border:1px solid var(--line);border-radius:4px;padding:18px 20px;margin-bottom:10px}
+  .band.now{border-left:5px solid var(--painbd)}.band.future{border-left:5px solid var(--viridian)}
+  .band h3{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  .band.now h3{color:var(--painink)}.band.future h3{color:var(--aiink)}
+  .band .metric{font-size:12.5px;color:var(--graphite);margin-bottom:12px}
+  .flow{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:6px}
+  .node{flex:0 0 140px;min-height:88px;border-radius:3px;padding:9px 11px;font-size:12.5px;display:flex;flex-direction:column;gap:3px;border:1px solid}
+  .node .t{font-weight:700;font-size:12.5px}
+  .node .d{font-size:11.5px;line-height:1.34}
+  .node.manual{background:var(--manual);border-color:var(--manualbd)}
+  .node.pain{background:var(--pain);border-color:var(--painbd)}.node.pain .t{color:var(--painink)}
+  .node.ai{background:var(--ai);border-color:var(--aibd)}.node.ai .t{color:var(--aiink)}
+  .node.gate{background:var(--gate);border-color:var(--gatebd)}.node.gate .t{color:var(--gateink)}
+  .node.done{background:var(--done);border-color:var(--donebd)}.node.done .t{color:var(--doneink)}
+  .arrow{flex:0 0 20px;display:flex;align-items:center;justify-content:center;color:var(--graphite);font-size:16px}
+  .tagrow{margin-top:10px;font-size:12px;color:var(--graphite)}
+  .tag{display:inline-block;background:#eef1f6;border-radius:2px;padding:2px 10px;margin-right:6px}
+  .tag.win{background:var(--done);color:var(--doneink)}
+  .stages{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+  .stg{flex:1 1 150px;border:1px solid var(--line);border-radius:3px;padding:9px 11px;background:#fff;font-size:12px}
+  .stg .s{font-family:var(--qa-mono);font-size:10.5px;color:var(--viridian);font-weight:600}
+  .stg .n{font-weight:700;color:var(--ink);font-size:12.5px}
+  .stg.human{background:var(--gate);border-color:var(--gatebd)}
+  @media print{body{background:#fff}.band,.node,.stg{break-inside:avoid}header{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<header><div class="wrap" style="padding-top:0;padding-bottom:0">
+  <svg class="qa-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.99 85.12" role="img" aria-label="QuantAI"><title>QuantAI</title><g transform="translate(0.000 0.000) scale(1.88489)"><rect x="0" y="36" width="20" height="8" fill="#FFFFFF"/><rect x="12" y="18" width="8" height="26" fill="#FFFFFF"/><rect x="12" y="18" width="16" height="8" fill="#FFFFFF"/><rect x="28" y="0" width="8" height="26" fill="#2E9C8E"/><rect x="28" y="0" width="20" height="8" fill="#2E9C8E"/></g><g transform="translate(117.45 78.82)"><path fill="#FFFFFF" fill-rule="nonzero" d="M38.48 0.98 C43.17 0.98 47.56 0.14 51.52 -1.47 L57.62 6.30 L70.12 6.30 L60.02 -6.69 C67.33 -13.03 71.83 -23.14 71.83 -36.33 C71.83 -59.86 57.52 -73.73 38.48 -73.73 C19.39 -73.73 5.03 -59.86 5.03 -36.33 C5.03 -12.89 19.39 0.98 38.48 0.98 Z M34.38 -24.27 L44.09 -11.47 C42.33 -10.98 40.44 -10.69 38.48 -10.69 C26.56 -10.69 18.11 -19.78 18.11 -36.33 C18.11 -52.98 26.56 -62.06 38.48 -62.06 C50.30 -62.06 58.69 -53.03 58.69 -36.33 C58.69 -27.39 56.30 -20.66 52.20 -16.36 L46.09 -24.27 L34.38 -24.27 Z M102.73 0.69 C110.64 0.69 116.36 -3.12 119.62 -10.94 L119.73 -0.00 L131.79 -0.00 L131.79 -54.59 L119.04 -54.59 L119.04 -22.61 C119.04 -14.70 114.15 -10.11 107.42 -10.11 C100.78 -10.11 96.73 -14.50 96.73 -21.83 L96.73 -54.59 L84.03 -54.59 L84.03 -19.88 C84.03 -6.73 91.50 0.69 102.73 0.69 Z M160.49 1.12 C168.99 1.12 174.17 -2.83 176.56 -7.52 L177.06 -7.52 L177.06 -0.00 L189.21 -0.00 L189.21 -36.47 C189.21 -51.03 177.20 -55.28 166.95 -55.28 C156.01 -55.28 147.03 -50.64 143.81 -41.02 L155.57 -38.62 C156.88 -42.23 160.65 -45.52 166.99 -45.52 C173.20 -45.52 176.51 -42.39 176.51 -37.06 L176.51 -36.81 C176.51 -33.06 172.51 -32.91 163.04 -31.89 C152.49 -30.77 142.24 -27.64 142.24 -15.33 C142.24 -4.59 150.10 1.12 160.49 1.12 Z M163.78 -8.30 C158.40 -8.30 154.54 -10.75 154.54 -15.48 C154.54 -20.45 158.84 -22.56 164.56 -23.34 C167.82 -23.78 174.90 -24.66 176.62 -26.03 L176.62 -19.58 C176.62 -13.53 171.59 -8.30 163.78 -8.30 Z M215.38 -31.98 C215.38 -39.89 220.26 -44.48 227.06 -44.48 C233.70 -44.48 237.70 -40.09 237.70 -32.77 L237.70 -0.00 L250.38 -0.00 L250.38 -34.72 C250.38 -47.86 242.96 -55.28 231.74 -55.28 C223.73 -55.28 218.07 -51.38 214.84 -43.70 L214.70 -54.59 L202.68 -54.59 L202.68 -0.00 L215.38 -0.00 L215.38 -31.98 Z M289.11 -54.59 L278.57 -54.59 L278.57 -67.58 L265.86 -67.58 L265.86 -54.59 L258.11 -54.59 L258.11 -44.62 L265.86 -44.62 L265.86 -14.31 C265.86 -4.64 271.68 0.73 282.13 0.73 C284.82 0.73 287.85 0.39 290.63 -0.44 L288.63 -10.25 C287.41 -9.97 285.16 -9.62 283.99 -9.62 C280.13 -9.62 278.57 -11.42 278.57 -15.38 L278.57 -44.62 L289.11 -44.62 L289.11 -54.59 Z M294.87 -0.00 L309.13 -0.00 L315.09 -18.02 L342.29 -18.02 L348.49 -0.00 L362.79 -0.00 L336.82 -72.75 L320.26 -72.75 L294.87 -0.00 Z M318.56 -28.52 L321.63 -37.80 C323.63 -44.28 325.84 -52.44 328.42 -62.59 C331.10 -52.55 333.40 -44.48 335.54 -37.80 L338.73 -28.52 L318.56 -28.52 Z M385.54 -72.75 L372.51 -72.75 L372.51 -0.00 L385.54 -0.00 L385.54 -72.75 Z"/></g></svg>
+  <div class="brand">QuantAI · NorthStar Consulting</div>
+  <h1>Meeting intelligence process maps, current and future state</h1>
+  <div class="sub">How a meeting becomes a record today, and how it works with the assistant, the registers and human review, with the action lifecycle that finally makes work carry forward.</div>
+</div></header>
+
+<div class="wrap">
+  <p class="cap" style="font-size:12.5px;margin-top:14px">Task-time figures are scenario estimates under stated assumptions.</p>
+  <div class="legend">
+    <span><span class="sw manual"></span> Manual step</span>
+    <span><span class="sw pain"></span> Manual + friction</span>
+    <span><span class="sw ai"></span> Assistant drafts</span>
+    <span><span class="sw gate"></span> Human review / gate</span>
+    <span><span class="sw done"></span> Published / owned outcome</span>
+  </div>
+
+  <!-- Future workflow overview -->
+  <h2>The future workflow (all meeting types)</h2>
+  <p class="cap">Five stages. Two are human by design and never automated: review, and action ownership.</p>
+  <div class="stages">
+    <div class="stg"><span class="s">1</span><div class="n">Intake</div>Transcript + meeting type</div>
+    <div class="stg"><span class="s">2</span><div class="n">Process</div>Assistant drafts the record</div>
+    <div class="stg human"><span class="s">3</span><div class="n">Review</div>Human checks &amp; approves</div>
+    <div class="stg"><span class="s">4</span><div class="n">Publish</div>Minutes + registers updated</div>
+    <div class="stg human"><span class="s">5</span><div class="n">Follow-up</div>Owned, tracked, carried forward</div>
+  </div>
+
+  <!-- Pair 1: the record -->
+  <h2>The meeting record</h2>
+  <p class="cap">Transcript to a reliable, published record.</p>
+  <div class="band now">
+    <h3>Current state, today</h3>
+    <div class="metric">Up to 2 hours per meeting · varies by team · decisions &amp; risks buried in transcripts and personal notes</div>
+    <div class="flow">
+      <div class="node manual"><div class="t">Meeting happens</div><div class="d">Transcript captured</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node pain"><div class="t">Write up manually</div><div class="d">Everyone their own way</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node pain"><div class="t">Actions vague</div><div class="d">No owner, no due date</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node pain"><div class="t">Decisions &amp; risks lost</div><div class="d">Buried, unsearchable</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node done"><div class="t">Filed, forgotten</div></div>
+    </div>
+    <div class="tagrow"><span class="tag">Slow &amp; inconsistent</span><span class="tag">No memory</span><span class="tag">Weak accountability</span></div>
+  </div>
+  <div class="band future">
+    <h3>Future state</h3>
+    <div class="metric">Draft within 5 min of transcript · <b>~80% less admin (scenario)</b> · consistent, owned, searchable</div>
+    <div class="flow">
+      <div class="node manual"><div class="t">Transcript + type</div><div class="d">Set the meeting type</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node ai"><div class="t">Assistant drafts record</div><div class="d">Summary, decisions, risks, actions</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node gate"><div class="t">Human review</div><div class="d">Resolves flags · approves</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node done"><div class="t">Published</div><div class="d">Minutes to SharePoint (searchable)</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node done"><div class="t">Registers updated</div><div class="d">Decisions &amp; risks captured</div></div>
+    </div>
+    <div class="tagrow"><span class="tag win">Consistent &amp; fast</span><span class="tag win">Searchable memory</span><span class="tag">Nothing auto-published</span></div>
+  </div>
+
+  <!-- Pair 2: the action lifecycle -->
+  <h2>The action lifecycle (the accountability fix)</h2>
+  <p class="cap">What happens to an action after the meeting. This is where NorthStar's work falls through the cracks today.</p>
+  <div class="band now">
+    <h3>Current state, today</h3>
+    <div class="metric">Actions without owners or dates · not carried forward · managers cannot see across teams</div>
+    <div class="flow">
+      <div class="node pain"><div class="t">Action noted</div><div class="d">"We should follow up"</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node pain"><div class="t">No owner / date</div><div class="d">Unaccountable</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node pain"><div class="t">Not carried forward</div><div class="d">Missed next meeting</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node pain"><div class="t">Invisible to managers</div><div class="d">No cross-team view</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node pain"><div class="t">Quietly dies</div></div>
+    </div>
+    <div class="tagrow"><span class="tag">Falls through cracks</span><span class="tag">Repeated discussions</span></div>
+  </div>
+  <div class="band future">
+    <h3>Future state</h3>
+    <div class="metric">Every action owned &amp; dated (target 90%) · carried forward automatically · visible by team</div>
+    <div class="flow">
+      <div class="node ai"><div class="t">Action extracted</div><div class="d">Specific, outcome-focused</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node gate"><div class="t">Owner &amp; date confirmed</div><div class="d">Human, never guessed</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node done"><div class="t">In the register</div><div class="d">Planner / Lists</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node gate"><div class="t">Carried forward</div><div class="d">If still open, into next meeting</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="node done"><div class="t">Visible on dashboard</div><div class="d">Overdue &amp; stuck by team</div></div>
+    </div>
+    <div class="tagrow"><span class="tag win">Owned &amp; dated</span><span class="tag win">Carries forward</span><span class="tag win">Managers can see it</span></div>
+  </div>
+
+  <p class="cap" style="margin-top:28px;font-size:12px;color:var(--graphite)">NorthStar Consulting is a representative client scenario used to demonstrate the approach. Figures are modelled estimates under stated assumptions, not measured client outcomes.</p>
+</div>
+</body>
+</html>

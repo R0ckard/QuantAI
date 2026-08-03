@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>BrightPath AI Operating System · Walkthrough Demo</title>
+<style>
+  :root{--navy:#1F2A44;--teal:#2E7D8A;--ink:#22272e;--muted:#5a6472;--line:#e4e8ee;--bg:#0f1626;--card:#fff;
+        --green:#1f7a4d;--greenbg:#e3f3ea;--amber:#8a6d1a;--amberbg:#fbf3d8;--red:#b02a37;--redbg:#fbe3e5;
+        --ai:#e4f1f4;--aibd:#8cc2cd;--aiink:#1e5b66;--gate:#fbf3d8;--gatebd:#e4c968;--gateink:#7a5f12;}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);
+       background:radial-gradient(1200px 600px at 50% -10%,#1c2740,#0f1626);display:flex;flex-direction:column;min-height:100vh}
+  .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:28px 20px}
+  .slide{display:none;width:100%;max-width:940px;background:var(--card);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.35);
+         padding:34px 38px;animation:fade .35s ease}
+  .slide.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);font-weight:800}
+  h1{font-size:30px;margin:8px 0 8px;color:var(--navy);line-height:1.15}
+  h2{font-size:24px;margin:6px 0 14px;color:var(--navy)}
+  p{margin:0 0 12px;line-height:1.55;font-size:16px}
+  .muted{color:var(--muted)}
+  .disc{background:#fff7e6;border:1px solid #f0d68a;color:#7a5f12;font-size:12.5px;padding:8px 14px;border-radius:8px;margin-top:14px}
+  .grid{display:grid;gap:14px;margin-top:8px}
+  .g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+  .box{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff}
+  .box b{color:var(--navy)}
+  .box.teal{border-left:5px solid var(--teal)}
+  .stat{text-align:center;padding:16px 10px;border:1px solid var(--line);border-radius:12px}
+  .stat .n{font-size:30px;font-weight:800;color:var(--teal)}
+  .stat .l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:6px}
+  .stat.navy .n{color:var(--navy)}
+  ul{margin:6px 0 0;padding-left:20px}li{margin-bottom:7px;line-height:1.5}
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .node{flex:1 1 120px;min-height:74px;border-radius:10px;padding:9px 10px;font-size:12px;border:1px solid;margin:3px}
+  .node .t{font-weight:700}
+  .manual{background:#eef1f6;border-color:#c9d2df}.pain{background:var(--redbg);border-color:#e7a6ad}.pain .t{color:var(--red)}
+  .ai{background:var(--ai);border-color:var(--aibd)}.ai .t{color:var(--aiink)}
+  .gate{background:var(--gate);border-color:var(--gatebd)}.gate .t{color:var(--gateink)}
+  .done{background:var(--greenbg);border-color:#9bd0b0}.done .t{color:var(--green)}
+  .demo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+  .email{background:#f7f9fc;border:1px solid var(--line);border-radius:10px;padding:14px;font-size:13.5px}
+  .email .from{color:var(--muted);font-size:12px;margin-bottom:6px}
+  .out{background:#fff;border:1px solid var(--aibd);border-radius:10px;padding:14px;font-size:13.5px}
+  .badge{display:inline-block;background:var(--gate);color:var(--gateink);border:1px solid var(--gatebd);border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;margin-bottom:8px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#f4f6fa;border-radius:8px;padding:10px 12px;white-space:pre-wrap;line-height:1.45}
+  /* nav */
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 22px;background:rgba(255,255,255,.06);backdrop-filter:blur(4px)}
+  .dots{display:flex;gap:8px}
+  .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer}
+  .dot.on{background:var(--teal)}
+  button{font:inherit;border:0;border-radius:8px;padding:9px 18px;cursor:pointer;font-weight:700}
+  .prev{background:rgba(255,255,255,.15);color:#fff}
+  .next{background:var(--teal);color:#fff}
+  .stepno{color:#9fb2d6;font-size:13px;min-width:64px}
+  .title-tag{display:inline-block;background:#eef6f8;color:var(--teal);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;margin:4px 6px 0 0}
+
+/* ===== QuantAI brand override ===== */
+:root{--navy:#0F1B2A;--teal:#14655C;--ink:#22303f;--muted:#5f6b7a;--line:#E7EBEF;--green:#2E6F4E;--greenbg:#E6F0EA;--red:#9B2C2C;--redbg:#F5EDE0;--ai:#E5F8F5;--aibd:#A6D8D1;--aiink:#0E4B45;--fair:#E7EEF5;--fairbd:#AEC4DA;--fairink:#2A5C86;--gate:#ECEFF3;--gatebd:#C9D2DB;--gateink:#1B2C42;--qa-display:"Source Serif 4",Cambria,Georgia,serif;--qa-text:Inter,"Helvetica Neue",Arial,system-ui,sans-serif;--qa-mono:"IBM Plex Mono",Consolas,monospace;}
+body{font-family:var(--qa-text)!important;background:radial-gradient(1200px 600px at 50% -10%,#1B2C42,#0F1B2A)!important}
+h1,h2{font-family:var(--qa-display)!important}
+.slide{border-radius:6px!important;box-shadow:0 12px 32px -8px rgba(15,27,42,.35)!important}
+.kicker{color:#14655C!important;letter-spacing:.14em}
+.title-tag{border-radius:2px!important;background:#E5F8F5!important;color:#0E4B45!important}
+.box{border-radius:4px!important}.box.teal{border-left-color:#14655C!important}
+.stat{border-radius:4px!important}.stat .n{color:#14655C!important;font-family:var(--qa-mono)}.stat.navy .n{color:#0F1B2A!important}
+.node{border-radius:3px!important}
+.manual{background:#EEF0F2!important;border-color:#D7DEE5!important}
+.pain{background:#F5EDE0!important;border-color:#E4D3B6!important}.pain .t{color:#7a5a24!important}
+.ai{background:#E5F8F5!important;border-color:#A6D8D1!important}.ai .t{color:#0E4B45!important}
+.fair{background:#E7EEF5!important;border-color:#AEC4DA!important}.fair .t{color:#2A5C86!important}
+.gate{background:#ECEFF3!important;border-color:#C9D2DB!important}.gate .t{color:#1B2C42!important}
+.done{background:#E6F0EA!important;border-color:#B6D3C1!important}.done .t{color:#2E6F4E!important}
+.badge{background:#E7EEF5!important;color:#2A5C86!important;border-color:#AEC4DA!important;border-radius:2px!important}
+.mono{font-family:var(--qa-mono)!important}
+.email,.out{border-radius:4px!important}.out{border-color:#AEC4DA!important}
+.strike{color:#9B2C2C!important}
+.next{background:#14655C!important}.dot.on{background:#14655C!important}
+.qa-logo{height:22px;width:auto;display:block;margin:0 auto 14px}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- 1 -->
+  <div class="slide active">
+    <svg class="qa-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.99 85.12" role="img" aria-label="QuantAI"><title>QuantAI</title><g transform="translate(0.000 0.000) scale(1.88489)"><rect x="0" y="36" width="20" height="8" fill="#0F1B2A"/><rect x="12" y="18" width="8" height="26" fill="#0F1B2A"/><rect x="12" y="18" width="16" height="8" fill="#0F1B2A"/><rect x="28" y="0" width="8" height="26" fill="#14655C"/><rect x="28" y="0" width="20" height="8" fill="#14655C"/></g><g transform="translate(117.45 78.82)"><path fill="#0F1B2A" fill-rule="nonzero" d="M38.48 0.98 C43.17 0.98 47.56 0.14 51.52 -1.47 L57.62 6.30 L70.12 6.30 L60.02 -6.69 C67.33 -13.03 71.83 -23.14 71.83 -36.33 C71.83 -59.86 57.52 -73.73 38.48 -73.73 C19.39 -73.73 5.03 -59.86 5.03 -36.33 C5.03 -12.89 19.39 0.98 38.48 0.98 Z M34.38 -24.27 L44.09 -11.47 C42.33 -10.98 40.44 -10.69 38.48 -10.69 C26.56 -10.69 18.11 -19.78 18.11 -36.33 C18.11 -52.98 26.56 -62.06 38.48 -62.06 C50.30 -62.06 58.69 -53.03 58.69 -36.33 C58.69 -27.39 56.30 -20.66 52.20 -16.36 L46.09 -24.27 L34.38 -24.27 Z M102.73 0.69 C110.64 0.69 116.36 -3.12 119.62 -10.94 L119.73 -0.00 L131.79 -0.00 L131.79 -54.59 L119.04 -54.59 L119.04 -22.61 C119.04 -14.70 114.15 -10.11 107.42 -10.11 C100.78 -10.11 96.73 -14.50 96.73 -21.83 L96.73 -54.59 L84.03 -54.59 L84.03 -19.88 C84.03 -6.73 91.50 0.69 102.73 0.69 Z M160.49 1.12 C168.99 1.12 174.17 -2.83 176.56 -7.52 L177.06 -7.52 L177.06 -0.00 L189.21 -0.00 L189.21 -36.47 C189.21 -51.03 177.20 -55.28 166.95 -55.28 C156.01 -55.28 147.03 -50.64 143.81 -41.02 L155.57 -38.62 C156.88 -42.23 160.65 -45.52 166.99 -45.52 C173.20 -45.52 176.51 -42.39 176.51 -37.06 L176.51 -36.81 C176.51 -33.06 172.51 -32.91 163.04 -31.89 C152.49 -30.77 142.24 -27.64 142.24 -15.33 C142.24 -4.59 150.10 1.12 160.49 1.12 Z M163.78 -8.30 C158.40 -8.30 154.54 -10.75 154.54 -15.48 C154.54 -20.45 158.84 -22.56 164.56 -23.34 C167.82 -23.78 174.90 -24.66 176.62 -26.03 L176.62 -19.58 C176.62 -13.53 171.59 -8.30 163.78 -8.30 Z M215.38 -31.98 C215.38 -39.89 220.26 -44.48 227.06 -44.48 C233.70 -44.48 237.70 -40.09 237.70 -32.77 L237.70 -0.00 L250.38 -0.00 L250.38 -34.72 C250.38 -47.86 242.96 -55.28 231.74 -55.28 C223.73 -55.28 218.07 -51.38 214.84 -43.70 L214.70 -54.59 L202.68 -54.59 L202.68 -0.00 L215.38 -0.00 L215.38 -31.98 Z M289.11 -54.59 L278.57 -54.59 L278.57 -67.58 L265.86 -67.58 L265.86 -54.59 L258.11 -54.59 L258.11 -44.62 L265.86 -44.62 L265.86 -14.31 C265.86 -4.64 271.68 0.73 282.13 0.73 C284.82 0.73 287.85 0.39 290.63 -0.44 L288.63 -10.25 C287.41 -9.97 285.16 -9.62 283.99 -9.62 C280.13 -9.62 278.57 -11.42 278.57 -15.38 L278.57 -44.62 L289.11 -44.62 L289.11 -54.59 Z M294.87 -0.00 L309.13 -0.00 L315.09 -18.02 L342.29 -18.02 L348.49 -0.00 L362.79 -0.00 L336.82 -72.75 L320.26 -72.75 L294.87 -0.00 Z M318.56 -28.52 L321.63 -37.80 C323.63 -44.28 325.84 -52.44 328.42 -62.59 C331.10 -52.55 333.40 -44.48 335.54 -37.80 L338.73 -28.52 L318.56 -28.52 Z M385.54 -72.75 L372.51 -72.75 L372.51 -0.00 L385.54 -0.00 L385.54 -72.75 Z"/></g></svg><div class="kicker">QuantAI · Portfolio Demonstration</div>
+    <h1>BrightPath AI Operating System</h1>
+    <p class="muted">Turning ad-hoc use of Claude &amp; ChatGPT into a governed, repeatable operating system for a 32-person Melbourne financial-planning firm, proven on two pilot workflows.</p>
+    <div>
+      <span class="title-tag">Claude Projects</span><span class="title-tag">Prompt library</span>
+      <span class="title-tag">AI governance</span><span class="title-tag">Before/after model</span>
+    </div>
+    <p class="muted" style="font-size:12.5px;margin-top:16px">A demonstration built around a representative client scenario · figures are modelled estimates under stated assumptions.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="slide">
+    <div class="kicker">The problem</div>
+    <h2>Ungoverned AI, risk without leverage</h2>
+    <p class="muted">BrightPath grew 8 → 32 in four years. Staff already use AI daily, but:</p>
+    <ul>
+      <li>Client emails and advice drafts are rewritten from scratch every time.</li>
+      <li>Every adviser uses different prompts, quality never compounds.</li>
+      <li>Some paste client data into tools <b>without safeguards</b>; others avoid AI entirely.</li>
+      <li>There's <b>no baseline</b>, the firm can't tell if AI is helping.</li>
+    </ul>
+    <p style="margin-top:12px">Maturity assessment: <b>~1.6 / 5, "Emerging."</b> The fix isn't more tools; it's standards, configuration and governance on the tools they already own.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="slide">
+    <div class="kicker">The approach</div>
+    <h2>A four-layer operating system</h2>
+    <div class="grid g2">
+      <div class="box teal"><b>1 · Governance</b><br><span class="muted">Acceptable use · human-review gates · data tiers · red lines</span></div>
+      <div class="box teal"><b>2 · Workflow standards</b><br><span class="muted">One agreed method per workflow, documented as SOPs</span></div>
+      <div class="box teal"><b>3 · Configured tools</b><br><span class="muted">Claude Projects + a shared, versioned prompt library</span></div>
+      <div class="box teal"><b>4 · People</b><br><span class="muted">Playbooks · AI Champions · training · measurement</span></div>
+    </div>
+    <p style="margin-top:14px"><b>Operating principle:</b> AI drafts, a qualified human decides, and every improvement is captured once and reused by everyone.</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="slide">
+    <div class="kicker">Pilot 1 · Advice preparation</div>
+    <h2>Current state → future state</h2>
+    <p class="muted" style="margin-bottom:4px">Today, ~5.0 hrs / advice document, inconsistent:</p>
+    <div class="flow">
+      <div class="node manual"><div class="t">Gather inputs</div></div>
+      <div class="node pain"><div class="t">Find last SoA</div>hunt SharePoint/Dropbox</div>
+      <div class="node pain"><div class="t">Rebuild boilerplate</div>from scratch</div>
+      <div class="node pain"><div class="t">Write rationale</div>blank page</div>
+      <div class="node gate"><div class="t">Review</div>slow, inconsistent</div>
+      <div class="node done"><div class="t">Issue</div></div>
+    </div>
+    <p class="muted" style="margin:14px 0 4px">With the operating system, ~3.3 hrs, <b style="color:var(--teal)">34% faster (scenario)</b>:</p>
+    <div class="flow">
+      <div class="node manual"><div class="t">Structured input</div>placeholders</div>
+      <div class="node ai"><div class="t">Advice-Prep Project</div>firm-standard draft</div>
+      <div class="node gate"><div class="t">Best-interests review</div>adviser verifies &amp; signs</div>
+      <div class="node done"><div class="t">Issue</div>human owns advice</div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="slide">
+    <div class="kicker">Pilot 2 · Client communications, AI in action</div>
+    <h2>Triage &amp; draft, with an advice-escalation guardrail</h2>
+    <div class="demo">
+      <div class="email">
+        <div class="from">Inbound · client email</div>
+        "Hi, quick one, my super's just sitting in the balanced option. With rates where they are, <b>should I switch it all to cash for a while?</b> Also can we move Thursday's meeting to Friday? Thanks, [client]"
+      </div>
+      <div class="out">
+        <span class="badge">TRIAGE: POSSIBLE ADVICE → ESCALATE + BOOKING</span>
+        <div class="mono">Holding reply (for staff to send):
+"Thanks [CLIENT], happy to move the
+meeting to [FRI DATE]. On your super
+question, I'd like [ADVISER] to give
+you a proper answer given your goals;
+they'll call you [TIMEFRAME]."
+
+⚑ ESCALATE TO ADVISER, reason: switch
+  super to cash = personal advice.
+Booking handled; specifics as
+placeholders. A human sends.</div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:13.5px">The advice question is never auto-answered, it's escalated with a warm holding reply, while the routine booking part is drafted. This guardrail is the point of the design.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="slide">
+    <div class="kicker">Scenario results</div>
+    <h2>Both pilots clear the ≥20% bar</h2>
+    <div class="grid g4">
+      <div class="stat"><div class="n">34%</div><div class="l">Advice drafting ↓</div></div>
+      <div class="stat"><div class="n">30%</div><div class="l">Email handle-time ↓</div></div>
+      <div class="stat navy"><div class="n">~1,288</div><div class="l">Hours reclaimed / yr</div></div>
+      <div class="stat navy"><div class="n">~7×</div><div class="l">Value vs fee</div></div>
+    </div>
+    <p class="muted" style="margin-top:14px;font-size:13.5px">The percentages depend only on per-item time, the most measurable input, so they're robust; the volume and dollar assumptions scale value, not the percentage. Every input lives in one editable spreadsheet, so the model becomes a real dashboard as actuals replace estimates.</p>
+    <p class="muted" style="font-size:12.5px;margin-top:6px">Scenario estimates under the stated assumptions.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="slide">
+    <div class="kicker">Governance &amp; what's delivered</div>
+    <h2>Built for regulated advice, and reusable</h2>
+    <p><b>The gate is unavoidable:</b> AI drafts, a licensed human decides. Client data stays out of tools via placeholders; only business-tier tools with training off are approved; a short signed framework maps to the best-interests duty, ASIC RG 175 and the Privacy Act / APPs.</p>
+    <div class="grid g2" style="margin-top:6px">
+      <div class="box"><b>Strategy &amp; design</b><br><span class="muted">Maturity assessment · opportunity matrix · OS design · governance · 90-day roadmap</span></div>
+      <div class="box"><b>Working assets</b><br><span class="muted">Prompt library · Claude Project configs · diagrams · benefits tracker · 2 SOPs · GitHub repo</span></div>
+    </div>
+    <p style="margin-top:14px"><b>The whole package ships as a push-ready GitHub repository.</b> AI drafts; a qualified human decides; every improvement is reused.</p>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button class="prev" onclick="go(-1)">‹ Back</button>
+  <div class="dots" id="dots"></div>
+  <span class="stepno" id="stepno"></span>
+  <button class="next" onclick="go(1)">Next ›</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];let i=0;
+  const dots=document.getElementById('dots');
+  slides.forEach((_,n)=>{const d=document.createElement('div');d.className='dot'+(n===0?' on':'');d.onclick=()=>set(n);dots.appendChild(d);});
+  function set(n){i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));
+    document.getElementById('stepno').textContent=(i+1)+' / '+slides.length;}
+  function go(d){set(i+d)}
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1);});
+  set(0);
+</script>
+</body>
+</html>

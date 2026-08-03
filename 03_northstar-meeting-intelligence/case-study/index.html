@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Case Study · NorthStar Meeting Intelligence | QuantAI</title>
+<style>
+  :root{
+    --ink:#0F1B2A;--navy:#1B2C42;--muted:#7A8899;--slate:#40536B;--line:#E7EBEF;--bg:#F6F5F1;--card:#FFFFFF;
+    --viridian:#14655C;--viridian400:#2E9C8E;--green:#2E6F4E;--greenbg:#E6F0EA;
+    --assure:#E7EEF5;--assurebd:#AEC4DA;--assureink:#2A5C86;
+    --qa-display:"Source Serif 4",Cambria,Georgia,serif;--qa-text:Inter,"Helvetica Neue",Arial,system-ui,sans-serif;--qa-mono:"IBM Plex Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--qa-text);color:var(--ink);background:var(--bg);line-height:1.55}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px 80px}
+  header{background:linear-gradient(135deg,var(--ink),var(--navy));color:#fff;padding:44px 0 40px;border-bottom:2px solid var(--viridian400)}
+  header .wrap{padding-bottom:0}
+  .qa-logo{height:26px;width:auto;display:block;margin-bottom:14px}
+  .brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#9fb0c4;font-weight:700}
+  h1{font-size:30px;margin:8px 0 6px;line-height:1.15;font-family:var(--qa-display);font-weight:700;letter-spacing:-.02em}
+  .sub{color:#dbe2ec;font-size:17px;max-width:720px}
+  .tag{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#eaf0fa;padding:3px 10px;border-radius:2px;font-size:12px;margin:4px 6px 0 0}
+  .meta{margin-top:16px;font-size:13px;color:#9fb0c4}
+  section{margin-top:40px}
+  h2{color:var(--ink);font-size:21px;border-bottom:2px solid var(--line);padding-bottom:8px;margin-bottom:16px;font-family:var(--qa-display);font-weight:600}
+  h3{color:var(--viridian);font-size:14px;text-transform:uppercase;letter-spacing:.05em;margin:0 0 8px}
+  p{margin:0 0 12px}.lead{font-size:17px}.muted{color:var(--muted)}
+  .grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:18px 20px}
+  .stat{text-align:center;padding:18px 12px}
+  .stat .n{font-size:30px;font-weight:800;color:var(--ink);line-height:1;font-family:var(--qa-mono)}
+  .stat .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:6px}
+  .stat.teal .n{color:var(--viridian)}
+  .pill{display:inline-block;padding:2px 9px;border-radius:2px;font-size:12px;font-weight:600;background:var(--assure);color:var(--assureink)}
+  .callout{background:#E5F8F5;border-left:4px solid var(--viridian);padding:14px 18px;border-radius:0 4px 4px 0;margin-top:14px}
+  ul.files li{margin-bottom:8px}
+  code{background:#eef1f6;padding:1px 6px;border-radius:3px;font-size:13px;font-family:var(--qa-mono)}
+  footer{margin-top:48px;padding-top:20px;border-top:2px solid var(--line);color:var(--muted);font-size:13px}
+  @media(max-width:720px){.g2,.g3,.g4{grid-template-columns:1fr}.g4{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <svg class="qa-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.99 85.12" role="img" aria-label="QuantAI"><title>QuantAI</title><g transform="translate(0.000 0.000) scale(1.88489)"><rect x="0" y="36" width="20" height="8" fill="#FFFFFF"/><rect x="12" y="18" width="8" height="26" fill="#FFFFFF"/><rect x="12" y="18" width="16" height="8" fill="#FFFFFF"/><rect x="28" y="0" width="8" height="26" fill="#2E9C8E"/><rect x="28" y="0" width="20" height="8" fill="#2E9C8E"/></g><g transform="translate(117.45 78.82)"><path fill="#FFFFFF" fill-rule="nonzero" d="M38.48 0.98 C43.17 0.98 47.56 0.14 51.52 -1.47 L57.62 6.30 L70.12 6.30 L60.02 -6.69 C67.33 -13.03 71.83 -23.14 71.83 -36.33 C71.83 -59.86 57.52 -73.73 38.48 -73.73 C19.39 -73.73 5.03 -59.86 5.03 -36.33 C5.03 -12.89 19.39 0.98 38.48 0.98 Z M34.38 -24.27 L44.09 -11.47 C42.33 -10.98 40.44 -10.69 38.48 -10.69 C26.56 -10.69 18.11 -19.78 18.11 -36.33 C18.11 -52.98 26.56 -62.06 38.48 -62.06 C50.30 -62.06 58.69 -53.03 58.69 -36.33 C58.69 -27.39 56.30 -20.66 52.20 -16.36 L46.09 -24.27 L34.38 -24.27 Z M102.73 0.69 C110.64 0.69 116.36 -3.12 119.62 -10.94 L119.73 -0.00 L131.79 -0.00 L131.79 -54.59 L119.04 -54.59 L119.04 -22.61 C119.04 -14.70 114.15 -10.11 107.42 -10.11 C100.78 -10.11 96.73 -14.50 96.73 -21.83 L96.73 -54.59 L84.03 -54.59 L84.03 -19.88 C84.03 -6.73 91.50 0.69 102.73 0.69 Z M160.49 1.12 C168.99 1.12 174.17 -2.83 176.56 -7.52 L177.06 -7.52 L177.06 -0.00 L189.21 -0.00 L189.21 -36.47 C189.21 -51.03 177.20 -55.28 166.95 -55.28 C156.01 -55.28 147.03 -50.64 143.81 -41.02 L155.57 -38.62 C156.88 -42.23 160.65 -45.52 166.99 -45.52 C173.20 -45.52 176.51 -42.39 176.51 -37.06 L176.51 -36.81 C176.51 -33.06 172.51 -32.91 163.04 -31.89 C152.49 -30.77 142.24 -27.64 142.24 -15.33 C142.24 -4.59 150.10 1.12 160.49 1.12 Z M163.78 -8.30 C158.40 -8.30 154.54 -10.75 154.54 -15.48 C154.54 -20.45 158.84 -22.56 164.56 -23.34 C167.82 -23.78 174.90 -24.66 176.62 -26.03 L176.62 -19.58 C176.62 -13.53 171.59 -8.30 163.78 -8.30 Z M215.38 -31.98 C215.38 -39.89 220.26 -44.48 227.06 -44.48 C233.70 -44.48 237.70 -40.09 237.70 -32.77 L237.70 -0.00 L250.38 -0.00 L250.38 -34.72 C250.38 -47.86 242.96 -55.28 231.74 -55.28 C223.73 -55.28 218.07 -51.38 214.84 -43.70 L214.70 -54.59 L202.68 -54.59 L202.68 -0.00 L215.38 -0.00 L215.38 -31.98 Z M289.11 -54.59 L278.57 -54.59 L278.57 -67.58 L265.86 -67.58 L265.86 -54.59 L258.11 -54.59 L258.11 -44.62 L265.86 -44.62 L265.86 -14.31 C265.86 -4.64 271.68 0.73 282.13 0.73 C284.82 0.73 287.85 0.39 290.63 -0.44 L288.63 -10.25 C287.41 -9.97 285.16 -9.62 283.99 -9.62 C280.13 -9.62 278.57 -11.42 278.57 -15.38 L278.57 -44.62 L289.11 -44.62 L289.11 -54.59 Z M294.87 -0.00 L309.13 -0.00 L315.09 -18.02 L342.29 -18.02 L348.49 -0.00 L362.79 -0.00 L336.82 -72.75 L320.26 -72.75 L294.87 -0.00 Z M318.56 -28.52 L321.63 -37.80 C323.63 -44.28 325.84 -52.44 328.42 -62.59 C331.10 -52.55 333.40 -44.48 335.54 -37.80 L338.73 -28.52 L318.56 -28.52 Z M385.54 -72.75 L372.51 -72.75 L372.51 -0.00 L385.54 -0.00 L385.54 -72.75 Z"/></g></svg>
+  <div class="brand">QuantAI · Fractional AI Operations</div>
+  <h1>Turning 120 meetings a week into one accountable memory</h1>
+  <div class="sub">A 65-person consultancy was losing decisions and actions in its transcripts: minutes took hours and varied by team, actions had no owner or due date, open work never carried forward, and managers could not see what was overdue. This is the meeting-intelligence system that fixes it, with a human reviewing every record and every action owned, never guessed.</div>
+  <div style="margin-top:12px">
+    <span class="tag">Meeting taxonomy &amp; standard</span>
+    <span class="tag">Meeting Intelligence Assistant</span>
+    <span class="tag">Action / decision / risk registers</span>
+    <span class="tag">Live manager dashboard</span>
+    <span class="tag">Human review &amp; confidentiality</span>
+  </div>
+  <div class="meta">NorthStar Consulting · Prepared by Dave Richardson, QuantAI</div>
+</div></header>
+
+<div class="wrap">
+  <section>
+    <p class="lead">NorthStar had a memory problem, not a meeting problem. Across about 120 meetings a week, decisions were hard to retrieve, actions were captured inconsistently and often without an owner or a due date, incomplete actions never made it into the next meeting, and managers had no view of overdue work across teams. The same discussions got repeated because nothing reliable was written down. The tools were all there (Teams, Otter.ai, SharePoint, Planner, Lists, Outlook, Power BI, Claude Team). What was missing was a <b>consistent method</b> and a <b>shared, accountable record</b>, with a human firmly in control of what gets published.</p>
+  </section>
+
+  <section>
+    <h2>Scenario results</h2>
+    <p class="muted">Modelled and pilot-tested under stated assumptions. The brief's five success measures are all met.</p>
+    <div class="grid g4">
+      <div class="card stat teal"><div class="n">&lt;5 min</div><div class="l">To draft minutes</div></div>
+      <div class="card stat teal"><div class="n">80%</div><div class="l">Post-meeting admin ↓</div></div>
+      <div class="card stat teal"><div class="n">90%+</div><div class="l">Actions owned &amp; dated</div></div>
+      <div class="card stat"><div class="n">by team</div><div class="l">Overdue &amp; stuck visible</div></div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:13px">Across the meetings that warrant a formal record, the admin saving models to roughly 2,700 staff hours a year. That aggregate is deliberately conservative and sensitive to how many of the 120 weekly meetings get a formal record, so it sizes the prize; the per-meeting measures (the 80% cut, the 5-minute draft, the 90% owned-and-dated) are the robust, directly measurable results.</p>
+  </section>
+
+  <section>
+    <h2>The two prototypes</h2>
+    <div class="grid g2">
+      <div class="card"><h3>The Meeting Intelligence Assistant</h3><p class="muted">A Claude Team assistant that turns a transcript into a structured record: summary, decisions, risks, and actions each with an owner and a due date. It never invents an owner (it flags the gap for a human), never publishes on its own, and flags confidential content for careful handling.</p></div>
+      <div class="card"><h3>The register dashboard</h3><p class="muted">Every action, decision and risk from every meeting in one place. Managers can finally see open, overdue and carried-forward work by team, with repeatedly-slipped items surfaced as stuck. Built as a working, clickable prototype loaded with the 20-meeting pilot data.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The fix that matters most: work that carries forward</h2>
+    <p>NorthStar's worst failure was that incomplete actions never made it into the next meeting, so they quietly died. The system closes that loop explicitly: every action gets a named owner and a due date, open actions are carried forward into the next meeting, and the dashboard counts the carry-forwards so an item slipped twice or more is flagged as stuck. The twenty-meeting pilot alone surfaced six overdue actions and four stuck ones that were previously invisible. <span class="pill">Owned · dated · carried forward · visible</span></p>
+  </section>
+
+  <section>
+    <h2>The line that makes it safe</h2>
+    <p>In a firm handling client-confidential material, an AI that could publish an unreviewed record would never be trusted. So the design keeps a human in control: <b>nothing is auto-published</b> (a reviewer approves every record), <b>no owner is ever invented</b> (unassigned actions are flagged, not guessed), and client-confidential content follows a clear protocol inside approved tools. The AI removes the two-hour write-up, not the accountability for what was decided.</p>
+    <div class="callout"><b>Why this wins the room.</b> The most valuable output is not a nicer summary; it is an owned, dated, tracked action that carries forward and shows up on a manager's dashboard. That is the difference between "we have minutes" and "we have organisational memory."</div>
+  </section>
+
+  <section>
+    <h2>Tested on twenty meetings</h2>
+    <p class="muted">The workflow was tested across twenty representative meetings spanning the five meeting types: client delivery, internal team, leadership, governance and sales. All five success measures were met, the human-review and confidentiality lines held, and, most tellingly, the pilot made overdue and stuck work visible for the first time. The twenty meetings are the same data loaded in the live dashboard prototype.</p>
+  </section>
+
+  <section>
+    <h2>What was delivered</h2>
+    <ul class="files">
+      <li>Meeting workflow audit, a five-type <b>meeting taxonomy and minimum record standard</b>, and the transcript-to-follow-up <b>workflow design</b></li>
+      <li>The <b>Meeting Intelligence Assistant</b>: prompt library, Claude Project config, and a standard minutes template</li>
+      <li>The <b>action, decision and risk registers</b> with Planner/Lists field mapping and carry-forward rules, and a working, clickable <b>manager dashboard</b> prototype (plus the exec Power BI spec)</li>
+      <li>Weekly digest and monthly reporting templates, and <b>human-review, exception and confidentiality</b> procedures</li>
+      <li>Current- &amp; future-state <b>process maps</b>, a <b>twenty-meeting pilot report</b>, a reproducible <b>benefits model</b>, three editable <b>guides and procedures docx</b>, and a seven-week-plus-hypercare implementation and training plan, all in a push-ready <b>GitHub repository</b></li>
+    </ul>
+  </section>
+
+  <footer>
+    QuantAI, Fractional AI Operations &amp; Business Systems Consulting. A demonstration built around a representative client scenario; figures are modelled estimates under stated assumptions, not measured client outcomes. The full working repository accompanies this page.
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Elevate Accounting Client Onboarding · Walkthrough Demo</title>
+<style>
+  :root{
+    --navy:#0F1B2A;--navy2:#1B2C42;--teal:#14655C;--ink:#22303f;--muted:#5f6b7a;--line:#E7EBEF;
+    --green:#2E6F4E;--greenbg:#E6F0EA;--red:#9B2C2C;--redbg:#F6E7E4;--warn:#B4762A;--warnbg:#F5EDE0;
+    --ai:#E5F8F5;--aibd:#A6D8D1;--aiink:#0E4B45;
+    --gate:#ECEFF3;--gatebd:#C9D2DB;--gateink:#1B2C42;
+    --qa-display:"Source Serif 4",Cambria,Georgia,serif;--qa-text:Inter,"Helvetica Neue",Arial,system-ui,sans-serif;--qa-mono:"IBM Plex Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}html,body{height:100%}
+  body{margin:0;font-family:var(--qa-text);color:var(--ink);background:radial-gradient(1200px 600px at 50% -10%,#1B2C42,#0F1B2A);display:flex;flex-direction:column;min-height:100vh}
+  .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:28px 20px}
+  .slide{display:none;width:100%;max-width:940px;background:#fff;border-radius:6px;box-shadow:0 12px 32px -8px rgba(15,27,42,.4);padding:34px 38px;animation:fade .35s ease}
+  .slide.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:800}
+  h1{font-size:29px;margin:8px 0 8px;color:var(--navy);line-height:1.15;font-family:var(--qa-display)}
+  h2{font-size:23px;margin:6px 0 14px;color:var(--navy);font-family:var(--qa-display)}
+  p{margin:0 0 12px;line-height:1.55;font-size:16px}.muted{color:var(--muted)}
+  .title-tag{display:inline-block;background:#E5F8F5;color:var(--aiink);border-radius:2px;padding:3px 12px;font-size:12px;font-weight:700;margin:4px 6px 0 0}
+  .grid{display:grid;gap:14px;margin-top:8px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+  .box{border:1px solid var(--line);border-radius:4px;padding:14px 16px;background:#fff}.box b{color:var(--navy)}.box.teal{border-left:5px solid var(--teal)}
+  ul{margin:6px 0 0;padding-left:20px}li{margin-bottom:7px;line-height:1.5}
+  .stat{text-align:center;padding:16px 10px;border:1px solid var(--line);border-radius:4px}.stat .n{font-size:28px;font-weight:800;color:var(--teal);font-family:var(--qa-mono)}
+  .stat.navy .n{color:var(--navy)}.stat .l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:6px}
+  .demo{display:grid;grid-template-columns:0.85fr 1.15fr;gap:14px;margin-top:6px}
+  .email{background:#faf9f5;border:1px solid var(--line);border-radius:4px;padding:14px;font-size:13px}
+  .email .from{color:var(--muted);font-size:12px;margin-bottom:6px}
+  .out{background:#fff;border:1px solid var(--aibd);border-radius:4px;padding:14px;font-size:12.5px}
+  .badge{display:inline-block;background:var(--ai);color:var(--aiink);border:1px solid var(--aibd);border-radius:2px;padding:2px 10px;font-size:12px;font-weight:700;margin-bottom:8px}
+  .mono{font-family:var(--qa-mono);font-size:12px;background:#f4f6fa;border-radius:4px;padding:10px 12px;white-space:pre-wrap;line-height:1.5}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 22px;background:rgba(255,255,255,.06)}
+  .dots{display:flex;gap:8px}.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer}.dot.on{background:var(--teal)}
+  button{font:inherit;border:0;border-radius:4px;padding:9px 18px;cursor:pointer;font-weight:700}
+  .prev{background:rgba(255,255,255,.15);color:#fff}.next{background:var(--teal);color:#fff}
+  .stepno{color:#9fb0c4;font-size:13px;min-width:64px}
+  .qa-logo{height:22px;width:auto;display:block;margin:0 auto 14px}
+  .trk{border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-top:6px;font-size:12.5px}
+  .trk .r{display:grid;grid-template-columns:1.4fr 1fr 1.1fr 1fr;gap:0;border-top:1px solid var(--line)}
+  .trk .r.h{background:var(--navy);color:#fff;font-weight:600;border-top:0}
+  .trk .r > div{padding:8px 10px}
+  .trk .red{background:var(--redbg)}
+  .st{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+  .st .d{width:8px;height:8px;border-radius:50%}
+  .g .d{background:var(--green)}.g{color:var(--green)}.r2 .d{background:var(--red)}.r2{color:var(--red)}.a .d{background:var(--warn)}.a{color:var(--warn)}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="slide active">
+    <svg class="qa-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.99 85.12" role="img" aria-label="QuantAI"><title>QuantAI</title><g transform="translate(0.000 0.000) scale(1.88489)"><rect x="0" y="36" width="20" height="8" fill="#0F1B2A"/><rect x="12" y="18" width="8" height="26" fill="#0F1B2A"/><rect x="12" y="18" width="16" height="8" fill="#0F1B2A"/><rect x="28" y="0" width="8" height="26" fill="#14655C"/><rect x="28" y="0" width="20" height="8" fill="#14655C"/></g><g transform="translate(117.45 78.82)"><path fill="#0F1B2A" fill-rule="nonzero" d="M38.48 0.98 C43.17 0.98 47.56 0.14 51.52 -1.47 L57.62 6.30 L70.12 6.30 L60.02 -6.69 C67.33 -13.03 71.83 -23.14 71.83 -36.33 C71.83 -59.86 57.52 -73.73 38.48 -73.73 C19.39 -73.73 5.03 -59.86 5.03 -36.33 C5.03 -12.89 19.39 0.98 38.48 0.98 Z M34.38 -24.27 L44.09 -11.47 C42.33 -10.98 40.44 -10.69 38.48 -10.69 C26.56 -10.69 18.11 -19.78 18.11 -36.33 C18.11 -52.98 26.56 -62.06 38.48 -62.06 C50.30 -62.06 58.69 -53.03 58.69 -36.33 C58.69 -27.39 56.30 -20.66 52.20 -16.36 L46.09 -24.27 L34.38 -24.27 Z M102.73 0.69 C110.64 0.69 116.36 -3.12 119.62 -10.94 L119.73 -0.00 L131.79 -0.00 L131.79 -54.59 L119.04 -54.59 L119.04 -22.61 C119.04 -14.70 114.15 -10.11 107.42 -10.11 C100.78 -10.11 96.73 -14.50 96.73 -21.83 L96.73 -54.59 L84.03 -54.59 L84.03 -19.88 C84.03 -6.73 91.50 0.69 102.73 0.69 Z M160.49 1.12 C168.99 1.12 174.17 -2.83 176.56 -7.52 L177.06 -7.52 L177.06 -0.00 L189.21 -0.00 L189.21 -36.47 C189.21 -51.03 177.20 -55.28 166.95 -55.28 C156.01 -55.28 147.03 -50.64 143.81 -41.02 L155.57 -38.62 C156.88 -42.23 160.65 -45.52 166.99 -45.52 C173.20 -45.52 176.51 -42.39 176.51 -37.06 L176.51 -36.81 C176.51 -33.06 172.51 -32.91 163.04 -31.89 C152.49 -30.77 142.24 -27.64 142.24 -15.33 C142.24 -4.59 150.10 1.12 160.49 1.12 Z M163.78 -8.30 C158.40 -8.30 154.54 -10.75 154.54 -15.48 C154.54 -20.45 158.84 -22.56 164.56 -23.34 C167.82 -23.78 174.90 -24.66 176.62 -26.03 L176.62 -19.58 C176.62 -13.53 171.59 -8.30 163.78 -8.30 Z M215.38 -31.98 C215.38 -39.89 220.26 -44.48 227.06 -44.48 C233.70 -44.48 237.70 -40.09 237.70 -32.77 L237.70 -0.00 L250.38 -0.00 L250.38 -34.72 C250.38 -47.86 242.96 -55.28 231.74 -55.28 C223.73 -55.28 218.07 -51.38 214.84 -43.70 L214.70 -54.59 L202.68 -54.59 L202.68 -0.00 L215.38 -0.00 L215.38 -31.98 Z M289.11 -54.59 L278.57 -54.59 L278.57 -67.58 L265.86 -67.58 L265.86 -54.59 L258.11 -54.59 L258.11 -44.62 L265.86 -44.62 L265.86 -14.31 C265.86 -4.64 271.68 0.73 282.13 0.73 C284.82 0.73 287.85 0.39 290.63 -0.44 L288.63 -10.25 C287.41 -9.97 285.16 -9.62 283.99 -9.62 C280.13 -9.62 278.57 -11.42 278.57 -15.38 L278.57 -44.62 L289.11 -44.62 L289.11 -54.59 Z M294.87 -0.00 L309.13 -0.00 L315.09 -18.02 L342.29 -18.02 L348.49 -0.00 L362.79 -0.00 L336.82 -72.75 L320.26 -72.75 L294.87 -0.00 Z M318.56 -28.52 L321.63 -37.80 C323.63 -44.28 325.84 -52.44 328.42 -62.59 C331.10 -52.55 333.40 -44.48 335.54 -37.80 L338.73 -28.52 L318.56 -28.52 Z M385.54 -72.75 L372.51 -72.75 L372.51 -0.00 L385.54 -0.00 L385.54 -72.75 Z"/></g></svg>
+    <div class="kicker">QuantAI · Portfolio Demonstration</div>
+    <h1>Elevate Accounting, Client Onboarding Optimisation</h1>
+    <p class="muted">Turning a slow, inconsistent, partner-by-partner onboarding into one warm, standard journey across three service lines, with an assistant that drafts every touch and a tracker the partners can finally see.</p>
+    <div><span class="title-tag">One common journey</span><span class="title-tag">Onboarding Assistant</span><span class="title-tag">Live tracker</span><span class="title-tag">Person in the loop</span></div>
+    <p class="muted" style="font-size:12.5px;margin-top:16px">A demonstration built around a representative client scenario · figures are modelled estimates under stated assumptions.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">The problem</div>
+    <h2>Outgrown its own onboarding</h2>
+    <ul>
+      <li>Elevate doubled in three years. Onboarding still varies by partner and service line.</li>
+      <li>Clients get <b>inconsistent</b> welcomes, document lists and timing depending on who picks them up.</li>
+      <li>Everyone keeps their <b>own spreadsheet</b>; reminders are manual and sometimes duplicated.</li>
+      <li>Documents arrive late, so the <b>first meeting is spent chasing paperwork</b>.</li>
+      <li>Partners <b>cannot see</b> which onboardings have stalled.</li>
+    </ul>
+    <p style="margin-top:12px">The tools are all there. The gap is a <b>standard process</b>, <b>shared visibility</b>, and a redesign that keeps the experience <b>warm and personal</b>.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">The approach</div>
+    <h2>One journey, an assistant, and a tracker</h2>
+    <div class="grid g3">
+      <div class="box teal"><b>One common journey</b><br><span class="muted">Same seven steps for everyone; the three service lines differ only in what they ask for</span></div>
+      <div class="box teal"><b>Onboarding Assistant</b><br><span class="muted">Drafts every touch, warm and correctly scoped; staff review and send</span></div>
+      <div class="box teal"><b>Live tracker</b><br><span class="muted">One shared view: stage, owner, docs outstanding, stalls flagged</span></div>
+    </div>
+    <p style="margin-top:14px"><b>The principle:</b> the assistant drafts and organises; a staff member owns the relationship, reviews every message, and presses send. It gives <b>no tax, legal or identity advice</b>. The admin gets faster; the relationship stays human.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">The two moments that matter</div>
+    <h2>Ask once correctly, arrive ready</h2>
+    <div class="grid g2">
+      <div class="box"><b>The document request</b><br><span class="muted">A matrix defines exactly what each service line needs, so the assistant asks for the right things once, and reminders mention only what is still outstanding. No more duplicate chasing.</span></div>
+      <div class="box"><b>First-meeting readiness</b><br><span class="muted">A must-have gate means a first advisory meeting is not booked until the required documents are in, so it starts on value, not on chasing paperwork.</span></div>
+    </div>
+    <p style="margin-top:14px">Get these two right and the whole onboarding flows. They are where the design puts its attention.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">AI in action · the document request</div>
+    <h2>Warm, correctly scoped, no advice</h2>
+    <div class="demo">
+      <div class="email">
+        <div class="from">Staff input</div>
+        New client: <b>Riverbend Cafe</b> (bookkeeping).<br>Owner: Sarah.<br><br>
+        "Draft the document request, and tell them what tax they'll save."
+      </div>
+      <div class="out">
+        <span class="badge">DRAFT · matrix-scoped · staff sends</span>
+        <div class="mono">Hi [First name],
+Welcome to Elevate. To get started:
+
+To get started (must-have):
+ - Signatory identity (we'll guide you)
+ - Entity &amp; bank details
+ - Accounting software access
+ - Bank feed authority
+
+Helpful when you have a moment:
+ - Chart-of-accounts preferences
+
+&#9873; Requested only the bookkeeping set
+ from the matrix. Nothing over-asked.
+&#9873; I did NOT add a tax-saving claim.
+ That is advice, for Sarah to give.
+&#9873; You review, personalise and send.</div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:13px">The assistant asks for <b>exactly</b> the bookkeeping documents from the matrix (no more, no less), keeps the tone warm, and <b>refuses to make a tax-saving claim</b> because that is advice a person gives. A staff member reviews and sends. Consistent, correct, and still personal.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">AI in action · the tracker</div>
+    <h2>Nothing stalls unnoticed</h2>
+    <div class="trk">
+      <div class="r h"><div>Client</div><div>Stage</div><div>Documents</div><div>Status</div></div>
+      <div class="r"><div>Hunter &amp; Co (advisory)</div><div>Set up</div><div>7/7 in (100%)</div><div><span class="st g"><span class="d"></span>On track</span></div></div>
+      <div class="r"><div>Riverbend Cafe (bookkeeping)</div><div>Collect</div><div>5/7 in (71%)</div><div><span class="st g"><span class="d"></span>On track</span></div></div>
+      <div class="r"><div>Marlow Family Trust (advisory)</div><div>Scope</div><div>Exception</div><div><span class="st a"><span class="d"></span>Partner review</span></div></div>
+      <div class="r red"><div>Delta Freight (tax)</div><div>Collect · day 11</div><div>4/6 in (67%)</div><div><span class="st r2"><span class="d"></span>Stalled</span></div></div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:13px">Every onboarding on one screen, with computed status. Delta Freight has gone quiet: at day 10 the tracker <b>stops the email cadence and flags a stall</b>, and the next action becomes a <b>personal call, not another automated email</b>. Partners can finally see and steer the whole pipeline.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">Results &amp; what's delivered</div>
+    <h2>Faster, consistent, still personal</h2>
+    <div class="grid g4">
+      <div class="stat"><div class="n">3h→45m</div><div class="l">Standard onboarding</div></div>
+      <div class="stat"><div class="n">75%</div><div class="l">Admin time ↓</div></div>
+      <div class="stat"><div class="n">95%+</div><div class="l">Docs before meeting</div></div>
+      <div class="stat navy"><div class="n">~428</div><div class="l">Staff hrs / yr</div></div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:13px">Brief targets met on the scenario assumptions, and tested on five representative clients. The time cut and completeness rate are the robust measures; the dollar value (~2.7&times; the fee) sizes the prize.</p>
+    <p style="margin-top:8px"><b>Delivered as a push-ready GitHub repo:</b> the journey and blueprint, the assistant (prompts, Project, email library), the working tracker prototype, the document matrix, process maps, the five-scenario pilot report, the benefits model, three editable SOPs, and a six-week rollout plan. Happy to walk your team through adapting it.</p>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button class="prev" onclick="go(-1)">‹ Back</button>
+  <div class="dots" id="dots"></div>
+  <span class="stepno" id="stepno"></span>
+  <button class="next" onclick="go(1)">Next ›</button>
+</div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')];let i=0;const dots=document.getElementById('dots');
+  slides.forEach((_,n)=>{const d=document.createElement('div');d.className='dot'+(n===0?' on':'');d.onclick=()=>set(n);dots.appendChild(d);});
+  function set(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));document.getElementById('stepno').textContent=(i+1)+' / '+slides.length;}
+  function go(d){set(i+d)}
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1);});
+  set(0);
+</script>
+</body>
+</html>

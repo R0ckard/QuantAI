@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Elevate Accounting · Client Onboarding Tracker</title>
+<style>
+  :root{
+    --ink:#0F1B2A;--navy:#1B2C42;--slate:#40536B;--graphite:#7A8899;--line:#E7EBEF;--paper:#F6F5F1;--white:#fff;
+    --viridian:#14655C;--viridian400:#2E9C8E;--viridian050:#E5F8F5;--brass:#A9803E;
+    --good:#2E6F4E;--goodbg:#E6F0EA;--warn:#B4762A;--warnbg:#F5EDE0;--err:#9B2C2C;--errbg:#F6E7E4;
+    --qa-display:"Source Serif 4",Cambria,Georgia,serif;--qa-text:Inter,"Helvetica Neue",Arial,system-ui,sans-serif;--qa-mono:"IBM Plex Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--qa-text);color:var(--ink);background:var(--paper);line-height:1.5}
+  header{background:linear-gradient(135deg,var(--ink),var(--navy));color:#fff;padding:22px 0 20px;border-bottom:2px solid var(--viridian400)}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  .qa-logo{height:22px;width:auto;display:block;margin-bottom:10px}
+  .brand{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#9fb0c4;font-weight:700}
+  h1{margin:5px 0 2px;font-size:22px;font-family:var(--qa-display);color:#fff;font-weight:600}
+  .sub{color:#c7d0dc;font-size:13.5px}
+  main{padding:22px 0 60px}
+  .tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:5px;padding:14px 16px}
+  .tile .n{font-family:var(--qa-mono);font-size:26px;font-weight:600;color:var(--ink);line-height:1}
+  .tile .l{font-size:11.5px;color:var(--graphite);text-transform:uppercase;letter-spacing:.04em;margin-top:6px}
+  .tile.alert .n{color:var(--err)}.tile.ready .n{color:var(--good)}.tile.accent .n{color:var(--viridian)}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+  .controls .grp{display:flex;gap:6px;align-items:center}
+  .controls .lbl{font-size:11.5px;color:var(--graphite);text-transform:uppercase;letter-spacing:.04em;margin-right:2px}
+  .chip{font:inherit;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--slate);border-radius:20px;padding:5px 12px;cursor:pointer}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;font-size:13.5px}
+  thead th{background:var(--ink);color:#fff;text-align:left;padding:10px 12px;font-size:12px;font-weight:600;white-space:nowrap}
+  tbody td{padding:11px 12px;border-top:1px solid var(--line);vertical-align:middle}
+  tbody tr.row{cursor:pointer}
+  tbody tr.row:hover{background:#faf9f5}
+  .client{font-weight:600;color:var(--ink)}
+  .svc{font-size:11.5px;color:var(--slate);display:inline-block;background:#eef0f2;border-radius:2px;padding:1px 7px;margin-top:3px}
+  .stagepill{font-size:11px;font-weight:600;border-radius:2px;padding:2px 8px;white-space:nowrap;background:var(--viridian050);color:var(--viridian)}
+  .bar{position:relative;height:8px;background:#eceef1;border-radius:6px;overflow:hidden;min-width:96px}
+  .bar > span{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--viridian)}
+  .barlabel{font-family:var(--qa-mono);font-size:11.5px;color:var(--slate);margin-top:3px;display:block}
+  .status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;white-space:nowrap}
+  .dot{width:9px;height:9px;border-radius:50%;flex:0 0 9px}
+  .g .dot{background:var(--good)}.g{color:var(--good)}
+  .a .dot{background:var(--warn)}.a{color:var(--warn)}
+  .r .dot{background:var(--err)}.r{color:var(--err)}
+  .next{color:var(--slate);font-size:12.5px}
+  .detail td{background:#faf9f5;border-top:0;padding:0 12px 16px}
+  .detail .inner{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:20px;padding:14px 4px 4px}
+  .detail h4{margin:0 0 8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--viridian)}
+  .checkline{font-size:12.5px;padding:3px 0;color:var(--slate);display:flex;gap:7px;align-items:flex-start}
+  .checkline .mk{font-family:var(--qa-mono);font-weight:600}
+  .have .mk{color:var(--good)}.miss .mk{color:var(--err)}.na .mk{color:var(--graphite)}
+  .miss{color:var(--ink)}
+  .rem{font-size:12.5px;color:var(--slate);padding:2px 0}
+  .flag{font-size:12px;border-radius:3px;padding:6px 10px;margin-top:2px}
+  .flag.r{background:var(--errbg);color:var(--err)}.flag.a{background:var(--warnbg);color:var(--warn)}.flag.g{background:var(--goodbg);color:var(--good)}
+  .foot{color:var(--graphite);font-size:12px;margin-top:18px}
+  .hidden{display:none}
+  @media(max-width:920px){.tiles{grid-template-columns:repeat(2,1fr)}.detail .inner{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <svg class="qa-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.99 85.12" role="img" aria-label="QuantAI"><title>QuantAI</title><g transform="translate(0.000 0.000) scale(1.88489)"><rect x="0" y="36" width="20" height="8" fill="#FFFFFF"/><rect x="12" y="18" width="8" height="26" fill="#FFFFFF"/><rect x="12" y="18" width="16" height="8" fill="#FFFFFF"/><rect x="28" y="0" width="8" height="26" fill="#2E9C8E"/><rect x="28" y="0" width="20" height="8" fill="#2E9C8E"/></g><g transform="translate(117.45 78.82)"><path fill="#FFFFFF" fill-rule="nonzero" d="M38.48 0.98 C43.17 0.98 47.56 0.14 51.52 -1.47 L57.62 6.30 L70.12 6.30 L60.02 -6.69 C67.33 -13.03 71.83 -23.14 71.83 -36.33 C71.83 -59.86 57.52 -73.73 38.48 -73.73 C19.39 -73.73 5.03 -59.86 5.03 -36.33 C5.03 -12.89 19.39 0.98 38.48 0.98 Z M34.38 -24.27 L44.09 -11.47 C42.33 -10.98 40.44 -10.69 38.48 -10.69 C26.56 -10.69 18.11 -19.78 18.11 -36.33 C18.11 -52.98 26.56 -62.06 38.48 -62.06 C50.30 -62.06 58.69 -53.03 58.69 -36.33 C58.69 -27.39 56.30 -20.66 52.20 -16.36 L46.09 -24.27 L34.38 -24.27 Z M102.73 0.69 C110.64 0.69 116.36 -3.12 119.62 -10.94 L119.73 -0.00 L131.79 -0.00 L131.79 -54.59 L119.04 -54.59 L119.04 -22.61 C119.04 -14.70 114.15 -10.11 107.42 -10.11 C100.78 -10.11 96.73 -14.50 96.73 -21.83 L96.73 -54.59 L84.03 -54.59 L84.03 -19.88 C84.03 -6.73 91.50 0.69 102.73 0.69 Z M160.49 1.12 C168.99 1.12 174.17 -2.83 176.56 -7.52 L177.06 -7.52 L177.06 -0.00 L189.21 -0.00 L189.21 -36.47 C189.21 -51.03 177.20 -55.28 166.95 -55.28 C156.01 -55.28 147.03 -50.64 143.81 -41.02 L155.57 -38.62 C156.88 -42.23 160.65 -45.52 166.99 -45.52 C173.20 -45.52 176.51 -42.39 176.51 -37.06 L176.51 -36.81 C176.51 -33.06 172.51 -32.91 163.04 -31.89 C152.49 -30.77 142.24 -27.64 142.24 -15.33 C142.24 -4.59 150.10 1.12 160.49 1.12 Z M163.78 -8.30 C158.40 -8.30 154.54 -10.75 154.54 -15.48 C154.54 -20.45 158.84 -22.56 164.56 -23.34 C167.82 -23.78 174.90 -24.66 176.62 -26.03 L176.62 -19.58 C176.62 -13.53 171.59 -8.30 163.78 -8.30 Z M215.38 -31.98 C215.38 -39.89 220.26 -44.48 227.06 -44.48 C233.70 -44.48 237.70 -40.09 237.70 -32.77 L237.70 -0.00 L250.38 -0.00 L250.38 -34.72 C250.38 -47.86 242.96 -55.28 231.74 -55.28 C223.73 -55.28 218.07 -51.38 214.84 -43.70 L214.70 -54.59 L202.68 -54.59 L202.68 -0.00 L215.38 -0.00 L215.38 -31.98 Z M289.11 -54.59 L278.57 -54.59 L278.57 -67.58 L265.86 -67.58 L265.86 -54.59 L258.11 -54.59 L258.11 -44.62 L265.86 -44.62 L265.86 -14.31 C265.86 -4.64 271.68 0.73 282.13 0.73 C284.82 0.73 287.85 0.39 290.63 -0.44 L288.63 -10.25 C287.41 -9.97 285.16 -9.62 283.99 -9.62 C280.13 -9.62 278.57 -11.42 278.57 -15.38 L278.57 -44.62 L289.11 -44.62 L289.11 -54.59 Z M294.87 -0.00 L309.13 -0.00 L315.09 -18.02 L342.29 -18.02 L348.49 -0.00 L362.79 -0.00 L336.82 -72.75 L320.26 -72.75 L294.87 -0.00 Z M318.56 -28.52 L321.63 -37.80 C323.63 -44.28 325.84 -52.44 328.42 -62.59 C331.10 -52.55 333.40 -44.48 335.54 -37.80 L338.73 -28.52 L318.56 -28.52 Z M385.54 -72.75 L372.51 -72.75 L372.51 -0.00 L385.54 -0.00 L385.54 -72.75 Z"/></g></svg>
+  <div class="brand">QuantAI · Elevate Accounting</div>
+  <h1>Client onboarding tracker</h1>
+  <div class="sub">One live view of every onboarding: stage, owner, documents outstanding, next action, and anything stalled. Prototype loaded with the five pilot scenarios.</div>
+</div></header>
+
+<main><div class="wrap">
+  <div class="tiles" id="tiles"></div>
+  <div class="controls">
+    <div class="grp"><span class="lbl">Service line</span><span id="svcChips"></span></div>
+    <div class="grp"><span class="lbl">Status</span><span id="statChips"></span></div>
+    <div class="grp"><span class="lbl">Owner</span><span id="ownerChips"></span></div>
+  </div>
+  <table>
+    <thead><tr>
+      <th>Client</th><th>Owner</th><th>Stage</th><th>Documents (must-have)</th><th>Status</th><th>Next action</th><th>Days in stage</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p class="foot">Click any row for the checklist, reminder history and next action. Status: <b>green</b> on track, <b>amber</b> needs attention (an exception, or slowing), <b>red</b> stalled (day 10 with must-have items still outstanding, personal call due). This is a working prototype with sample data; a live build would read from Xero Practice Manager, FYI, HubSpot and SharePoint. Figures are scenario estimates under stated assumptions.</p>
+</div></main>
+
+<script>
+const STAGES = ["Welcome","Scope","Request","Collect","Set up","First meeting"];
+// Five pilot scenarios. checklist item state: have | miss | na
+const DATA = [
+  {
+    client:"Hunter & Co Advisory", entity:"Hunter & Co Pty Ltd", owner:"James", svc:"Business advisory",
+    stage:"Set up", days:2, next:"Book first advisory meeting",
+    checklist:[
+      ["Signatory identity (AML/KYC)","have"],["Entity details","have"],["Authority to act","have"],["Bank details","have"],
+      ["Prior-year financials","have"],["Software access","have"],["Advisory goals note","have"],
+      ["Management accounts","na"],["Structure diagram","na"]
+    ],
+    reminders:["Welcome sent day 0","Document request sent day 1","All must-have in by day 4"],
+    note:"Must-have complete. Ready to book the first advisory meeting."
+  },
+  {
+    client:"Riverbend Cafe", entity:"Riverbend Cafe Pty Ltd", owner:"Sarah", svc:"Bookkeeping",
+    stage:"Collect", days:4, next:"Day-3 reminder: bank feed authority",
+    checklist:[
+      ["Signatory identity (AML/KYC)","have"],["Entity details","have"],["Authority to act","have"],["Bank details","have"],
+      ["Software access","have"],["Bank feed authority","miss"],["Chart-of-accounts preferences","miss"]
+    ],
+    reminders:["Welcome sent day 0","Document request sent day 1","Day-3 nudge queued (bank feed only)"],
+    note:"On track. One must-have item outstanding (bank feed authority). Chart-of-accounts is nice-to-have."
+  },
+  {
+    client:"Marlow Family Trust", entity:"Marlow Family Trust", owner:"James", svc:"Business advisory",
+    stage:"Scope", days:6, next:"Partner review: complex structure",
+    exception:"Complex structure (trust + two entities) routed to partner before document request",
+    checklist:[
+      ["Signatory identity (AML/KYC)","have"],["Entity details","miss"],["Authority to act","have"],["Bank details","miss"],
+      ["Prior-year financials","miss"],["Software access","miss"],["Advisory goals note","have"]
+    ],
+    reminders:["Welcome sent day 0","Held at scope: exception raised day 2"],
+    note:"Held at scope on purpose. Partner review of the structure before we request documents, so we ask for the right things once."
+  },
+  {
+    client:"Delta Freight", entity:"Delta Freight Pty Ltd", owner:"Priya", svc:"Tax compliance",
+    stage:"Collect", days:11, next:"Personal call (day-10 stall)",
+    checklist:[
+      ["Signatory identity (AML/KYC)","have"],["Entity details","have"],["Authority to act","have"],["Bank details","have"],
+      ["TFN and ATO linking","miss"],["Prior-year tax returns","miss"],["Prior-year financials","na"]
+    ],
+    reminders:["Welcome sent day 0","Document request sent day 1","Day-3 nudge sent","Day-7 offer-to-help sent","Day 10: stall flagged, email cadence stopped"],
+    note:"Stalled. Two must-have items outstanding after the full reminder cadence. Owner to make a personal call, not another email."
+  },
+  {
+    client:"Nguyen Consulting", entity:"Nguyen Consulting Pty Ltd", owner:"Sarah", svc:"Tax compliance",
+    stage:"First meeting", days:1, next:"Warm handover to ongoing team",
+    checklist:[
+      ["Signatory identity (AML/KYC)","have"],["Entity details","have"],["Authority to act","have"],["Bank details","have"],
+      ["TFN and ATO linking","have"],["Prior-year tax returns","have"]
+    ],
+    reminders:["Welcome sent day 0","Document request sent day 1","All must-have in by day 5","Briefing pack prepared","First meeting held day 8"],
+    note:"Complete and met. Handover to the ongoing team is the last step."
+  }
+];
+
+function completeness(d){
+  const must = d.checklist.filter(c=>c[1]!=="na");
+  const have = must.filter(c=>c[1]==="have").length;
+  return {have, total:must.length, pct: Math.round(have/must.length*100)};
+}
+function statusOf(d){
+  const c = completeness(d);
+  if(d.stage==="Collect" && d.days>=10 && c.pct<100) return "r";
+  if(d.exception) return "a";
+  if(d.stage==="First meeting" || (c.pct===100 && d.stage==="Set up")) return "g";
+  if(d.days>=7 && c.pct<100) return "a";
+  return "g";
+}
+const STATLABEL = {g:"On track", a:"Needs attention", r:"Stalled"};
+
+let fSvc="All", fStat="All", fOwner="All";
+
+function tiles(){
+  const total = DATA.length;
+  const stalled = DATA.filter(d=>statusOf(d)==="r").length;
+  const attention = DATA.filter(d=>statusOf(d)==="a").length;
+  const ready = DATA.filter(d=> completeness(d).pct===100 && (d.stage==="Set up"||d.stage==="First meeting")).length;
+  const avg = Math.round(DATA.reduce((s,d)=>s+completeness(d).pct,0)/total);
+  const t = [
+    {n:total,l:"Active onboardings",c:""},
+    {n:ready,l:"Ready for first meeting",c:"ready"},
+    {n:attention,l:"Need attention",c:"accent"},
+    {n:stalled,l:"Stalled (call due)",c:"alert"},
+    {n:avg+"%",l:"Avg must-have complete",c:"accent"}
+  ];
+  document.getElementById("tiles").innerHTML = t.map(x=>`<div class="tile ${x.c}"><div class="n">${x.n}</div><div class="l">${x.l}</div></div>`).join("");
+}
+function chips(){
+  const svcs = ["All",...new Set(DATA.map(d=>d.svc))];
+  const owners = ["All",...new Set(DATA.map(d=>d.owner))];
+  const stats = ["All","On track","Needs attention","Stalled"];
+  document.getElementById("svcChips").innerHTML = svcs.map(s=>`<button class="chip ${s===fSvc?'on':''}" data-k="svc" data-v="${s}">${s}</button>`).join("");
+  document.getElementById("statChips").innerHTML = stats.map(s=>`<button class="chip ${s===fStat?'on':''}" data-k="stat" data-v="${s}">${s}</button>`).join("");
+  document.getElementById("ownerChips").innerHTML = owners.map(s=>`<button class="chip ${s===fOwner?'on':''}" data-k="owner" data-v="${s}">${s}</button>`).join("");
+  document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.k,v=b.dataset.v;
+    if(k==="svc")fSvc=v; if(k==="stat")fStat=v; if(k==="owner")fOwner=v;
+    render();
+  });
+}
+function passFilter(d){
+  const st = STATLABEL[statusOf(d)];
+  if(fSvc!=="All" && d.svc!==fSvc) return false;
+  if(fOwner!=="All" && d.owner!==fOwner) return false;
+  if(fStat!=="All" && st!==fStat) return false;
+  return true;
+}
+function render(){
+  chips();
+  const rows = DATA.map((d,i)=>{
+    if(!passFilter(d)) return "";
+    const c = completeness(d);
+    const s = statusOf(d);
+    const miss = d.checklist.filter(x=>x[1]==="miss");
+    const checkHtml = d.checklist.map(x=>{
+      const cls = x[1]==="have"?"have":(x[1]==="miss"?"miss":"na");
+      const mk = x[1]==="have"?"[x]":(x[1]==="miss"?"[ ]":"[-]");
+      return `<div class="checkline ${cls}"><span class="mk">${mk}</span><span>${x[0]}</span></div>`;
+    }).join("");
+    const rem = d.reminders.map(r=>`<div class="rem">&middot; ${r}</div>`).join("");
+    const flag = d.exception ? `<div class="flag a">${d.exception}</div>`
+                : (s==="r" ? `<div class="flag r">${d.note}</div>`
+                : `<div class="flag ${s}">${d.note}</div>`);
+    return `
+      <tr class="row" data-i="${i}">
+        <td><span class="client">${d.client}</span><br><span class="svc">${d.svc}</span></td>
+        <td>${d.owner}</td>
+        <td><span class="stagepill">${d.stage}</span></td>
+        <td><div class="bar"><span style="width:${c.pct}%"></span></div><span class="barlabel">${c.have}/${c.total} in (${c.pct}%)</span></td>
+        <td><span class="status ${s}"><span class="dot"></span>${STATLABEL[s]}</span></td>
+        <td class="next">${d.next}</td>
+        <td>${d.days}d</td>
+      </tr>
+      <tr class="detail hidden" data-d="${i}"><td colspan="7"><div class="inner">
+        <div><h4>Onboarding checklist</h4>${checkHtml}</div>
+        <div><h4>Reminder &amp; contact history</h4>${rem}</div>
+        <div><h4>Status &amp; next action</h4>${flag}<div class="rem" style="margin-top:8px"><b>Next:</b> ${d.next}</div>${miss.length?`<div class="rem"><b>Outstanding must-have:</b> ${miss.map(m=>m[0]).join(", ")}</div>`:`<div class="rem"><b>Must-have:</b> complete</div>`}</div>
+      </div></td></tr>`;
+  }).join("");
+  document.getElementById("rows").innerHTML = rows || `<tr><td colspan="7" style="padding:20px;color:var(--graphite)">No onboardings match these filters.</td></tr>`;
+  document.querySelectorAll("tr.row").forEach(r=>r.onclick=()=>{
+    const det = document.querySelector(`tr.detail[data-d="${r.dataset.i}"]`);
+    if(det) det.classList.toggle("hidden");
+  });
+  tiles();
+}
+render();
+</script>
+</body>
+</html>

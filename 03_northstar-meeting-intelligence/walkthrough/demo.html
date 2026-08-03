@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>NorthStar Meeting Intelligence · Walkthrough Demo</title>
+<style>
+  :root{
+    --navy:#0F1B2A;--navy2:#1B2C42;--teal:#14655C;--ink:#22303f;--muted:#5f6b7a;--line:#E7EBEF;
+    --green:#2E6F4E;--greenbg:#E6F0EA;--red:#9B2C2C;--redbg:#F6E7E4;--warn:#B4762A;--warnbg:#F5EDE0;
+    --ai:#E5F8F5;--aibd:#A6D8D1;--aiink:#0E4B45;
+    --gate:#ECEFF3;--gatebd:#C9D2DB;--gateink:#1B2C42;
+    --qa-display:"Source Serif 4",Cambria,Georgia,serif;--qa-text:Inter,"Helvetica Neue",Arial,system-ui,sans-serif;--qa-mono:"IBM Plex Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}html,body{height:100%}
+  body{margin:0;font-family:var(--qa-text);color:var(--ink);background:radial-gradient(1200px 600px at 50% -10%,#1B2C42,#0F1B2A);display:flex;flex-direction:column;min-height:100vh}
+  .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:28px 20px}
+  .slide{display:none;width:100%;max-width:940px;background:#fff;border-radius:6px;box-shadow:0 12px 32px -8px rgba(15,27,42,.4);padding:34px 38px;animation:fade .35s ease}
+  .slide.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:800}
+  h1{font-size:29px;margin:8px 0 8px;color:var(--navy);line-height:1.15;font-family:var(--qa-display)}
+  h2{font-size:23px;margin:6px 0 14px;color:var(--navy);font-family:var(--qa-display)}
+  p{margin:0 0 12px;line-height:1.55;font-size:16px}.muted{color:var(--muted)}
+  .title-tag{display:inline-block;background:#E5F8F5;color:var(--aiink);border-radius:2px;padding:3px 12px;font-size:12px;font-weight:700;margin:4px 6px 0 0}
+  .grid{display:grid;gap:14px;margin-top:8px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+  .box{border:1px solid var(--line);border-radius:4px;padding:14px 16px;background:#fff}.box b{color:var(--navy)}.box.teal{border-left:5px solid var(--teal)}
+  ul{margin:6px 0 0;padding-left:20px}li{margin-bottom:7px;line-height:1.5}
+  .stat{text-align:center;padding:16px 10px;border:1px solid var(--line);border-radius:4px}.stat .n{font-size:26px;font-weight:800;color:var(--teal);font-family:var(--qa-mono)}
+  .stat.navy .n{color:var(--navy)}.stat .l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:6px}
+  .demo{display:grid;grid-template-columns:0.9fr 1.1fr;gap:14px;margin-top:6px}
+  .email{background:#faf9f5;border:1px solid var(--line);border-radius:4px;padding:14px;font-size:12.5px}
+  .email .from{color:var(--muted);font-size:12px;margin-bottom:6px}
+  .out{background:#fff;border:1px solid var(--aibd);border-radius:4px;padding:14px;font-size:12.5px}
+  .badge{display:inline-block;background:var(--ai);color:var(--aiink);border:1px solid var(--aibd);border-radius:2px;padding:2px 10px;font-size:12px;font-weight:700;margin-bottom:8px}
+  .mono{font-family:var(--qa-mono);font-size:11.5px;background:#f4f6fa;border-radius:4px;padding:10px 12px;white-space:pre-wrap;line-height:1.5}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 22px;background:rgba(255,255,255,.06)}
+  .dots{display:flex;gap:8px}.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer}.dot.on{background:var(--teal)}
+  button{font:inherit;border:0;border-radius:4px;padding:9px 18px;cursor:pointer;font-weight:700}
+  .prev{background:rgba(255,255,255,.15);color:#fff}.next{background:var(--teal);color:#fff}
+  .stepno{color:#9fb0c4;font-size:13px;min-width:64px}
+  .qa-logo{height:22px;width:auto;display:block;margin:0 auto 14px}
+  .trk{border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-top:6px;font-size:12.5px}
+  .trk .r{display:grid;grid-template-columns:1.7fr 0.8fr 0.9fr 0.7fr 1fr;gap:0;border-top:1px solid var(--line)}
+  .trk .r.h{background:var(--navy);color:#fff;font-weight:600;border-top:0}
+  .trk .r > div{padding:8px 10px}
+  .trk .red{background:var(--redbg)}
+  .st{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+  .st .d{width:8px;height:8px;border-radius:50%}
+  .r2 .d{background:var(--red)}.r2{color:var(--red)}.a .d{background:var(--warn)}.a{color:var(--warn)}.g .d{background:var(--green)}.g{color:var(--green)}
+  .cf{font-family:var(--qa-mono);font-weight:600;color:var(--red)}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="slide active">
+    <svg class="qa-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.99 85.12" role="img" aria-label="QuantAI"><title>QuantAI</title><g transform="translate(0.000 0.000) scale(1.88489)"><rect x="0" y="36" width="20" height="8" fill="#0F1B2A"/><rect x="12" y="18" width="8" height="26" fill="#0F1B2A"/><rect x="12" y="18" width="16" height="8" fill="#0F1B2A"/><rect x="28" y="0" width="8" height="26" fill="#14655C"/><rect x="28" y="0" width="20" height="8" fill="#14655C"/></g><g transform="translate(117.45 78.82)"><path fill="#0F1B2A" fill-rule="nonzero" d="M38.48 0.98 C43.17 0.98 47.56 0.14 51.52 -1.47 L57.62 6.30 L70.12 6.30 L60.02 -6.69 C67.33 -13.03 71.83 -23.14 71.83 -36.33 C71.83 -59.86 57.52 -73.73 38.48 -73.73 C19.39 -73.73 5.03 -59.86 5.03 -36.33 C5.03 -12.89 19.39 0.98 38.48 0.98 Z M34.38 -24.27 L44.09 -11.47 C42.33 -10.98 40.44 -10.69 38.48 -10.69 C26.56 -10.69 18.11 -19.78 18.11 -36.33 C18.11 -52.98 26.56 -62.06 38.48 -62.06 C50.30 -62.06 58.69 -53.03 58.69 -36.33 C58.69 -27.39 56.30 -20.66 52.20 -16.36 L46.09 -24.27 L34.38 -24.27 Z M102.73 0.69 C110.64 0.69 116.36 -3.12 119.62 -10.94 L119.73 -0.00 L131.79 -0.00 L131.79 -54.59 L119.04 -54.59 L119.04 -22.61 C119.04 -14.70 114.15 -10.11 107.42 -10.11 C100.78 -10.11 96.73 -14.50 96.73 -21.83 L96.73 -54.59 L84.03 -54.59 L84.03 -19.88 C84.03 -6.73 91.50 0.69 102.73 0.69 Z M160.49 1.12 C168.99 1.12 174.17 -2.83 176.56 -7.52 L177.06 -7.52 L177.06 -0.00 L189.21 -0.00 L189.21 -36.47 C189.21 -51.03 177.20 -55.28 166.95 -55.28 C156.01 -55.28 147.03 -50.64 143.81 -41.02 L155.57 -38.62 C156.88 -42.23 160.65 -45.52 166.99 -45.52 C173.20 -45.52 176.51 -42.39 176.51 -37.06 L176.51 -36.81 C176.51 -33.06 172.51 -32.91 163.04 -31.89 C152.49 -30.77 142.24 -27.64 142.24 -15.33 C142.24 -4.59 150.10 1.12 160.49 1.12 Z M163.78 -8.30 C158.40 -8.30 154.54 -10.75 154.54 -15.48 C154.54 -20.45 158.84 -22.56 164.56 -23.34 C167.82 -23.78 174.90 -24.66 176.62 -26.03 L176.62 -19.58 C176.62 -13.53 171.59 -8.30 163.78 -8.30 Z M215.38 -31.98 C215.38 -39.89 220.26 -44.48 227.06 -44.48 C233.70 -44.48 237.70 -40.09 237.70 -32.77 L237.70 -0.00 L250.38 -0.00 L250.38 -34.72 C250.38 -47.86 242.96 -55.28 231.74 -55.28 C223.73 -55.28 218.07 -51.38 214.84 -43.70 L214.70 -54.59 L202.68 -54.59 L202.68 -0.00 L215.38 -0.00 L215.38 -31.98 Z M289.11 -54.59 L278.57 -54.59 L278.57 -67.58 L265.86 -67.58 L265.86 -54.59 L258.11 -54.59 L258.11 -44.62 L265.86 -44.62 L265.86 -14.31 C265.86 -4.64 271.68 0.73 282.13 0.73 C284.82 0.73 287.85 0.39 290.63 -0.44 L288.63 -10.25 C287.41 -9.97 285.16 -9.62 283.99 -9.62 C280.13 -9.62 278.57 -11.42 278.57 -15.38 L278.57 -44.62 L289.11 -44.62 L289.11 -54.59 Z M294.87 -0.00 L309.13 -0.00 L315.09 -18.02 L342.29 -18.02 L348.49 -0.00 L362.79 -0.00 L336.82 -72.75 L320.26 -72.75 L294.87 -0.00 Z M318.56 -28.52 L321.63 -37.80 C323.63 -44.28 325.84 -52.44 328.42 -62.59 C331.10 -52.55 333.40 -44.48 335.54 -37.80 L338.73 -28.52 L318.56 -28.52 Z M385.54 -72.75 L372.51 -72.75 L372.51 -0.00 L385.54 -0.00 L385.54 -72.75 Z"/></g></svg>
+    <div class="kicker">QuantAI · Portfolio Demonstration</div>
+    <h1>NorthStar Consulting, Meeting Intelligence Platform</h1>
+    <p class="muted">Turning about 120 meetings a week into one accountable memory: consistent records, actions that carry forward, and a dashboard managers can finally see, with a human reviewing everything before it is published.</p>
+    <div><span class="title-tag">Meeting taxonomy</span><span class="title-tag">Intelligence Assistant</span><span class="title-tag">Action registers</span><span class="title-tag">Human review</span></div>
+    <p class="muted" style="font-size:12.5px;margin-top:16px">A demonstration built around a representative client scenario · figures are modelled estimates under stated assumptions.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">The problem</div>
+    <h2>A memory problem, not a meeting problem</h2>
+    <ul>
+      <li>Minutes vary by team and can take <b>two hours</b> to prepare.</li>
+      <li>Actions are recorded <b>without owners or due dates</b>, so accountability is weak from the start.</li>
+      <li>Incomplete actions are <b>not carried forward</b>, so they quietly die.</li>
+      <li>Decisions and risks are <b>buried</b> in transcripts and personal notes.</li>
+      <li>Managers <b>cannot see</b> overdue actions across teams.</li>
+      <li>Client-confidential content is copied between tools <b>without a protocol</b>.</li>
+    </ul>
+    <p style="margin-top:10px">The tools are all there. What is missing is a consistent method, a shared accountable record, and a human in control of what gets published.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">The approach</div>
+    <h2>A method, an assistant, and registers</h2>
+    <div class="grid g3">
+      <div class="box teal"><b>Taxonomy &amp; standard</b><br><span class="muted">Five meeting types, one minimum record standard: summary, decisions, risks, actions</span></div>
+      <div class="box teal"><b>Intelligence Assistant</b><br><span class="muted">Transcript to a structured record in minutes; a human reviews and approves</span></div>
+      <div class="box teal"><b>Registers &amp; dashboard</b><br><span class="muted">Actions carried forward; overdue and stuck visible by team</span></div>
+    </div>
+    <p style="margin-top:14px"><b>Five-stage workflow:</b> intake, assistant draft, <b>human review</b>, publish, <b>follow-up</b>. Two stages are human by design and never automated: the review, and confirming every action's owner and due date.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">AI in action · the record</div>
+    <h2>Owned and dated, never guessed</h2>
+    <div class="demo">
+      <div class="email">
+        <div class="from">Transcript excerpt (input)</div>
+        "...ok so Priya you'll get the revised scope to Meridian by Friday. And someone needs to chase the vendor on that SLA thing. James raised the migration might slip past go-live, we should keep an eye on it..."
+      </div>
+      <div class="out">
+        <span class="badge">STRUCTURED RECORD · reviewer checklist</span>
+        <div class="mono">ACTIONS
+- Send revised scope to Meridian
+  Owner: Priya · Due: Fri 8 Aug
+- Chase vendor on SLA breach
+  Owner: [OWNER TO CONFIRM] · Due: [CONFIRM]
+
+RISKS
+- Migration may slip past go-live
+  Severity: [CONFIRM] · Owner: James
+
+&#9873; 1 action has no clear owner. Assigned
+ to nobody rather than guessed.
+&#9873; Nothing published until you approve.</div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:13px">The assistant pulls the actions out with owners and due dates where the transcript gives them, and <b>refuses to guess</b> the one that was left as "someone needs to." It flags it for the reviewer instead. That is what makes "90% of actions owned and dated" real rather than cosmetic. And nothing is published until a human approves.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">AI in action · the dashboard</div>
+    <h2>What was invisible is now on one screen</h2>
+    <div class="trk">
+      <div class="r h"><div>Action</div><div>Owner</div><div>Team</div><div>Carried</div><div>Status</div></div>
+      <div class="r red"><div>Send Kestrel proposal</div><div>Marco</div><div>Sales</div><div><span class="cf">3&times;</span></div><div><span class="st r2"><span class="d"></span>Overdue</span></div></div>
+      <div class="r red"><div>Send revised scope to Meridian</div><div>Priya</div><div>Delivery</div><div><span class="cf">2&times;</span></div><div><span class="st r2"><span class="d"></span>Overdue</span></div></div>
+      <div class="r red"><div>Communicate new delivery standard</div><div>Head of Consulting</div><div>Leadership</div><div><span class="cf">2&times;</span></div><div><span class="st r2"><span class="d"></span>Overdue</span></div></div>
+      <div class="r"><div>Close out Q2 risk actions</div><div>Sofia</div><div>PMO</div><div>1&times;</div><div><span class="st a"><span class="d"></span>Carried fwd</span></div></div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:13px">Every action from every meeting, with a computed status. The twenty-meeting pilot alone surfaced <b>six overdue and four stuck</b> items, including a proposal carried forward <b>three times</b>. The system did not create that backlog; it <b>revealed</b> it. Managers can filter by team, status or owner, and finally act on what is stuck.</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">Scenario results</div>
+    <h2>All five success measures met</h2>
+    <div class="grid g4">
+      <div class="stat"><div class="n">&lt;5 min</div><div class="l">To draft minutes</div></div>
+      <div class="stat"><div class="n">90%+</div><div class="l">Actions owned &amp; dated</div></div>
+      <div class="stat"><div class="n">80%</div><div class="l">Admin time ↓</div></div>
+      <div class="stat navy"><div class="n">~2,700</div><div class="l">Hrs / yr (scenario)</div></div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:13px">Plus: 90% of summaries usable with minor or no edits, and managers can see open, overdue and carried-forward actions by team. Tested on 20 meetings. The per-meeting measures are the robust results; the aggregate value is conservative and sizes the prize (it depends on how many of the 120 weekly meetings get a formal record).</p>
+  </div>
+
+  <div class="slide">
+    <div class="kicker">Governance &amp; what's delivered</div>
+    <h2>Trustworthy, because a human stays in control</h2>
+    <p><b>The lines we don't cross:</b> nothing is auto-published (a reviewer approves every record), no owner is ever invented (unassigned actions are flagged, not guessed), and client-confidential content follows a clear protocol inside approved tools.</p>
+    <div class="grid g2" style="margin-top:6px">
+      <div class="box"><b>Method &amp; design</b><br><span class="muted">Taxonomy · record standard · workflow · registers &amp; field mapping · dashboard spec · governance</span></div>
+      <div class="box"><b>Working assets</b><br><span class="muted">Assistant prompts &amp; Project · live dashboard prototype · minutes/digest/report templates · benefits model · 3 guides · GitHub repo</span></div>
+    </div>
+    <p style="margin-top:14px"><b>All shipped as a push-ready GitHub repo</b>, tested on twenty meetings, with a seven-week-plus-hypercare rollout plan. Happy to walk your team through adapting it.</p>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button class="prev" onclick="go(-1)">‹ Back</button>
+  <div class="dots" id="dots"></div>
+  <span class="stepno" id="stepno"></span>
+  <button class="next" onclick="go(1)">Next ›</button>
+</div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')];let i=0;const dots=document.getElementById('dots');
+  slides.forEach((_,n)=>{const d=document.createElement('div');d.className='dot'+(n===0?' on':'');d.onclick=()=>set(n);dots.appendChild(d);});
+  function set(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));document.getElementById('stepno').textContent=(i+1)+' / '+slides.length;}
+  function go(d){set(i+d)}
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1);});
+  set(0);
+</script>
+</body>
+</html>
