@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which AI for which task, Vertex Engineering decision tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1B2A; --navy:#1B2C42; --slate:#40536B; --graphite:#7A8899;
+    --line:#E7EBEF; --paper:#F6F5F1; --white:#FFFFFF;
+    --viridian:#14655C; --viridian400:#2E9C8E; --viridian050:#E5F8F5; --brass:#A9803E;
+    --good:#2E6F4E; --warn:#B4762A; --err:#9B2C2C; --assure:#2A5C86;
+    --serif:"Source Serif 4",Georgia,serif; --sans:"Inter",system-ui,sans-serif; --mono:"IBM Plex Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 24px 64px}
+  header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:28px}
+  .brand{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite)}
+  h1{font-family:var(--serif);font-weight:600;font-size:30px;line-height:1.15;margin:.35em 0 .15em}
+  .sub{color:var(--slate);font-size:15px;max-width:60ch}
+  .rot{margin:22px 0 26px;background:var(--white);border:1px solid var(--line);border-left:3px solid var(--viridian);border-radius:3px;padding:16px 18px}
+  .rot .lab{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--viridian);margin-bottom:6px}
+  .rot p{margin:0;font-size:15px;color:var(--navy)}
+  .guard{display:flex;gap:12px;align-items:flex-start;background:#FBEDED;border:1px solid #E4C4C4;border-radius:3px;padding:12px 14px;margin:0 0 26px}
+  .guard .dot{flex:0 0 auto;margin-top:3px;width:10px;height:10px;border-radius:2px;background:var(--err)}
+  .guard p{margin:0;font-size:13.5px;color:#5b2020}
+  .guard strong{color:var(--err)}
+  .panel{background:var(--white);border:1px solid var(--line);border-radius:4px;padding:24px}
+  .step{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--graphite)}
+  .prog{display:flex;gap:6px;margin:10px 0 18px}
+  .prog span{height:4px;flex:1;border-radius:2px;background:var(--line)}
+  .prog span.on{background:var(--viridian400)}
+  .q{font-family:var(--serif);font-size:21px;font-weight:600;line-height:1.25;margin:0 0 6px}
+  .qhint{color:var(--slate);font-size:14px;margin:0 0 18px}
+  .opts{display:flex;flex-wrap:wrap;gap:12px}
+  button.opt{font-family:var(--sans);font-size:15px;font-weight:500;color:var(--ink);background:var(--white);border:1px solid var(--line);border-radius:3px;padding:13px 20px;cursor:pointer;transition:border-color .12s,transform .12s,background .12s}
+  button.opt:hover{border-color:var(--viridian400);transform:translateY(-1px)}
+  button.opt.yes{}
+  .flagline{margin:16px 0 0;font-size:13px;color:var(--warn);display:none}
+  .flagline.show{display:block}
+  /* result */
+  .result{display:none}
+  .result.show{display:block}
+  .rtool{font-family:var(--serif);font-size:30px;font-weight:600;margin:2px 0 2px}
+  .rtag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--viridian);margin-bottom:8px}
+  .rwhy{color:var(--navy);font-size:15px;margin:0 0 4px}
+  .rbanner{display:none;margin:16px 0 0;background:#EAF1F7;border:1px solid #C6D8E6;border-radius:3px;padding:12px 14px;font-size:13.5px;color:#1f425f}
+  .rbanner.show{display:block}
+  .rbanner b{color:var(--assure)}
+  .again{margin-top:22px}
+  button.ghost{font-family:var(--sans);font-size:14px;font-weight:500;color:var(--viridian);background:transparent;border:1px solid var(--viridian);border-radius:3px;padding:9px 16px;cursor:pointer}
+  button.ghost:hover{background:var(--viridian050)}
+  /* matrix */
+  .matwrap{margin-top:34px}
+  .matwrap h2{font-family:var(--serif);font-size:19px;font-weight:600;margin:0 0 4px}
+  .matwrap .mh{color:var(--slate);font-size:13.5px;margin:0 0 14px}
+  details{border:1px solid var(--line);border-radius:4px;background:var(--white);overflow:hidden}
+  summary{cursor:pointer;padding:13px 16px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";float:right;color:var(--graphite)}
+  details[open] summary::after{content:"\2212"}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--graphite);font-weight:500}
+  td.p{color:var(--good);font-weight:600}
+  td.a{color:var(--slate)}
+  td.x{color:var(--err)}
+  .task{color:var(--ink);font-weight:500}
+  footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:var(--graphite);font-size:12px;font-family:var(--mono);letter-spacing:.04em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">QuantAI &middot; Vertex Engineering AI operating model</div>
+    <h1>Which AI for which task</h1>
+    <p class="sub">Three approved platforms, one deliberate choice. Answer up to four questions and land on a defensible tool in about ten seconds.</p>
+  </header>
+
+  <div class="rot">
+    <div class="lab">Rule of thumb</div>
+    <p>Copilot for work inside your Microsoft files and inbox. Claude for careful drafting, structure and review of long documents. ChatGPT for open-ended thinking, research framing and quick generation.</p>
+  </div>
+
+  <div class="guard">
+    <span class="dot"></span>
+    <p><strong>Out of bounds for every tool:</strong> engineering design, calculation, verification or certification. A qualified engineer owns and signs the technical work, unaided by AI on the engineering content. This tool is for the words and admin around the work, never the engineering itself.</p>
+  </div>
+
+  <div class="panel">
+    <!-- QUESTION VIEW -->
+    <div id="qview">
+      <div class="step" id="stepLabel">Question 1 of 4</div>
+      <div class="prog"><span id="p1"></span><span id="p2"></span><span id="p3"></span><span id="p4"></span></div>
+      <div class="q" id="qText"></div>
+      <div class="qhint" id="qHint"></div>
+      <div class="opts" id="opts"></div>
+      <div class="flagline" id="flag">Flagged as sensitive: your answer stays inside the firm's approved enterprise tools only.</div>
+    </div>
+
+    <!-- RESULT VIEW -->
+    <div class="result" id="rview">
+      <div class="rtag" id="rTag">Recommended</div>
+      <div class="rtool" id="rTool"></div>
+      <p class="rwhy" id="rWhy"></p>
+      <div class="rbanner" id="rBanner"><b>Confidentiality:</b> this material is sensitive, so use the approved enterprise tier only (Copilot in the tenant, ChatGPT Enterprise or Claude Team). Never a personal or free account.</div>
+      <div class="again"><button class="ghost" onclick="reset()">Start again</button></div>
+    </div>
+  </div>
+
+  <div class="matwrap">
+    <details>
+      <summary>Full approved-use matrix</summary>
+      <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Task</th><th>Copilot</th><th>Claude</th><th>ChatGPT</th><th>Primary choice and why</th></tr></thead>
+        <tbody>
+          <tr><td class="task">Summarise a Teams meeting you attended</td><td class="p">Primary</td><td class="x">Avoid</td><td class="x">Avoid</td><td>Copilot has the transcript and stays in-tenant</td></tr>
+          <tr><td class="task">Draft a reply inside Outlook</td><td class="p">Primary</td><td class="a">Also fine</td><td class="a">Also fine</td><td>Copilot has the thread; others need copy-paste</td></tr>
+          <tr><td class="task">Turn a messy Excel export into a status narrative</td><td class="p">Primary</td><td class="a">Also fine</td><td class="a">Also fine</td><td>Copilot reads the sheet directly</td></tr>
+          <tr><td class="task">Draft a long technical report section from an engineer's notes</td><td class="a">Also fine</td><td class="p">Primary</td><td class="a">Also fine</td><td>Claude is strongest at long, structured, careful drafting</td></tr>
+          <tr><td class="task">QA a report draft for structure, clarity and consistency</td><td class="x">Avoid</td><td class="p">Primary</td><td class="a">Also fine</td><td>Review-style work with a firm checklist; a human still signs</td></tr>
+          <tr><td class="task">Draft a proposal from a structured bid brief</td><td class="a">Also fine</td><td class="p">Primary</td><td class="a">Also fine</td><td>Long-form, reuse-heavy, consistency matters</td></tr>
+          <tr><td class="task">Brainstorm approaches to a client problem</td><td class="a">Also fine</td><td class="a">Also fine</td><td class="p">Primary</td><td>Open-ended generation, breadth of angles</td></tr>
+          <tr><td class="task">Research framing and background reading structure</td><td class="x">Avoid</td><td class="a">Also fine</td><td class="p">Primary</td><td>Fast, broad, good for scoping (verify all facts)</td></tr>
+          <tr><td class="task">Rewrite text to a firm tone or shorter length</td><td class="a">Also fine</td><td class="p">Primary</td><td class="a">Also fine</td><td>Claude holds voice and structure well</td></tr>
+          <tr><td class="task">Draft internal policy or process documentation</td><td class="a">Also fine</td><td class="p">Primary</td><td class="a">Also fine</td><td>Structured, reusable, review-bound</td></tr>
+          <tr><td class="task">Engineering design, calculation, verification or certification</td><td class="x">Avoid</td><td class="x">Avoid</td><td class="x">Avoid</td><td>Out of bounds. A qualified engineer owns it, unaided by AI on the technical content</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </details>
+  </div>
+
+  <footer>QuantAI brand v1.0 &middot; Demonstration built around a representative client scenario &middot; quantai.com.au</footer>
+</div>
+
+<script>
+  var sensitive=false;
+  var TOOLS={
+    copilot:{name:"Microsoft Copilot",why:"The task works on your Microsoft content, so Copilot already has the context (your mail, files, Teams) and keeps the data inside the firm tenant."},
+    claude:{name:"Claude",why:"It is a long or high-stakes document that needs careful structure, consistency and review. Claude is strongest at long-form drafting and review-style work. A person still owns and signs the final."},
+    chatgpt:{name:"ChatGPT",why:"It is open-ended: brainstorming, research framing, a first draft or a quick reformat. ChatGPT is fast, flexible and broad. Verify any facts before you rely on them."},
+    thumb:{name:"Use the rule of thumb",why:"Your task did not land cleanly on one path. Fall back to the rule of thumb above, or ask an AI Champion. When it is genuinely a toss-up, either approved tool is fine."}
+  };
+  var STEPS=[
+    {n:1,q:"Is the material confidential, client-identifying, or commercially sensitive?",
+     hint:"Client names, project detail, commercial terms, personal information, or any internal document.",
+     opts:[{t:"Yes",go:function(){sensitive=true;show(2);flag(true);}},
+           {t:"No",go:function(){show(2);}}]},
+    {n:2,q:"Does the task work on your Microsoft content?",
+     hint:"An email, a Teams thread, a Word or Excel file, or a meeting you attended.",
+     opts:[{t:"Yes",go:function(){result('copilot');}},
+           {t:"No",go:function(){show(3);}}]},
+    {n:3,q:"Is it a long or high-stakes document that needs careful structure and review?",
+     hint:"A report, a proposal, a governance paper, policy or process documentation.",
+     opts:[{t:"Yes",go:function(){result('claude');}},
+           {t:"No",go:function(){show(4);}}]},
+    {n:4,q:"Is it open-ended work?",
+     hint:"Brainstorming, research framing, a first-draft generation or a quick reformat.",
+     opts:[{t:"Yes",go:function(){result('chatgpt');}},
+           {t:"No",go:function(){result('thumb');}}]}
+  ];
+  function el(id){return document.getElementById(id);}
+  function flag(on){el('flag').className = on ? 'flagline show' : 'flagline';}
+  function show(n){
+    var s=STEPS[n-1];
+    el('stepLabel').textContent="Question "+n+" of 4";
+    el('qText').textContent=s.q;
+    el('qHint').textContent=s.hint;
+    for(var i=1;i<=4;i++){el('p'+i).className = (i<=n)?'on':'';}
+    var box=el('opts');box.innerHTML='';
+    s.opts.forEach(function(o){
+      var b=document.createElement('button');
+      b.className='opt';b.textContent=o.t;b.onclick=o.go;box.appendChild(b);
+    });
+    el('qview').style.display='block';
+    el('rview').className='result';
+  }
+  function result(key){
+    var t=TOOLS[key];
+    el('rTool').textContent=t.name;
+    el('rWhy').textContent=t.why;
+    el('rTag').textContent = key==='thumb' ? 'No single answer' : 'Recommended';
+    el('rBanner').className = sensitive ? 'rbanner show' : 'rbanner';
+    el('qview').style.display='none';
+    el('rview').className='result show';
+  }
+  function reset(){sensitive=false;flag(false);show(1);}
+  reset();
+</script>
+</body>
+</html>
