@@ -110,7 +110,7 @@
 <!-- HERO -->
 <header class="hero" id="top"><div class="wrap">
   <div class="eyebrow">QuantAI · Fractional AI operations · Melbourne</div>
-  <h1>We redesign how your business actually works with AI.</h1>
+  <h1>Redesign how your business actually works with AI.</h1>
   <p class="lead">I help professional services firms find the workflows worth changing, design practical AI into them, and get teams genuinely using it. Less admin, more consistent quality, and a qualified human kept in charge of the decisions that matter.</p>
   <div class="btnrow">
     <a class="btn primary" href="mailto:dave@quantai.com.au?subject=QuantAI%20enquiry">Email me</a>
@@ -262,9 +262,24 @@
   <div>
     <div style="color:#c7d0dc;font-weight:600">QuantAI · Dave Richardson</div>
     <div><a href="mailto:dave@quantai.com.au">dave@quantai.com.au</a> · <a href="https://github.com/R0ckard/QuantAI">github.com/R0ckard/QuantAI</a> · Melbourne, Australia</div>
-    <div class="note">The five worked examples are demonstration engagements built around representative client scenarios, not paid client work. Figures are modelled estimates under stated assumptions. My own products and tools are real projects at various stages.</div>
   </div>
 </div></footer>
 
+<script>
+document.querySelectorAll('a.btn[href^="mailto:"]').forEach(function(a){
+  a.addEventListener('click', function(){
+    var addr = 'dave@quantai.com.au';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(addr).then(function(){
+        var t = a.textContent;
+        a.textContent = 'Copied ' + addr;
+        setTimeout(function(){ a.textContent = t; }, 2400);
+      }, function(){ a.textContent = addr; });
+    } else {
+      a.textContent = addr;
+    }
+  });
+});
+</script>
 </body>
 </html>
