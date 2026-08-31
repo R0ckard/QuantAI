@@ -92,6 +92,21 @@
   .note{color:#7a8899;font-size:12px;max-width:70ch;margin-top:8px}
   @media(max-width:820px){.g4,.g3{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.hero h1{font-size:34px}}
   @media(max-width:520px){.g4,.g3,.g2{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
+  /* where to start */
+  .start{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:30px;align-items:stretch}
+  .start .panel{background:#fff;border:1px solid var(--line);border-radius:6px;padding:22px 24px}
+  .start ol{margin:10px 0 0;padding-left:20px;color:var(--slate);font-size:15px}
+  .start ol li{margin-bottom:10px}
+  .start ol li:last-child{margin-bottom:0}
+  .start .price{background:var(--viridian050);border:1px solid var(--viridian400);border-radius:6px;padding:22px 24px}
+  .start .price .fig{font-family:var(--qa-display);font-weight:700;font-size:38px;color:var(--ink);line-height:1;margin:0}
+  .start .price .sub{font-family:var(--qa-mono);font-size:11.5px;color:var(--viridian);letter-spacing:.06em;text-transform:uppercase;margin:6px 0 14px}
+  .start .price p{color:var(--slate);font-size:14.5px;margin:0 0 18px}
+  .start .price .btn.primary{background:var(--viridian);color:#fff}
+  .start .price .btn.primary:hover{background:var(--viridian400);color:#08221f}
+  .start .price .btn.ghost{border:1px solid var(--viridian400);color:var(--viridian)}
+  .start .price .btn.ghost:hover{border-color:var(--viridian)}
+  @media(max-width:820px){.start{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -103,6 +118,7 @@
     <a href="#build" class="hide">What I build</a>
     <a href="#help" class="hide">What I help with</a>
     <a href="#work" class="hide">Worked examples</a>
+    <a href="#start" class="hide">Where to start</a>
     <a href="#contact" class="cta">Get in touch</a>
   </div>
 </div></div>
@@ -229,6 +245,36 @@
       <div class="links"><a href="01_brightpath-ai-operating-system/case-study/index.html">Case study</a><a href="01_brightpath-ai-operating-system/walkthrough/demo.html">Walkthrough</a><a href="https://github.com/R0ckard/QuantAI/tree/main/01_brightpath-ai-operating-system">Source</a></div>
     </div>
   </div>
+</div></section>
+
+<!-- WHERE TO START -->
+<section id="start"><div class="wrap">
+  <div class="sec-head">
+    <div class="kick">Where to start</div>
+    <h2>Start with an assessment, not a project.</h2>
+    <p>You don't need to commit to a programme of work to find out whether any of this is worth doing. I spend 45 minutes with you, write back the workflows worth changing and the ones I'd leave alone, and build the first one so you can see it running.</p>
+  </div>
+  <div class="start">
+    <div class="panel">
+      <div class="subhead" style="margin-top:0">What happens</div>
+      <ol>
+        <li>A 45 minute session with you, or whoever actually runs the work. Recorded, so nothing gets lost.</li>
+        <li>A written assessment: the workflows worth changing, the ones I'd leave alone, and what each one is costing you now.</li>
+        <li>The first automation built, so you see one thing working instead of reading about seven.</li>
+        <li>Half an hour to walk through it and decide what happens next.</li>
+      </ol>
+    </div>
+    <div class="price">
+      <p class="fig">$995</p>
+      <p class="sub">Fixed. Nothing hourly.</p>
+      <p>If I can't find you at least five hours a week worth getting back, you don't pay.</p>
+      <div class="btnrow">
+        <a class="btn primary" href="https://calendly.com/dave-quantai/zoom-meeting" target="_blank" rel="noopener">Book a call</a>
+        <a class="btn ghost" href="mailto:dave@quantai.com.au?subject=Workflow%20assessment">Email me</a>
+      </div>
+    </div>
+  </div>
+  <p class="note">Running an agency? I do the same work white-labelled, quoted to you and sold under your own name. Say so when you get in touch.</p>
 </div></section>
 
 <!-- APPROACH -->
