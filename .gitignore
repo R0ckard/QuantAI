@@ -5,3 +5,10 @@ __pycache__/
 .venv/
 venv/
 *.tmp
+
+# Admin Load Check local pipeline (never committed)
+tools/data/
+tools/out/
+node_modules/
+.env
+.dev.vars

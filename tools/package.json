@@ -1,0 +1,10 @@
+{
+  "name": "admin-load-check-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local pipeline for the Admin Load Check. Never deployed.",
+  "scripts": {
+    "test": "node --test"
+  }
+}
