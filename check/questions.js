@@ -1,5 +1,7 @@
 // The Admin Load Check · question schema v1.0
-// Built from questionnaire.md. Wording is verbatim and must stay that way.
+// Built from questionnaire.md, plus Dave's edits from the 3 Sep 2026 phone test
+// (company name, business development, specialist software, repeat emails,
+// multiple checkers, building the business). Do not reword without him.
 // Each option is [code, label]. The code is what the scoring model reads.
 
 export const SECTIONS = [
@@ -15,7 +17,7 @@ export const SECTIONS = [
 export const QUESTIONS = [
   // Section 1 · About your firm
   { id: '1.1', section: 1, type: 'text', label: 'Your name', autocomplete: 'name' },
-  { id: '1.2', section: 1, type: 'text', label: 'Firm name', autocomplete: 'organization' },
+  { id: '1.2', section: 1, type: 'text', label: 'Company name', autocomplete: 'organization' },
   { id: '1.3', section: 1, type: 'text', label: 'Your role', autocomplete: 'organization-title' },
   { id: '1.4', section: 1, type: 'email', label: 'Your email', autocomplete: 'email' },
   { id: '1.5', section: 1, type: 'phone', label: 'Your phone', optional: true, autocomplete: 'tel',
@@ -41,6 +43,7 @@ export const QUESTIONS = [
     ['BILL', 'Invoicing and billing write ups'],
     ['TRIAGE', 'Sorting and triaging what comes in'],
     ['COMPL', 'Compliance records and file notes'],
+    ['BIZDEV', 'Business development or lead generation'],
     ['OTH', 'Something else'],
   ] },
   { id: '2.2', section: 2, type: 'single', label: 'Across everybody, roughly how many hours a week go into that?',
@@ -56,7 +59,7 @@ export const QUESTIONS = [
   ] },
   { id: '2.5', section: 2, type: 'multi', label: 'Where does the work already live?', options: [
     ['SYS_PM', 'Practice or job management system'], ['SYS_CRM', 'CRM'], ['SYS_ACC', 'Xero, MYOB or similar'],
-    ['SYS_MS', 'Microsoft 365'], ['SYS_G', 'Google Workspace'], ['SYS_XL', 'Spreadsheets'],
+    ['SYS_SPEC', 'Specialist software for your industry'], ['SYS_MS', 'Microsoft 365 or SharePoint'], ['SYS_G', 'Google Workspace'], ['SYS_XL', 'Spreadsheets'],
     ['SYS_MAIL', 'Email and nothing else'], ['SYS_PAPER', 'Paper'], ['OTH', 'Something else'],
   ] },
 
@@ -64,7 +67,8 @@ export const QUESTIONS = [
   { id: '3.1', section: 3, type: 'multi', label: 'Which documents get written over and over?', options: [
     ['DOC_NOTE', 'File notes or meeting notes'], ['DOC_REP', 'Client reports'], ['DOC_QUOTE', 'Quotes or proposals'],
     ['DOC_BILL', 'Billing narrations or time write ups'], ['DOC_CAND', 'Candidate or applicant summaries'],
-    ['DOC_COMP', 'Compliance or audit records'], ['DOC_STAT', 'Status updates to clients'], ['DOC_NONE', 'None of these'],
+    ['DOC_COMP', 'Compliance or audit records'], ['DOC_STAT', 'Status updates to clients'],
+    ['DOC_EMAIL', 'Emails that say the same thing every time'], ['DOC_NONE', 'None of these'],
   ], exclusive: 'DOC_NONE' },
   { id: '3.2', section: 3, type: 'single', label: 'How long does one of them take, start to finish?', options: [
     ['T10', 'Under 15 minutes'], ['T22', '15 to 30 minutes'], ['T45', '30 to 60 minutes'], ['T90', '1 to 2 hours'], ['T150', 'Over 2 hours'],
@@ -72,10 +76,10 @@ export const QUESTIONS = [
   { id: '3.3', section: 3, type: 'single', label: 'How many go out a week across the firm?', options: [
     ['N3', 'Under 5'], ['N12', '5 to 20'], ['N35', '20 to 50'], ['N75', '50 to 100'], ['N130', 'Over 100'],
   ] },
-  { id: '3.4', section: 3, type: 'single', label: 'Who checks one before it leaves?', options: [
+  { id: '3.4', section: 3, type: 'multi', label: 'Who checks one before it leaves?', options: [
     ['CHK_NONE', 'Nobody'], ['CHK_SELF', 'Whoever wrote it'], ['CHK_SNR', 'A senior'],
     ['CHK_PTR', 'Partner or director sign off'], ['CHK_VAR', 'Depends on the document'],
-  ] },
+  ], exclusive: 'CHK_NONE' },
 
   // Section 4 · The numbers
   { id: '4.1', section: 4, type: 'single', label: 'What does an hour of the person doing that work cost the firm?',
@@ -94,7 +98,8 @@ export const QUESTIONS = [
   ] },
   { id: '4.5', section: 4, type: 'single', label: 'If you got those hours back, what would they go on?', options: [
     ['U_CLIENT', 'More client work'], ['U_OT', 'Less overtime'], ['U_HIRE', 'Not making the next hire'],
-    ['U_GROW', 'Taking on more clients'], ['U_UNSURE', 'Honestly not sure'],
+    ['U_GROW', 'Taking on more clients'], ['U_BUILD', 'Building the business'], ['U_UNSURE', 'Honestly not sure'],
+    ['U_OTH', 'Something else'],
   ] },
 
   // Section 5 · Your situation

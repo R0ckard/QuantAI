@@ -122,9 +122,9 @@ function renderIntro(root) {
       <div><b>2 days</b><span>To get your report back.</span></div>
       <div><b>$0</b><span>No obligation, no follow up call.</span></div>
     </div>
-    <div class="intro-quote">There are no right answers here and nothing gets checked against you. The closer your answers are, the more useful your report is. I read every one of these myself before it goes back to you.</div>
+    <div class="intro-quote">There are no right answers here and nothing gets checked against you. The closer your answers are, the more useful your report is. Dave reads every one of these himself before it goes back to you.</div>
     <div class="actions"><span></span><button class="btn primary" id="next">Start the check</button></div>
-    <p class="meta">Your answers are used to write your report and nothing else. Reply to the email that brings it and I'll delete them.</p>`;
+    <p class="meta">Your answers are used to write your report and nothing else. Reply to the email that brings it and Dave will delete them.</p>`;
   $('#next').addEventListener('click', () => go(state.screen + 1));
 }
 
@@ -304,7 +304,7 @@ function renderSubmit(root) {
   const stub = !CONFIG.API_BASE;
   root.innerHTML = `<p class="kick">That's all ${QUESTION_COUNT}</p>
     <h1>Send it and see your number.</h1>
-    <p class="lead">Your estimate comes up on the next screen straight away. The written version, checked by me, goes to <b>${esc(state.answers['1.4'])}</b> inside two business days.</p>
+    <p class="lead">Your estimate comes up on the next screen straight away. The written version, checked by Dave, goes to <b>${esc(state.answers['1.4'])}</b> inside two business days.</p>
     <div id="ts" class="turnstile"></div>
     <div class="actions"><button type="button" class="btn ghost" id="back">Back</button><button type="button" class="btn primary" id="send">Send my answers</button></div>
     <p class="meta">Your answers are used to write your report and nothing else.</p>`;
@@ -380,16 +380,16 @@ function renderResults(root) {
     <h1>What the repeat work is costing ${esc(state.answers['1.2'] || 'the firm')}.</h1>
     ${e ? `<div class="figure"><p class="label">Recoverable, a year</p><p class="big">${formatAUD(e.recoverableLow)} to ${formatAUD(e.recoverableHigh)}</p><p class="sub">Said in hours, that's ${e.hoursLow} to ${e.hoursHigh} a year.</p></div>
     <p class="line">The part carrying most of it is <b>${esc(e.gapLabel.toLowerCase())}</b>.</p>` : '<p class="line">I couldn\'t build the number from what came through, so I\'ll work it out by hand for the written version.</p>'}
-    ${failed ? `<div class="error"><p><b>One snag.</b> Your answers didn't reach me, so nothing's on its way yet. Easiest fix: the button below opens an email with your answers already in it. Hit send and I've got them.</p><p><a class="btn primary" href="${mail}">Email my answers to Dave</a></p><p>Or write to <a href="mailto:${CONFIG.CONTACT_EMAIL}">${CONFIG.CONTACT_EMAIL}</a> and I'll sort it.</p></div>`
-      : stub ? `<div class="panel"><p><b>One more tap.</b> The button below opens an email with your answers already in it. Hit send and they're with me.</p><p><a class="btn primary" href="${mail}">Email my answers to Dave</a></p></div>`
-      : `<div class="panel"><p><b>The written version is on its way.</b> I go through the answers and check the report myself before it goes anywhere, so give me two business days rather than two minutes. It comes from ${CONFIG.CONTACT_EMAIL} with a PDF attached.</p><p>If anything's changed since you filled it in, reply to the confirmation email and it'll reach me.</p></div>`}
+    ${failed ? `<div class="error"><p><b>One snag.</b> Your answers didn't reach Dave, so nothing's on its way yet. Easiest fix: the button below opens an email with your answers already in it. Hit send and he's got them.</p><p><a class="btn primary" href="${mail}">Email my answers to Dave</a></p><p>Or write to <a href="mailto:${CONFIG.CONTACT_EMAIL}">${CONFIG.CONTACT_EMAIL}</a> and he'll sort it.</p></div>`
+      : stub ? `<div class="panel"><p><b>One more tap.</b> The button below opens an email with your answers already in it. Hit send and they're with Dave.</p><p><a class="btn primary" href="${mail}">Email my answers to Dave</a></p></div>`
+      : `<div class="panel"><p><b>The written version is on its way.</b> Dave goes through the answers and checks the report himself before it goes anywhere, so give him two business days rather than two minutes. It comes from ${CONFIG.CONTACT_EMAIL} with a PDF attached.</p><p>If anything's changed since you filled it in, reply to the confirmation email and it'll reach him.</p></div>`}
     <p class="meta">This is an estimate built from the bands you picked, using conservative midpoints, and it's deliberately shown as a range. It tells you the scale. The written version says where the figure comes from and what it doesn't cover.</p>
     <p class="meta"><a href="/">Back to quantai.com.au</a> · <a href="#" id="again">Start again</a></p>`;
   $('#again').addEventListener('click', ev => { ev.preventDefault(); clearSaved(); location.href = location.pathname; });
 }
 
 function mailtoLink() {
-  const lines = [`Admin Load Check answers`, `Session ${state.sessionId}`, state.src ? `Source ${state.src}${state.ref ? ' via ' + state.ref : ''}` : '', ''];
+  const lines = ['Hi Dave,', '', 'Here are my Admin Load Check answers.', ''];
   for (const q of QUESTIONS) {
     const v = state.answers[q.id];
     const text = Array.isArray(v) ? v.map(c => optionLabel(q.id, c)).join('; ') : (q.options ? optionLabel(q.id, v) : (v || ''));
@@ -397,6 +397,7 @@ function mailtoLink() {
     const p = state.probes[q.id];
     if (p && p.question) lines.push(`  Follow up: ${p.question}`, `  ${p.answer || '(skipped)'}`);
   }
+  lines.push('', `Reference ${state.sessionId}${state.src ? ' · via ' + state.src + (state.ref ? ' (' + state.ref + ')' : '') : ''}`);
   return `mailto:${CONFIG.CONTACT_EMAIL}?subject=${encodeURIComponent('Admin Load Check · ' + (state.answers['1.2'] || ''))}&body=${encodeURIComponent(lines.join('\n'))}`;
 }
 

@@ -1,0 +1,24 @@
+# The Admin Load Check · Cloudflare Worker
+# Secrets are NOT here. Set them with `npx wrangler secret put <NAME>`:
+#   ANTHROPIC_API_KEY   the two adaptive follow up questions
+#   RESEND_API_KEY      confirmation email to them, alert email to Dave
+#   TURNSTILE_SECRET    spam check on submit (site key goes in check/config.js)
+#   PULL_TOKEN          long random string the local CLI sends as a bearer token
+name = "quantai-check"
+main = "src/index.js"
+compatibility_date = "2026-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# Browsers on these origins may call the worker. Comma separated.
+ALLOWED_ORIGINS = "https://quantai.com.au,https://www.quantai.com.au,http://127.0.0.1:8766,http://localhost:8766"
+# Resend only sends from a verified domain. send.quantai.com.au is verified; quantai.com.au itself is not (yet).
+RESEND_FROM = "Dave Richardson, QuantAI <dave@send.quantai.com.au>"
+REPLY_TO = "dave@quantai.com.au"
+ALERT_TO = "dave@quantai.com.au"
+
+[[kv_namespaces]]
+binding = "SUBMISSIONS"
+# Create it once with: npx wrangler kv namespace create SUBMISSIONS
+# then paste the id it prints here.
+id = "REPLACE_WITH_KV_NAMESPACE_ID"

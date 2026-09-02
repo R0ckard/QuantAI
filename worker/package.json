@@ -1,0 +1,19 @@
+{
+  "name": "quantai-check-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker behind the Admin Load Check. Holds the keys, scores, stores, emails.",
+  "scripts": {
+    "test": "node --test",
+    "dev": "wrangler dev",
+    "deploy": "npm test && wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.123.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.128.0"
+  }
+}
