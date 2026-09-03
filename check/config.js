@@ -6,10 +6,10 @@ export const CONFIG = {
   // Base URL of the Cloudflare Worker, no trailing slash. Leave empty until
   // the worker is deployed: the page then runs in stub mode and hands the
   // answers to Dave by email instead.
-  API_BASE: '',
+  API_BASE: 'https://quantai-check.dave-70b.workers.dev',
 
   // Cloudflare Turnstile site key (public). Empty means no Turnstile.
-  TURNSTILE_SITE_KEY: '',
+  TURNSTILE_SITE_KEY: '0x4AAAAAAElaKls_emQrrRAM',
 
   // Where errors point people.
   CONTACT_EMAIL: 'dave@quantai.com.au',
