@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8">
+<title>Admin Load Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@page{size:A4;margin:0}
+:root{--ink:#0F1B2A;--navy:#1B2C42;--slate:#40536B;--graphite:#7A8899;--line:#E7EBEF;--paper:#F6F5F1;--viridian:#14655C;--viridian400:#2E9C8E;--wash:#E5F8F5;--brass:#A9803E}
+*{box-sizing:border-box}
+body{margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:"Source Serif 4",Caladea,Cambria,Georgia,serif;color:var(--ink);font-size:10.6pt;line-height:1.52}
+.sans{font-family:Inter,Carlito,Calibri,Arial,sans-serif}
+/* cover */
+.cover{position:relative;width:210mm;height:297.1mm;margin:0;padding:26mm 20mm;overflow:hidden;background:var(--ink);color:#fff;box-sizing:border-box;position:relative;page-break-after:always}
+.cover .mark{display:block;margin-bottom:28mm}
+.cover .eyebrow{font-family:Inter,Carlito,Calibri,sans-serif;font-size:9pt;letter-spacing:.18em;text-transform:uppercase;color:var(--viridian400);font-weight:700;margin:0 0 6mm}
+.cover h1{font-size:30pt;line-height:1.1;font-weight:700;margin:0 0 8mm;max-width:20ch;letter-spacing:-.01em}
+.cover .for{font-family:Inter,Carlito,Calibri,sans-serif;font-size:11.5pt;color:#dbe2ec;margin:0}
+.cover .for b{color:#fff}
+.cover .foot{position:absolute;left:20mm;right:20mm;bottom:22mm;font-family:Inter,Carlito,Calibri,sans-serif;font-size:8.6pt;color:#9fb0c4;border-top:1px solid rgba(255,255,255,.18);padding-top:5mm}
+/* pages */
+.page{page-break-after:always;padding:18mm 16mm;width:210mm;min-height:297mm}
+.page:last-child{page-break-after:auto}
+.kick{font-family:Inter,Carlito,Calibri,sans-serif;font-size:8.4pt;letter-spacing:.16em;text-transform:uppercase;color:var(--viridian);font-weight:700;margin:0 0 2mm;break-after:avoid}
+h2{font-size:16pt;font-weight:700;margin:0 0 4mm;letter-spacing:-.01em;break-after:avoid}
+h3{font-size:11.4pt;font-weight:700;margin:7mm 0 2mm;break-after:avoid}
+p{margin:0 0 3.4mm}
+.lead{font-size:11.6pt;color:var(--slate)}
+.rule{border:0;border-top:1px solid var(--line);margin:7mm 0}
+/* figure block */
+.figure{border:1px solid var(--line);border-left:3px solid var(--viridian);background:#fff;padding:6mm 7mm;margin:5mm 0}
+.figure .label{font-family:Inter,Carlito,Calibri,sans-serif;font-size:8.4pt;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite);font-weight:700;margin:0 0 2mm}
+.figure .big{font-size:26pt;font-weight:700;color:var(--ink);line-height:1.05;margin:0 0 2mm;letter-spacing:-.02em}
+.figure .sub{font-family:Inter,Carlito,Calibri,sans-serif;font-size:9.6pt;color:var(--slate);margin:0}
+/* table */
+table{width:100%;border-collapse:collapse;margin:4mm 0;font-family:Inter,Carlito,Calibri,sans-serif;font-size:9.6pt}
+th{background:var(--navy);color:#fff;text-align:left;padding:2.6mm 3mm;font-weight:600}
+td{border-bottom:1px solid var(--line);padding:2.6mm 3mm;color:var(--slate)}
+td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+tr.total td{border-top:1px solid var(--ink);border-bottom:0;color:var(--ink);font-weight:700}
+/* callout */
+.callout{background:var(--wash);border:1px solid #cfeae5;padding:5mm 6mm;margin:5mm 0;color:#0E4B45}
+.callout p:last-child{margin-bottom:0}
+.plain-box{background:var(--paper);border:1px solid var(--line);padding:5mm 6mm;margin:5mm 0}
+.plain-box p:last-child{margin-bottom:0}
+.quote{border-left:3px solid var(--brass);padding:1mm 0 1mm 5mm;margin:5mm 0;color:var(--ink);font-style:italic}
+.meta{font-family:Inter,Carlito,Calibri,sans-serif;font-size:8.6pt;color:var(--graphite)}
+ul{margin:0 0 3.4mm;padding-left:5mm}
+li{margin-bottom:1.6mm}
+.pricerow{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding:3mm 0}
+.pricerow b{font-size:13pt}
+.flag{border-left:3px solid var(--brass);padding:1mm 0 1mm 5mm;margin:4mm 0}
+</style></head>
+<body>
+
+<!-- ===================== COVER ===================== -->
+<div class="cover">
+  <svg class="mark" width="48" height="44" viewBox="0 0 48 44" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="36" width="20" height="8" fill="#FFFFFF"/>
+    <rect x="12" y="18" width="8" height="26" fill="#FFFFFF"/>
+    <rect x="12" y="18" width="16" height="8" fill="#FFFFFF"/>
+    <rect x="28" y="0" width="8" height="26" fill="#2E9C8E"/>
+    <rect x="28" y="0" width="20" height="8" fill="#2E9C8E"/>
+  </svg>
+  <p class="eyebrow">Admin Load Check</p>
+  <h1>What the repeat work is costing {{FIRM}}</h1>
+  <p class="for">Prepared for <b>{{NAME}}</b>, {{ROLE}}<br>{{DATE}}</p>
+  <div class="foot">QuantAI · Dave Richardson · dave@quantai.com.au<br>
+  Written for {{FIRM}} from the answers you gave me. Free, no obligation, and not for anyone outside your firm.</div>
+</div>
+
+<!-- ===================== PAGE 2 ===================== -->
+<div class="page">
+  <p class="kick">What you told me</p>
+  <h2>Where the week goes at {{FIRM}}</h2>
+  <p class="lead">{{RECAP}}</p>
+
+  <hr class="rule">
+
+  <p class="kick">What it costs</p>
+  <div class="figure">
+    <p class="label">Recoverable, a year</p>
+    <p class="big">{{LOW}} to {{HIGH}}</p>
+    <p class="sub">The slice of the repeat work you could reasonably expect to get back. Behind it sit {{HOURS_LOW}} to {{HOURS_HIGH}} hours a year.</p>
+  </div>
+
+  <table>
+    <tr><th>How that is built</th><th style="text-align:right">Figure</th></tr>
+    <tr><td>Hours a week on repeat work, across the firm</td><td class="num">{{HOURS_WEEK}}</td></tr>
+    <tr><td>What an hour of that time costs you</td><td class="num">{{HOURLY}}</td></tr>
+    <tr><td>Working weeks assumed</td><td class="num">46</td></tr>
+    <tr class="total"><td>The repeat work, a year</td><td class="num">{{TOTAL}}</td></tr>
+  </table>
+  <p class="meta">Midpoints of the bands you picked. Forty six weeks is 52 less leave and public holidays. The recoverable range above is 20% to 40% of that total, which is the honest span for a first pass at this kind of work.</p>
+  <p class="flag">{{CROSS_CHECK}}</p>
+
+  <h3>The part carrying most of it</h3>
+  <p>{{GAP_LINE}}</p>
+  <p>{{DUP_LINE}}</p>
+</div>
+
+<!-- ===================== PAGE 3 ===================== -->
+<div class="page">
+  <p class="kick">Being straight with you</p>
+  <h2>What this is, and what it isn't</h2>
+  <div class="plain-box">
+    <p>{{HONESTY}}</p>
+    <p>The other thing it isn't is a plan. I've named what the repeat work costs you and which part of it is heaviest. I haven't told you how to fix it, and that's deliberate rather than coy. Working out what to change, in what order, in the systems you already run, takes a proper look at those systems. That's the paid piece below and I'd rather say so here than dangle it.</p>
+  </div>
+
+  <!--PRICE-->
+  <h3>If you want the verified version</h3>
+  <p>The workflow assessment takes the estimate above and turns it into something you could act on.</p>
+  <ul>
+    <li>A 45 minute session with you or your practice manager, recorded.</li>
+    <li>A written assessment: which workflows are worth changing, which ones AI should stay well away from, what each is costing now, and where to start.</li>
+    <li>The first automation built and running, so you finish with one working thing instead of seven recommendations.</li>
+    <li>A 30 minute session to walk you through it.</li>
+  </ul>
+  <div class="pricerow"><span>Workflow assessment, fixed price</span><b>$995</b></div>
+  <div class="callout">
+    <p><b>The guarantee.</b> You finish with at least one thing built and running, or you don't pay. That's a promise about what I hand over, not a promise about hours saved, because the second one isn't mine to make.</p>
+  </div>
+  <!--/PRICE-->
+
+  <h3>Your words, not mine</h3>
+  <div class="quote">{{THEIR_WORDS}}</div>
+  <p>{{CLOSE}}</p>
+
+  <hr class="rule">
+  <p class="meta">QuantAI · Dave Richardson · dave@quantai.com.au · quantai.com.au<br>
+  Your answers were used to write this and nothing else. Reply to the email that brought it and I'll delete them.</p>
+</div>
+
+</body></html>

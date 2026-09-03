@@ -3,8 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Local pipeline for the Admin Load Check. Never deployed.",
+  "description": "Local pipeline for the Admin Load Check: pull, draft, render, send. Runs on Dave's Mac, never deployed.",
   "scripts": {
+    "pull": "node pull.js",
+    "draft": "node draft.js",
+    "render": "node render.js",
+    "send": "node send.js",
     "test": "node --test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.123.0"
   }
 }
