@@ -12,7 +12,7 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 import { QUESTIONS, byId, isValidAnswer, optionLabel } from '../../check/questions.js';
-import { score, qualify, publicEstimate, formatAUD } from '../../check/model.js';
+import { score, qualify, publicEstimate } from '../../check/model.js';
 import { MODELS, PROBE_SYSTEM, probeMessages, cleanProbe } from './ai.js';
 import { confirmationEmail, alertEmail } from './emails.js';
 
@@ -190,10 +190,10 @@ async function submit(request, env, ctx) {
 
   if (env.RESEND_API_KEY) {
     const conf = confirmationEmail({ name: answers['1.1'] });
-    const alert = alertEmail({ id, answers, probes, scored, qualification, estimate, src: record.src, ref: record.ref, fmt: formatAUD });
+    const alert = alertEmail({ id, answers, probes, scored, qualification, estimate, src: record.src, ref: record.ref, receivedAt: record.receivedAt });
     const [c, a] = await Promise.allSettled([
-      sendEmail(env, { to: answers['1.4'], subject: conf.subject, text: conf.text, replyTo: env.REPLY_TO }),
-      sendEmail(env, { to: env.ALERT_TO, subject: alert.subject, text: alert.text, replyTo: answers['1.4'] }),
+      sendEmail(env, { to: answers['1.4'], subject: conf.subject, text: conf.text, html: conf.html, replyTo: env.REPLY_TO }),
+      sendEmail(env, { to: env.ALERT_TO, subject: alert.subject, text: alert.text, html: alert.html, replyTo: answers['1.4'] }),
     ]);
     record.emails.confirmation = c.status === 'fulfilled' ? 'sent' : 'failed';
     record.emails.alert = a.status === 'fulfilled' ? 'sent' : 'failed';
@@ -221,11 +221,11 @@ async function verifyTurnstile(env, token, ip) {
   if (!ok) throw new HttpError(403, 'turnstile_failed');
 }
 
-async function sendEmail(env, { to, subject, text, replyTo }) {
+async function sendEmail(env, { to, subject, text, html, replyTo }) {
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
-    body: JSON.stringify({ from: env.RESEND_FROM, to: [to], reply_to: replyTo || undefined, subject, text }),
+    body: JSON.stringify({ from: env.RESEND_FROM, to: [to], reply_to: replyTo || undefined, subject, text, html: html || undefined }),
     signal: AbortSignal.timeout(10000),
   });
   if (!r.ok) throw new Error(`resend ${r.status}`);

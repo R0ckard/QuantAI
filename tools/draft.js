@@ -8,7 +8,8 @@ import { ENV, need } from './lib/env.js';
 import { loadRecord, resolveId, outJson, outHtml, TEMPLATE } from './lib/paths.js';
 import { score, publicEstimate, FAMILIES, splitTotalsToOne, formatAUD } from '../check/model.js';
 import { MODELS } from '../worker/src/ai.js';
-import { numbersFor, crossCheckLine, tierFor, fillTemplate, loadTemplate, lint, fixDashes, longDate, oneLineFinding, deliveryEmail, firstNameOf, AI_KEYS } from './lib/report.js';
+import { numbersFor, crossCheckLine, tierFor, fillTemplate, loadTemplate, lint, fixDashes, longDate, oneLineFinding, deliveryEmail, firstNameOf, AI_KEYS, theirBandWords } from './lib/report.js';
+import { QUESTIONS, optionLabel } from '../check/questions.js';
 import { DRAFT_SYSTEM, buildDraftMessages, parseDraft } from './lib/draft-prompt.js';
 
 const args = process.argv.slice(2);
@@ -107,14 +108,15 @@ if (flag('--no-ai')) {
   tokens = parseDraft(raw);
   for (const k of AI_KEYS) tokens[k] = fixDashes(tokens[k]);
   if (scored.duplicated === 0) tokens.DUP_LINE = '';
-  warnings = lint(tokens, numbers);
+  const said = theirBandWords(record.answers, QUESTIONS, optionLabel);
+  warnings = lint(tokens, numbers, said);
   if (warnings.length) {
     process.stdout.write('redrafting ');
     raw = await ask([{ role: 'assistant', content: raw }, { role: 'user', content: `Problems with that draft, fix every one and return the full JSON again:\n- ${warnings.join('\n- ')}` }]);
     tokens = parseDraft(raw);
     for (const k of AI_KEYS) tokens[k] = fixDashes(tokens[k]);
     if (scored.duplicated === 0) tokens.DUP_LINE = '';
-    warnings = lint(tokens, numbers);
+    warnings = lint(tokens, numbers, said);
   }
   console.log('done.');
 }

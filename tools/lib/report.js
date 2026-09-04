@@ -16,7 +16,7 @@ export function numbersFor(scored) {
     HIGH: formatAUD(scored.recoverableHigh),
     HOURS_LOW: String(scored.hoursLow),
     HOURS_HIGH: String(scored.hoursHigh),
-    HOURS_WEEK: String(scored.inputs.adminHours),
+    HOURS_WEEK: String(Number(scored.hoursWeekUsed.toFixed(1))),
     HOURLY: formatAUD(scored.inputs.hourlyCost),
     TOTAL: formatAUD(scored.total),
     GAP_COST: formatAUD(scored.gap.costRounded),
@@ -27,7 +27,7 @@ export function numbersFor(scored) {
 // Said out loud, never buried (workbook Model row 18).
 export function crossCheckLine(scored) {
   if (scored.inputsAgree) return '';
-  return 'One thing to flag. Your answers on the documents alone come to more than the weekly hours you gave for all the repeat work, so I have used the document figure. That means the hours in section 2 are understated rather than the documents overstated, and the real number is probably higher again.';
+  return `One thing to flag. Your answers on the documents alone come to about ${Number(scored.hoursWeekUsed.toFixed(1))} hours a week, more than the ${scored.inputs.adminHours} you gave for all the repeat work, so I have used the document figure. That means the hours in section 2 are understated rather than the documents overstated, and the real number is probably higher again.`;
 }
 
 export function tierFor(record) {
@@ -64,8 +64,11 @@ const INVENTED = /\b(typically|on average|most firms|firms like yours|firms your
 
 export function fixDashes(s) { return String(s).replace(/\s*[\u2013\u2014]\s*/g, ', '); }
 
-export function lint(tokens, numbers) {
+// `theirWords` is the text of the bands they picked, so "20 to 40 hours" or
+// "$60 to $90" quoted back from their own answer is not treated as invented.
+export function lint(tokens, numbers, theirWords = '') {
   const allowed = new Set(Object.values(numbers));
+  const said = String(theirWords);
   const warnings = [];
   for (const k of AI_KEYS) {
     const text = String(tokens[k] || '');
@@ -74,9 +77,9 @@ export function lint(tokens, numbers) {
     if (fix) warnings.push(`${k}: reads like a fix or a tool ("${fix[0]}")`);
     const inv = text.match(INVENTED);
     if (inv) warnings.push(`${k}: claims something the respondent did not say ("${inv[0]}")`);
-    for (const m of text.match(/\$[\d,]+(?:\.\d+)?[kKmM]?/g) || []) if (!allowed.has(m)) warnings.push(`${k}: figure ${m} is not one the model produced`);
-    for (const m of text.match(/\b\d+(?:\.\d+)?\s?%/g) || []) warnings.push(`${k}: percentage ${m} is not something the model produced`);
-    for (const m of text.match(/\b(\d{2,4})\s+hours?\b/g) || []) { const n = m.match(/\d+/)[0]; if (n !== numbers.HOURS_LOW && n !== numbers.HOURS_HIGH && n !== numbers.HOURS_WEEK) warnings.push(`${k}: "${m}" is not a figure the model produced`); }
+    for (const m of text.match(/\$[\d,]+(?:\.\d+)?[kKmM]?/g) || []) if (!allowed.has(m) && !said.includes(m)) warnings.push(`${k}: figure ${m} is not one the model produced`);
+    for (const m of text.match(/\b\d+(?:\.\d+)?\s?%/g) || []) if (!said.includes(m.replace(/\s/g, ''))) warnings.push(`${k}: percentage ${m} is not something the model produced`);
+    for (const m of text.match(/\b(\d{2,4})\s+hours?\b/g) || []) { const n = m.match(/\d+/)[0]; if (n !== numbers.HOURS_LOW && n !== numbers.HOURS_HIGH && n !== numbers.HOURS_WEEK && !new RegExp(`\\b${n}\\b`).test(said)) warnings.push(`${k}: "${m}" is not a figure the model produced`); }
     if (k !== 'DUP_LINE' && text.trim().length < 20) warnings.push(`${k}: too short to be useful`);
   }
   return warnings;
@@ -122,3 +125,14 @@ export function oneLineFinding(scored) {
 }
 
 export function firstNameOf(name) { return String(name || '').trim().split(/\s+/)[0] || 'there'; }
+
+// The words of every band they picked, for lint.
+export function theirBandWords(answers, questions, optionLabel) {
+  const parts = [];
+  for (const q of questions) {
+    if (!q.options) continue;
+    const v = answers[q.id];
+    for (const c of Array.isArray(v) ? v : [v]) parts.push(optionLabel(q.id, c));
+  }
+  return parts.join(' | ');
+}

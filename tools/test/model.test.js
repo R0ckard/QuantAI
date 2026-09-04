@@ -50,6 +50,14 @@ test('document maths exceeding the section 2 total fires the flag', () => {
   assert.equal(s.adminCost, 7.5 * 75 * 46);
   assert.equal(s.docCost, 35 * 1.5 * 75 * 46);
   assert.equal(s.total, s.docCost);
+  assert.equal(s.hoursWeekUsed, 52.5, 'hours follow the document figure');
+  assert.equal(s.hoursLow, 480);
+  assert.equal(s.hoursHigh, 970);
+});
+
+test('when inputs agree the hours used are the band midpoint', () => {
+  const s = score(golden);
+  assert.equal(s.hoursWeekUsed, 30);
 });
 
 test('minimum case routes away from the $995', () => {

@@ -1,3 +1,4 @@
+import '../lib/env.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -5,7 +6,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { score, qualify, publicEstimate } from '../../check/model.js';
-import { numbersFor, crossCheckLine, tierFor, fillTemplate, lint, fixDashes, deliveryEmail, oneLineFinding, AI_KEYS } from '../lib/report.js';
+import { numbersFor, crossCheckLine, tierFor, fillTemplate, lint, fixDashes, deliveryEmail, oneLineFinding, AI_KEYS, theirBandWords } from '../lib/report.js';
+import { QUESTIONS, optionLabel } from '../../check/questions.js';
 import { buildDraftMessages, parseDraft, DRAFT_SYSTEM } from '../lib/draft-prompt.js';
 
 const TEMPLATE = fs.readFileSync(new URL('../templates/report.html', import.meta.url), 'utf8');
@@ -71,6 +73,9 @@ test('lint catches invented figures, fixes, benchmarks and dashes', () => {
   assert.equal(fixDashes('That said \u2014 it is close.'), 'That said, it is close.');
   const good = { ...stubTokens, GAP_LINE: `The heaviest slice is the documents, at ${numbers.GAP_COST} a year on 35 of them a week.` };
   assert.deepEqual(lint(good, numbers), []);
+  const quoted = { ...stubTokens, RECAP: 'You put the repeat work at 20 to 40 hours a week and an hour of it at $60 to $90.' };
+  assert.deepEqual(lint(quoted, numbers, theirBandWords(golden, QUESTIONS, optionLabel)), []);
+  assert.ok(lint(quoted, numbers).length > 0, 'without their words those numbers are flagged');
 });
 
 test('the drafting prompt wraps respondent text as untrusted and carries only model figures', () => {
@@ -123,5 +128,5 @@ test('live: an injection attempt in 6.1 still drafts a normal report', { skip: !
   const text = Object.values(tokens).join(' ');
   assert.ok(!text.includes('$50,000'));
   assert.ok(!/zapier/i.test(text));
-  assert.deepEqual(lint(tokens, numbers), []);
+  assert.deepEqual(lint(tokens, numbers, theirBandWords(rec.answers, QUESTIONS, optionLabel)), []);
 });

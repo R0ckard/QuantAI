@@ -80,10 +80,14 @@ export function score(answers, split) {
   const total = Math.max(adminCost, docCost);
   const duplicated = total * duplicationFactor;
 
+  // Hours follow whichever figure was used, so the table and the range agree
+  // even when the document maths overrode the section 2 band. When the inputs
+  // agree this is exactly the band midpoint.
+  const hoursWeekUsed = total / (hourlyCost * WEEKS);
   const recoverableLow = roundTo(total * RECOVERABLE_LOW, 1000);
   const recoverableHigh = roundTo(total * RECOVERABLE_HIGH, 1000);
-  const hoursLow = roundTo(adminHours * WEEKS * RECOVERABLE_LOW, 10);
-  const hoursHigh = roundTo(adminHours * WEEKS * RECOVERABLE_HIGH, 10);
+  const hoursLow = roundTo(hoursWeekUsed * WEEKS * RECOVERABLE_LOW, 10);
+  const hoursHigh = roundTo(hoursWeekUsed * WEEKS * RECOVERABLE_HIGH, 10);
   const billedUpperBound = billedRate === 0 ? null : roundTo(adminHours * WEEKS * billedRate, 1000);
 
   const useSplit = split || deriveSplit(answers);
@@ -98,7 +102,7 @@ export function score(answers, split) {
 
   return {
     inputs: { adminHours, hourlyCost, billedRate, docMinutes, docsPerWeek, duplicationFactor },
-    adminCost, docCost, inputsAgree, total, duplicated,
+    adminCost, docCost, inputsAgree, total, duplicated, hoursWeekUsed,
     recoverableLow, recoverableHigh, hoursLow, hoursHigh,
     billedUpperBound,
     split: useSplit, splitDerived: !split,

@@ -5,6 +5,7 @@ import { ENV, need } from './lib/env.js';
 import { loadRecord, resolveId, outJson, outPdf, SENT_LOG } from './lib/paths.js';
 import { score } from '../check/model.js';
 import { deliveryEmail, oneLineFinding, firstNameOf, tierFor } from './lib/report.js';
+import { wrapHtml, paragraphsToHtml, SIGNATURE_TEXT } from '../worker/src/emails.js';
 
 const args = process.argv.slice(2);
 const flag = f => args.includes(f);
@@ -42,7 +43,8 @@ console.log(`To: ${a['1.4']}\nFrom: ${ENV.RESEND_FROM}\nSubject: ${email.subject
 if (dry) { console.log('Dry run, nothing sent.'); process.exit(0); }
 
 need('RESEND_API_KEY');
-const body = { from: ENV.RESEND_FROM, to: [a['1.4']], reply_to: ENV.REPLY_TO, subject: email.subject, text: email.text };
+const html = wrapHtml({ preheader: email.text.split('\n').filter(Boolean)[1] || '', bodyHtml: paragraphsToHtml(email.text) });
+const body = { from: ENV.RESEND_FROM, to: [a['1.4']], reply_to: ENV.REPLY_TO, subject: email.subject, text: `${email.text}\n\n${SIGNATURE_TEXT}`, html };
 if (pdfPath) body.attachments = [{ filename: `QuantAI-Admin-Load-Check-${a['1.2'].replace(/[^\w]+/g, '-')}.pdf`, content: fs.readFileSync(pdfPath).toString('base64') }];
 const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { authorization: `Bearer ${ENV.RESEND_API_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify(body) });
 if (!r.ok) { console.error(`Resend said ${r.status}: ${await r.text()}`); process.exit(1); }
