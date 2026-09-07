@@ -124,7 +124,7 @@ function renderIntro(root) {
     </div>
     <div class="intro-quote">There are no right answers here and nothing gets checked against you. The closer your answers are, the more useful your report is. Dave reads every one of these himself before it goes back to you.</div>
     <div class="actions"><span></span><button class="btn primary" id="next">Start the check</button></div>
-    <p class="meta">Your answers are used to write your report and nothing else. Reply to the email that brings it and Dave will delete them.</p>`;
+    <p class="meta">Your answers are used to write your report and nothing else, but if you'd rather they weren't stored, reply to the email that brings the report and they'll be deleted.</p>`;
   $('#next').addEventListener('click', () => go(state.screen + 1));
 }
 
