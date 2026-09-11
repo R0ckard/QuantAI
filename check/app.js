@@ -114,9 +114,9 @@ function sectionBanner(sec) {
 
 function renderIntro(root) {
   root.innerHTML = `
-    <p class="kick">Free · The Admin Load Check</p>
-    <h1>You know the admin's heavy. This puts a number on it.</h1>
-    <p class="lead">Twenty six questions about how the work actually gets done in your firm. Nearly all of them are one tap. You'll see your number on screen the moment you finish, and the written version lands inside two business days.</p>
+    <p class="kick">Free · The 6-minute AI check</p>
+    <h1>Before you spend a cent on AI, see where your team's week actually goes.</h1>
+    <p class="lead">Twenty six questions about how the work actually gets done in your business. Nearly all of them are one tap. You'll see your number on screen the moment you finish, and the written version lands inside two business days.</p>
     <div class="facts">
       <div><b>6 min</b><span>To answer. Most of it is one tap.</span></div>
       <div><b>2 days</b><span>To get your report back.</span></div>
@@ -389,7 +389,7 @@ function renderResults(root) {
 }
 
 function mailtoLink() {
-  const lines = ['Hi Dave,', '', 'Here are my Admin Load Check answers.', ''];
+  const lines = ['Hi Dave,', '', 'Here are my 6-minute AI check answers.', ''];
   for (const q of QUESTIONS) {
     const v = state.answers[q.id];
     const text = Array.isArray(v) ? v.map(c => optionLabel(q.id, c)).join('; ') : (q.options ? optionLabel(q.id, v) : (v || ''));
@@ -398,7 +398,7 @@ function mailtoLink() {
     if (p && p.question) lines.push(`  Follow up: ${p.question}`, `  ${p.answer || '(skipped)'}`);
   }
   lines.push('', `Reference ${state.sessionId}${state.src ? ' · via ' + state.src + (state.ref ? ' (' + state.ref + ')' : '') : ''}`);
-  return `mailto:${CONFIG.CONTACT_EMAIL}?subject=${encodeURIComponent('Admin Load Check · ' + (state.answers['1.2'] || ''))}&body=${encodeURIComponent(lines.join('\n'))}`;
+  return `mailto:${CONFIG.CONTACT_EMAIL}?subject=${encodeURIComponent('AI check · ' + (state.answers['1.2'] || ''))}&body=${encodeURIComponent(lines.join('\n'))}`;
 }
 
 // ---------- navigation ----------

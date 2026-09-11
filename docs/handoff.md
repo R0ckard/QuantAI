@@ -1,4 +1,10 @@
-# The Admin Load Check · handoff
+# The 6-minute AI check (formerly the Admin Load Check) · handoff
+
+Renamed for the public on 11 Sep 2026: every respondent-facing string
+(homepage, landing page, check screens, confirmation email, report cover,
+PDF filename, both AI prompts) now says "the 6-minute AI check". Code,
+paths, the `admin-load-check.html` URL and the localStorage key keep the
+old name deliberately. See CLAUDE.md.
 
 Last updated 10 Sep 2026. Everything through the branded-email work is
 committed and pushed (`b6b987b`, 4 Sep). The repo, the live worker, and the
@@ -118,7 +124,9 @@ answer labels from it.
    after the last apparent `wrangler` activity (`worker/.wrangler/tmp`,
    4 Sep 10:43), so the deployed binary may still be sending the old plain
    text. `cd worker && npm run deploy` is idempotent and takes under a
-   minute — just do it.
+   minute, just do it. Since 11 Sep this also ships the rename: until the
+   worker is redeployed, confirmation emails still say "your Admin Load
+   Check" and the follow-up prompt still uses the old name.
 2. **The draft → render → send pipeline has never been run on a real
    submission.** It was proven against a synthetic submission (written
    straight into a scratch data file, not through the real form) and the

@@ -94,7 +94,7 @@ test('delivery emails fill their tokens and carry no dashes', () => {
   const s = score(golden);
   for (const kind of ['full', 'small', 'short']) {
     const e = deliveryEmail(kind, { firm: 'Whitfield Partners', first: 'Sam', low: '$21,000', high: '$41,000', gap: s.gap.label.toLowerCase(), finding: oneLineFinding(s), calendly: 'https://calendly.com/x' });
-    assert.equal(e.subject, 'Whitfield Partners · your Admin Load Check');
+    assert.equal(e.subject, 'Whitfield Partners · your 6-minute AI check');
     assert.match(e.text, /^Hi Sam,/);
     assert.equal(/[\u2013\u2014]/.test(e.text), false);
     assert.equal(/{{/.test(e.text), false);

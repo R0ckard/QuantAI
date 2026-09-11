@@ -2,10 +2,13 @@
 // Built from questionnaire.md, plus Dave's edits from the 3 Sep 2026 phone test
 // (company name, business development, specialist software, repeat emails,
 // multiple checkers, building the business). Do not reword without him.
+// 11 Sep 2026, Dave's call: wording widened from professional firms to any
+// business, and four industries added to 1.6. Codes were only added, never
+// changed, so scoring and stored submissions are unaffected.
 // Each option is [code, label]. The code is what the scoring model reads.
 
 export const SECTIONS = [
-  { n: 1, name: 'About your firm', count: 7 },
+  { n: 1, name: 'About your business', count: 7 },
   { n: 2, name: 'Where the week goes', count: 5 },
   { n: 3, name: 'The documents you write twice', count: 4 },
   { n: 4, name: 'The numbers', count: 5,
@@ -22,11 +25,13 @@ export const QUESTIONS = [
   { id: '1.4', section: 1, type: 'email', label: 'Your email', autocomplete: 'email' },
   { id: '1.5', section: 1, type: 'phone', label: 'Your phone', optional: true, autocomplete: 'tel',
     helper: 'Only used if you ask me to ring you.' },
-  { id: '1.6', section: 1, type: 'single', label: 'What does the firm do?', options: [
+  { id: '1.6', section: 1, type: 'single', label: 'What does the business do?', options: [
     ['ACC', 'Accounting or bookkeeping'], ['ADV', 'Financial advice'], ['LEG', 'Legal'],
     ['REC', 'Recruitment or staffing'], ['ENG', 'Engineering or technical consulting'],
     ['CERT', 'Building certification or surveying'], ['ARCH', 'Architecture or planning'],
-    ['PROP', 'Property or development'], ['AGY', 'Marketing or creative agency'],
+    ['PROP', 'Real estate, property or development'], ['AGY', 'Marketing or creative agency'],
+    ['HEALTH', 'Health, dental or allied health'], ['TRADE', 'Trades or construction'],
+    ['HOSP', 'Hospitality, retail or fitness'],
     ['OTH', 'Something else'],
   ] },
   { id: '1.7', section: 1, type: 'single', label: 'How many people, including you?', options: [
@@ -47,11 +52,11 @@ export const QUESTIONS = [
     ['OTH', 'Something else'],
   ] },
   { id: '2.2', section: 2, type: 'single', label: 'Across everybody, roughly how many hours a week go into that?',
-    helper: 'Add up the whole firm, not just your own week.', options: [
+    helper: 'Add up the whole business, not just your own week.', options: [
     ['H3', 'Under 5'], ['H7', '5 to 10'], ['H15', '10 to 20'], ['H30', '20 to 40'], ['H60', '40 to 80'], ['H100', 'Over 80'],
   ] },
   { id: '2.3', section: 2, type: 'single', label: 'Who does most of it?', options: [
-    ['W_OWNER', 'Me'], ['W_ADMIN', 'Admin or support staff'], ['W_FEE', 'The fee earners themselves'],
+    ['W_OWNER', 'Me'], ['W_ADMIN', 'Admin or support staff'], ['W_FEE', 'The people doing the client work'],
     ['W_MIX', 'A mix of everyone'], ['W_OUT', 'Offshore or outsourced'],
   ] },
   { id: '2.4', section: 2, type: 'single', label: 'Is any of it done twice? Same information, two places.', options: [
@@ -73,7 +78,7 @@ export const QUESTIONS = [
   { id: '3.2', section: 3, type: 'single', label: 'How long does one of them take, start to finish?', options: [
     ['T10', 'Under 15 minutes'], ['T22', '15 to 30 minutes'], ['T45', '30 to 60 minutes'], ['T90', '1 to 2 hours'], ['T150', 'Over 2 hours'],
   ] },
-  { id: '3.3', section: 3, type: 'single', label: 'How many go out a week across the firm?', options: [
+  { id: '3.3', section: 3, type: 'single', label: 'How many go out a week across the business?', options: [
     ['N3', 'Under 5'], ['N12', '5 to 20'], ['N35', '20 to 50'], ['N75', '50 to 100'], ['N130', 'Over 100'],
   ] },
   { id: '3.4', section: 3, type: 'multi', label: 'Who checks one before it leaves?', options: [
@@ -82,11 +87,11 @@ export const QUESTIONS = [
   ], exclusive: 'CHK_NONE' },
 
   // Section 4 · The numbers
-  { id: '4.1', section: 4, type: 'single', label: 'What does an hour of the person doing that work cost the firm?',
+  { id: '4.1', section: 4, type: 'single', label: 'What does an hour of the person doing that work cost the business?',
     helper: 'Salary plus on costs, not what you bill for it.', options: [
     ['C35', 'Under $40'], ['C50', '$40 to $60'], ['C75', '$60 to $90'], ['C110', '$90 to $130'], ['C165', '$130 to $200'], ['C230', 'Over $200'],
   ] },
-  { id: '4.2', section: 4, type: 'single', label: 'What do you bill an hour of fee earner time at?', options: [
+  { id: '4.2', section: 4, type: 'single', label: 'What do you charge for an hour of client work?', options: [
     ['B_NA', 'We don\'t bill by the hour'], ['B120', 'Under $150'], ['B200', '$150 to $250'],
     ['B325', '$250 to $400'], ['B500', '$400 to $600'], ['B700', 'Over $600'],
   ] },

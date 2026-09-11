@@ -45,7 +45,7 @@ if (dry) { console.log('Dry run, nothing sent.'); process.exit(0); }
 need('RESEND_API_KEY');
 const html = wrapHtml({ preheader: email.text.split('\n').filter(Boolean)[1] || '', bodyHtml: paragraphsToHtml(email.text) });
 const body = { from: ENV.RESEND_FROM, to: [a['1.4']], reply_to: ENV.REPLY_TO, subject: email.subject, text: `${email.text}\n\n${SIGNATURE_TEXT}`, html };
-if (pdfPath) body.attachments = [{ filename: `QuantAI-Admin-Load-Check-${a['1.2'].replace(/[^\w]+/g, '-')}.pdf`, content: fs.readFileSync(pdfPath).toString('base64') }];
+if (pdfPath) body.attachments = [{ filename: `QuantAI-AI-Check-${a['1.2'].replace(/[^\w]+/g, '-')}.pdf`, content: fs.readFileSync(pdfPath).toString('base64') }];
 const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { authorization: `Bearer ${ENV.RESEND_API_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify(body) });
 if (!r.ok) { console.error(`Resend said ${r.status}: ${await r.text()}`); process.exit(1); }
 const { id: emailId } = await r.json();

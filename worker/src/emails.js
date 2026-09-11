@@ -57,14 +57,14 @@ export function confirmationEmail({ name }) {
 
 Thanks for completing the form, your answers have come through.
 
-I'll go through them all and write your report myself, so give me two business days rather than two minutes, and look out for it coming from this address with a PDF attached.
+I'll go through them all and sign off your report myself, so give me two business days rather than two minutes, and look out for it coming from this address with a PDF attached.
 
 If anything's changed since you filled it in, or you want to add something you didn't have room for, just reply to this and it'll reach me.
 
 Cheers
 Dave`;
   return {
-    subject: 'Got it, your Admin Load Check is with me',
+    subject: 'Got it, your 6-minute AI check is with me',
     text: `${body}\n\n${SIGNATURE_TEXT}`,
     html: wrapHtml({ preheader: 'Your answers have come through. Report inside two business days.', bodyHtml: paragraphsToHtml(body) }),
   };
@@ -148,7 +148,7 @@ export function alertEmail({ id, answers, probes, scored, qualification, estimat
   body += `<p style="margin:26px 0 0;${H}font-size:12.5px;color:#7A8899;">Submission ${esc(id)}. Then: npm run pull, npm run draft ${esc(id.slice(0, 8))}.</p>`;
 
   return {
-    subject: `Admin Load Check · ${firm} · ${q.total}/25 · ${TIER_WORD[q.tier]}${q.override ? ' · OVERRIDE' : ''}`,
+    subject: `AI check · ${firm} · ${q.total}/25 · ${TIER_WORD[q.tier]}${q.override ? ' · OVERRIDE' : ''}`,
     text: t.join('\n'),
     html: wrapHtml({ preheader: `${first} at ${firm}, ${q.total} of 25, ${formatAUD(estimate.recoverableLow)} to ${formatAUD(estimate.recoverableHigh)}`, bodyHtml: body, signature: false }),
   };

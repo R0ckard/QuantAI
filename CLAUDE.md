@@ -12,6 +12,13 @@ that file current rather than letting this one grow stale duplicate
 history: update `docs/handoff.md` for status, use this file for things that
 don't change session to session.
 
+**Public name: the 6-minute AI check** (renamed from "the Admin Load Check"
+on 11 Sep 2026, so it speaks to people curious about AI, not only people
+who already think in terms of admin). Use the new name in anything a
+respondent sees. Code, file names, the `admin-load-check.html` URL and the
+localStorage key keep the old name on purpose, so sent links and saved
+progress keep working.
+
 ## Structure
 
 ```

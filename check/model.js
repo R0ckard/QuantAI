@@ -145,7 +145,7 @@ export function qualify(answers, scored) {
   const total = Object.values(points).reduce((a, b) => a + b, 0);
   let tier, routing;
   if (total >= 15) { tier = 'full_land'; routing = 'Write the full report. Land the $995 assessment in it.'; }
-  else if (total >= 9) { tier = 'full_hold'; routing = 'Write the full report. Offer the 30 minutes, hold the price for the call.'; }
+  else if (total >= 9) { tier = 'full_hold'; routing = 'Write the full report. Offer the free 15-minute call, hold the price for the call.'; }
   else { tier = 'short'; routing = 'Send the short version and offer the call. Do not spend an hour on this one.'; }
   const override = answers['1.7'] === 'S1' || answers['1.7'] === 'S2';
   const overrideLine = override

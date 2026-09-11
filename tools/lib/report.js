@@ -87,7 +87,7 @@ export function lint(tokens, numbers, theirWords = '') {
 
 // ---------- delivery emails, from emails.md ----------
 export function deliveryEmail(kind, { firm, first, low, high, gap, finding, calendly }) {
-  const subject = `${firm} · your Admin Load Check`;
+  const subject = `${firm} · your 6-minute AI check`;
   if (kind === 'small') return { subject, text: `Hi ${first},
 
 Report's attached, and I'll save you reading it first: the number's small.
@@ -103,7 +103,7 @@ Thanks for filling that in.
 
 Straight answer: at your size the full written version wouldn't tell you much you don't already know, so I'm not going to send you three pages pretending otherwise. What your answers do show is ${finding}.
 
-If you want to talk that through, half an hour is free and there's no pitch at the end of it. Here's my calendar: ${calendly}
+If you want to talk that through, a 15-minute call is free and there's no pitch at the end of it. Here's my calendar: ${calendly}
 
 Dave` };
   return { subject, text: `Hi ${first},
@@ -114,7 +114,7 @@ The short version: on the numbers you gave me the repeat work is costing somewhe
 
 It's an estimate, not an audit, and I've said so in the report rather than dressing it up. Read it, argue with it if you think the numbers are off, and tell me where.
 
-If it's worth half an hour I'm around most days. If it isn't, no hard feelings and you're welcome to keep the report.
+If it's worth a free 15-minute call, I'm around most days. If it isn't, no hard feelings and you're welcome to keep the report.
 
 Dave` };
 }
