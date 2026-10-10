@@ -2,7 +2,7 @@
 
 A worked demonstration of how a 30-person Sydney technology-recruitment agency can give recruiters their time back, turning manual, inconsistent admin into three AI-assisted workflows that keep a recruiter in control and a fair, private process by design.
 
-**Prepared by:** Dave Richardson · QuantAI, Fractional AI Operations & Business Systems Consulting
+**Prepared by:** Dave Richardson · QuantAI, Quantified AI consulting
 **Based on brief:** *Recruitment AI Transformation, FutureHire Recruitment*
 
 ---

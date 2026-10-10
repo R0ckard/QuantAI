@@ -2,7 +2,7 @@
 
 A worked demonstration of how a 65-person professional services firm running about 120 meetings a week can turn its transcripts into reliable organisational memory: consistent minutes, decisions, risks and actions that carry forward and are visible to managers across teams, with a human reviewing everything before it is published.
 
-**Prepared by:** Dave Richardson, QuantAI, Fractional AI Operations and Business Systems Consulting
+**Prepared by:** Dave Richardson, QuantAI, Quantified AI consulting
 **Based on brief:** *Meeting Intelligence Platform, NorthStar Consulting*
 
 ---

@@ -2,7 +2,7 @@
 
 A worked demonstration of how an 18-person Brisbane accounting and advisory firm can turn a slow, inconsistent, partner-by-partner onboarding process into one clear journey that is faster and more consistent, without losing the warm, personal experience clients value.
 
-**Prepared by:** Dave Richardson, QuantAI, Fractional AI Operations and Business Systems Consulting
+**Prepared by:** Dave Richardson, QuantAI, Quantified AI consulting
 **Based on brief:** *Client Onboarding Optimisation, Elevate Accounting*
 
 ---

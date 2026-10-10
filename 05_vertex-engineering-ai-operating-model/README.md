@@ -2,7 +2,7 @@
 
 A worked demonstration of how a 52-person Melbourne engineering consultancy can turn three overlapping, under-used AI platforms into one governed operating model, with the judgement of qualified engineers kept firmly in charge.
 
-**Prepared by:** Dave Richardson, QuantAI, Fractional AI Operations and Business Systems Consulting
+**Prepared by:** Dave Richardson, QuantAI, Quantified AI consulting
 **Based on brief:** *AI Operating Model for a Professional Services Firm, Vertex Engineering*
 
 ---

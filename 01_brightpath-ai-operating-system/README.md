@@ -2,7 +2,7 @@
 
 A worked demonstration of how a 32-person Australian financial-planning firm can turn ad-hoc use of Claude and ChatGPT into a **governed, repeatable AI operating system**, with two workflows built out end-to-end as working prototypes.
 
-**Prepared by:** Dave Richardson · QuantAI, Fractional AI Operations & Business Systems Consulting
+**Prepared by:** Dave Richardson · QuantAI, Quantified AI consulting
 **Based on brief:** *AI Workflow Audit & Operating System, BrightPath Financial Services*
 
 ---
