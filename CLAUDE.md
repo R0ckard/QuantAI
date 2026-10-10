@@ -1,27 +1,60 @@
 # QuantAI website repo
 
 Public repo (`R0ckard/QuantAI`), served by GitHub Pages at quantai.com.au from
-`main`. No branches or PRs in use. **Dave runs every `git push` himself**: write
-and stage changes, tell him what to run, and don't push on your own initiative
-unless he's explicitly said to.
+`main`. **Dave runs every `git push` himself**: commit locally (on `main` for
+small changes, on a short-lived branch for a bigger set he should review as
+one), tell him the exact command, and don't push on your own initiative unless
+he's explicitly said to. He merges with `git merge --ff-only` and pushes.
 
-For the 6-minute AI check (`check/`, `worker/`, `tools/`), read
-[`docs/handoff.md`](docs/handoff.md) first. It has current state, what's
+Read [`docs/handoff.md`](docs/handoff.md) first. It has current state, what's
 confirmed live, what's next, open questions, and dead ends already ruled out.
 Status goes there. This file is for things that don't change session to session.
+
+## Where this repo sits in the bigger build
+
+QuantAI is being rebuilt as an AI consulting practice. The plan lives outside
+this repo in `~/Documents/QuantAI/Consulting/Briefs/`:
+`QUANTAI-CONSULTANT-REBUILD-BRIEF.md` (v2, all phases) and
+`QUANTAI-CONSULTANT-REBUILD-PHASE-1-v3.md` (replaces v2's section 5 and holds
+Dave's decisions). Where they disagree, v3 wins. The v2 brief is wrong about
+several things; `docs/SURVEY.md` section 1 lists them.
+
+- **This repo** is the public website, the check, its worker and the local
+  report pipeline. Nothing else.
+- **The S&M Machine** (Dave's name for the whole sales and marketing system)
+  has two halves on one database. The outbound half is the **GTM engine** at
+  `~/Projects/S&M/gtm-engine` (Next.js on Vercel, Neon Postgres, its own
+  `CLAUDE.md`). The inbound-and-deals half is Phase 1, and it gets built
+  **inside the GTM engine, not here** and not as a new app. That engine's
+  ADR 0002 says every new component is a module in that repo.
+- Phase 1 work that does land here: the worker forwarding submissions, new
+  options on question 1.6, the consent box, and page 3 of the report.
+- **noomoo-crm** (`~/Documents/QuantAI/noomoo/noomoo-crm`) is a source of UI
+  to copy (kanban, contact page) and schema conventions. It is not a working
+  example of sequences, dry-run, or one-click unsubscribe.
+
+Standing rules from Dave: **no ongoing monthly costs**, so never propose a
+paid plan, even as a fallback. No invented proof: nothing unbuilt is listed as
+built, the five example projects are demonstrations and are labelled as such,
+and no client is named without written consent. No number without a source.
 
 ## Structure
 
 ```
-index.html              homepage (hero, what I build, what I help with, worked
-                        examples, where to start, approach, contact)
+index.html              homepage (hero, what I build, what I help with, where
+                        to start, approach, contact). No worked-examples
+                        section since 10 Oct 2026
 admin-load-check.html   landing page for the 6-minute AI check
 check/                  the check itself: static, public, noindex, ES modules
 worker/                 Cloudflare Worker behind check/, holds every key, deployed
 tools/                  Dave's local report pipeline (pull/draft/render/send), never deployed
-01_.../05_...           five demonstration projects (worked examples), not client work
-how-i-work/             one-pager
-docs/handoff.md         current status of the check project
+01_.../05_...           five demonstration projects, not client work. Off the
+                        homepage, still live at their URLs. Raw material for
+                        the Phase 2 sector pages
+how-i-work/             one-pager (HTML and a PDF exported from it by hand)
+docs/handoff.md         current status, rewritten each session
+docs/SURVEY.md          Phase 0 survey, 10 Oct 2026. A dated record: don't
+                        update it, supersede it
 ```
 
 ## Names
@@ -77,6 +110,13 @@ decisions are in `~/Documents/QuantAI/Consulting/Briefs/QUANTAI-CONSULTANT-REBUI
   (`tools/templates/report.html`) and the CLOSE instruction in
   `tools/lib/draft-prompt.js` still describe the $995 assessment. Until then,
   strip the `<!--PRICE-->` block from `out/<id>.html` before rendering.
+- **Not-for-profits:** the standard price less 20%.
+- **Descriptor:** "Quantified AI consulting". Never "Fractional AI operations".
+- **Booking:** Cal.com, not Calendly. The free call is
+  `https://cal.com/dave-richardson/15min`. The other two event types
+  (`audit-interview`, `audit-debrief`) are for clients only and are never
+  linked from the site. The env var is still called `CALENDLY_URL` in
+  `tools/`; leave the name.
 - **The 6-minute AI check** is the same free first step for people who'd rather
   not talk.
 - **Routing after a check** (`qualify()` in `check/model.js`): thresholds are
@@ -115,7 +155,7 @@ machines, don't hardcode them here). The rules that matter most:
 ## Commands
 
 ```bash
-cd tools && npm test          # shared model + pipeline tests (18)
+cd tools && npm test          # shared model + pipeline tests (18; 1 skips without tools/.env)
 cd worker && npm test         # worker tests (10), fake KV/Resend/Turnstile/Anthropic
 cd worker && npm run deploy   # runs its tests, then npx wrangler deploy
 curl -s https://quantai-check.dave-70b.workers.dev/api/health   # {"ok":true}
@@ -128,6 +168,14 @@ npm run render <id>                 # Chrome headless to PDF, opens it
 npm run send <id> -- --reviewed     # refuses without a PDF and without this flag
 ```
 
+`worker/node_modules` isn't committed: run `npm ci --ignore-scripts --omit=dev`
+in `worker/` once in a fresh clone before `npm test`.
+
+To check a page change before handing it over, serve the repo and look at it
+(see "Previewing and screenshots"), and check for leftovers with
+`grep -rnE '\$995|\$295|Fractional|calendly' --include='*.html' --include='*.js' .`
+(quote the patterns: zsh errors on an unquoted `--include=*.js`).
+
 `tools` tests include one live drafting test that calls Anthropic whenever
 `tools/.env` has `ANTHROPIC_API_KEY`. It costs a call and very occasionally fails
 `lint()` on a figure the model wrote; rerun once before treating it as a
@@ -139,6 +187,8 @@ Nothing in this repo is secret: it's a public repo and GitHub Pages serves every
 file as plain text. Worker secrets live only as Wrangler secrets
 (`npx wrangler secret put <NAME>` from `worker/`); the local pipeline's
 equivalents live in `tools/.env`, gitignored, copied from `tools/.env.example`.
+This clone has no `tools/.env` yet: the only one is in the old clone at
+`~/Desktop/QuantAI/tools/.env`, and it's Dave's to copy across.
 Never put a key in a committed file, ever, even temporarily.
 
 ## Known environment hazard: iCloud eviction on `~/Desktop`
@@ -171,7 +221,7 @@ assuming the sync issue has recurred.
 - `mcp__Claude_Browser__preview_start` can't serve a path under `~/Desktop` (it
   hangs), and Browser pane tabs showing a `file://` page can't be screenshotted
   or scripted. Serve the repo instead:
-  `python3 -m http.server 8765 --bind 127.0.0.1 --directory ~/Desktop/QuantAI` in
+  `python3 -m http.server 8765 --bind 127.0.0.1 --directory ~/Projects/QuantAI` in
   a background Bash call, then `tabs_create` and `navigate` to
   `http://127.0.0.1:8765/...` (or a `url`-only `.claude/launch.json` entry for
   `preview_start`). `pkill -f "http.server 8765"` when done.
