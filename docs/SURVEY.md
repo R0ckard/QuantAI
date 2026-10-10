@@ -213,7 +213,7 @@ Phase 0: there's no Cal.com link to swap in yet.
 
 | Page | `<title>` | Meta description |
 |---|---|---|
-| `index.html` | QuantAI · Fractional AI Operations · Dave Richardson | QuantAI, fractional AI operations. Dave Richardson helps professional services firms get the admin out of their week with AI, without handing over the decisions that carry risk. |
+| `index.html` | QuantAI · Quantified AI consulting · Dave Richardson | QuantAI, fractional AI operations. Dave Richardson helps professional services firms get the admin out of their week with AI, without handing over the decisions that carry risk. |
 | `admin-load-check.html` | The 6-minute AI check · QuantAI | Before you spend anything on AI, see where your team's week actually goes. Twenty six quick questions, then a costed read of the repeat work, drafted with AI and signed off by Dave Richardson, within two business days. |
 | `check/index.html` (`noindex`) | The 6-minute AI check · QuantAI | Twenty six questions about how the work gets done in your firm. See what the repeat work costs on screen straight away, and get the written version inside two business days. |
 | `how-i-work/QuantAI_How_I_Work.html` | QuantAI · How I work | none |
