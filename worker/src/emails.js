@@ -18,12 +18,12 @@ export const SIGNATURE_HTML = `<table cellpadding="0" cellspacing="0" border="0"
 <div style="font-family: Georgia, &quot;Times New Roman&quot;, serif; font-size: 16px; line-height: 20px; font-weight: bold; color: rgb(15, 27, 42);">Dave Richardson<br></div>
 <div style="font-size: 12.5px; line-height: 17px; padding-top: 1px; color: rgb(64, 83, 107);">Founder · QuantAI<br></div>
 <div style="font-size: 12px; line-height: 17px; padding-top: 8px; color: rgb(64, 83, 107);"><a href="tel:+61407242251" style="text-decoration: none; color: rgb(64, 83, 107);" target="_blank">+61 407 242 251</a><span class="colour" style="color: rgb(122, 136, 153);">&nbsp;·&nbsp;</span><a href="mailto:dave@quantai.com.au" style="text-decoration: none; color: rgb(64, 83, 107);" target="_blank">dave@quantai.com.au</a><br></div>
-<div style="font-size:12px; line-height:17px; padding-top:3px"><a href="https://quantai.com.au" style="text-decoration: none; font-weight: bold; color: rgb(20, 101, 92);" target="_blank">quantai.com.au</a><span class="colour" style="color: rgb(122, 136, 153);">&nbsp;·&nbsp;</span><a href="https://calendly.com/dave-quantai/zoom-meeting" style="text-decoration: none; font-weight: bold; color: rgb(20, 101, 92);" target="_blank">Book a call</a><span class="colour" style="color: rgb(122, 136, 153);">&nbsp;·&nbsp;</span><a href="https://www.linkedin.com/in/dave-richardson-3b4a697/" style="text-decoration: none; font-weight: bold; color: rgb(20, 101, 92);" target="_blank">LinkedIn</a><br></div>
+<div style="font-size:12px; line-height:17px; padding-top:3px"><a href="https://quantai.com.au" style="text-decoration: none; font-weight: bold; color: rgb(20, 101, 92);" target="_blank">quantai.com.au</a><span class="colour" style="color: rgb(122, 136, 153);">&nbsp;·&nbsp;</span><a href="https://cal.com/dave-richardson/15min" style="text-decoration: none; font-weight: bold; color: rgb(20, 101, 92);" target="_blank">Book a call</a><span class="colour" style="color: rgb(122, 136, 153);">&nbsp;·&nbsp;</span><a href="https://www.linkedin.com/in/dave-richardson-3b4a697/" style="text-decoration: none; font-weight: bold; color: rgb(20, 101, 92);" target="_blank">LinkedIn</a><br></div>
 </td></tr></tbody></table>`;
 
 export const SIGNATURE_TEXT = `Dave Richardson · Founder · QuantAI
 +61 407 242 251 · dave@quantai.com.au
-quantai.com.au · calendly.com/dave-quantai/zoom-meeting`;
+quantai.com.au · cal.com/dave-richardson/15min`;
 
 const FONT = 'Inter, Arial, Helvetica, sans-serif';
 const P = `margin:0 0 16px;font-family:${FONT};font-size:16px;line-height:1.6;color:#1B2C42`;

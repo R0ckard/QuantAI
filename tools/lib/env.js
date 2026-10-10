@@ -27,7 +27,7 @@ export const ENV = {
   RESEND_API_KEY: process.env.RESEND_API_KEY || '',
   RESEND_FROM: process.env.RESEND_FROM || 'Dave Richardson, QuantAI <dave@send.quantai.com.au>',
   REPLY_TO: process.env.REPLY_TO || 'dave@quantai.com.au',
-  CALENDLY_URL: process.env.CALENDLY_URL || 'https://calendly.com/dave-quantai/zoom-meeting',
+  CALENDLY_URL: process.env.CALENDLY_URL || 'https://cal.com/dave-richardson/15min',
 };
 
 export function need(...keys) {
