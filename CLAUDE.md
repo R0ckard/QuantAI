@@ -53,31 +53,36 @@ Don't tidy them.
 - **AI prompts:** `worker/src/ai.js` (`PROBE_SYSTEM`, the adaptive follow-up
   question, and `MODELS`) and `tools/lib/draft-prompt.js` (report prose).
 
-## The offer, as the site and every email must say it (settled 11 Sep 2026)
+## The offer, as the site and every email must say it (changed 10 Oct 2026)
 
-- **Two steps.** A free 15-minute call, then the $995 assessment. The line that
-  separates them: "The call tells you whether it's worth doing. The assessment
-  does it."
-- **Free call:** 15 minutes (the Calendly event is booked as 20). A decision, not
-  a diagnosis. No advice, no plan, nothing written but the offer. Never describe
-  it as 30 or 45 minutes.
-- **$995 assessment:** sold on what they finish with (the first automation built
-  and running, a written assessment), then the 45 minute working session and a
-  30 minute walkthrough. Guarantee: at least one thing built and running or they
-  don't pay. "45 minutes" only ever means this paid session.
+QuantAI now sells AI consulting, with the paid audit as the product. The full
+decisions are in `~/Documents/QuantAI/Consulting/Briefs/QUANTAI-CONSULTANT-REBUILD-BRIEF.md`
+(sections 2 and 3). That brief wins over anything older in this repo.
+
+- **Two steps.** A free 15-minute call, then the audit.
+- **Free call:** 15 minutes (booked as 20). A decision, not a diagnosis. No
+  advice, no plan, nothing written but the offer. Never describe it as 30 or 45
+  minutes.
+- **The audit:** interviews, a written report, a debrief. Every recommendation
+  carries a number built from the client's own hours and rates. Builds are
+  optional work after it.
+- **Founding offer:** three audits at a flat $1,500 + GST, scope capped at the
+  founder plus up to three team members, one report, one debrief. The site line
+  is fixed: "Three founding audits at $1,500 + GST. Once they're gone, audits
+  move to standard rates." No countdown, no invented deadline.
+- **Retired, and must not appear anywhere:** the $995 assessment, its
+  "built and running or you don't pay" guarantee, and the $295 first automation.
+  **Never guarantee an outcome.**
+- **Still to change (Phase 1):** page 3 of the report
+  (`tools/templates/report.html`) and the CLOSE instruction in
+  `tools/lib/draft-prompt.js` still describe the $995 assessment. Until then,
+  strip the `<!--PRICE-->` block from `out/<id>.html` before rendering.
 - **The 6-minute AI check** is the same free first step for people who'd rather
   not talk.
-- **The $295 first automation never appears on the site or in the report.** It's
-  quoted on the call, only when a small business has named the job.
-- **Routing after a check** (`qualify()` in `check/model.js`): 15 or more gets the
-  full report with the `<!--PRICE-->` block; 9 to 14 gets the full report, price
-  held, offer the call; under 9 gets the short email and the call; 1 to 5 people
-  triggers an override line in Dave's alert (no $995, call, $295 only if they've
-  named the job).
-- **Audience:** any business where the team's time costs money (widened on
-  11 Sep 2026 from professional firms of 10 to 50). Say "business", not "firm",
-  in respondent-facing copy. The scoring weights are still shaped for
-  professional services.
+- **Routing after a check** (`qualify()` in `check/model.js`): thresholds are
+  unchanged (15 or more, 9 to 14, under 9, and the 1 to 5 people override).
+  Whether they still fit the audit ladder is an open decision for Dave.
+- **Audience:** say "business", not "firm", in respondent-facing copy.
 
 The sales docs that mirror this live outside the repo in
 `~/Documents/QuantAI/Consulting/GTM/`: `dm-playbook-2026-09-11.md`,
@@ -138,8 +143,9 @@ Never put a key in a committed file, ever, even temporarily.
 
 ## Known environment hazard: iCloud eviction on `~/Desktop`
 
-This repo's clone lives on Dave's Desktop, which syncs to iCloud with "Optimise
-Mac Storage" on. Two distinct failure modes have hit this repo:
+Work in `~/Projects/QuantAI`, which iCloud doesn't sync. The older clone on
+Dave's Desktop syncs to iCloud with "Optimise Mac Storage" on, and the notes
+below apply to it. Two distinct failure modes have hit this repo:
 
 1. **Disk nearly full.** macOS evicts file contents to free space; reads return
    empty or hang. Check `df -h /` before any `npm install` here and keep installs

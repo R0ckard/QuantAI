@@ -82,8 +82,8 @@ test('submit sends two emails through Resend with no answer in any URL', async (
     assert.match(conf.body.html, /Founder · QuantAI/);
     assert.match(conf.body.html, /apple-touch-icon\.png/);
     assert.equal(conf.body.reply_to, 'dave@quantai.com.au');
-    assert.match(alert.body.subject, /Whitfield Partners · 20\/25 · land the \$995/);
-    assert.match(alert.body.text, /Land the \$995/);
+    assert.match(alert.body.subject, /Whitfield Partners · 20\/25 · land the audit/);
+    assert.match(alert.body.text, /Land the audit/);
     assert.match(alert.body.text, /2\.2 Across everybody/);
     assert.match(alert.body.html, /Every answer/);
     assert.match(alert.body.html, /\$21,000 to \$41,000/);

@@ -190,7 +190,8 @@ but anyone can read how it's built.
 | `tools/lib/draft-prompt.js` | Tells the model "the assessment below is the natural next step" | **No.** Goes with the template |
 | `tools/test/*`, `worker/test/*` | Assert on `$995` | Only where the wording above changed |
 | `CLAUDE.md`, `docs/handoff.md` | Describe the 11 Sep offer as settled | `CLAUDE.md` offer section updated; `handoff.md` left as a dated record |
-| `how-i-work/QuantAI_How_I_Work.html` and `.pdf` | No price. Not checked line by line for positioning | No |
+| `how-i-work/QuantAI_How_I_Work.html` and `.pdf` | No price. Eyebrow and footer say "Fractional AI operations" | No. Phase 4 brand pass |
+| All five `0N_.../case-study/index.html` | Footer (and brand line on 03, 04, 05) says "Fractional AI Operations" | No. Phase 2 reframes these |
 | Outside the repo: `offer-ladder.md`, `dm-playbook-2026-09-11.md`, `pitch-kit-in-person.md`, `Admin-Load-Check/emails.md` | The old ladder | No. Dave's documents |
 
 **Live gap this leaves:** after Phase 0 the site sells the audit, but a

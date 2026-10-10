@@ -71,7 +71,7 @@ Dave`;
 }
 
 // ---------- to Dave: the review sheet ----------
-const TIER_WORD = { full_land: 'land the $995', full_hold: 'hold the price', short: 'short email' };
+const TIER_WORD = { full_land: 'land the audit', full_hold: 'hold the price', short: 'short email' };
 const POINT_MAX = { size: 4, hourlyCost: 3, intent: 4, deciders: 3, prior: 3, slippage: 4, loadSize: 4 };
 const POINT_NAME = { size: 'Size', hourlyCost: 'Value of an hour', intent: 'Intent (90 days)', deciders: 'Ease of decision', prior: 'Tried before', slippage: 'Pain now', loadSize: 'Size of the load' };
 

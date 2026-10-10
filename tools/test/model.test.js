@@ -60,7 +60,7 @@ test('when inputs agree the hours used are the band midpoint', () => {
   assert.equal(s.hoursWeekUsed, 30);
 });
 
-test('minimum case routes away from the $995', () => {
+test('minimum case routes away from the paid audit', () => {
   const a = { ...golden, '1.7': 'S1', '2.2': 'H3', '4.1': 'C35', '5.2': 'Q_COLD', '5.3': 'DM_1', '5.4': 'P_NONE', '4.4': 'SL_NONE', '3.3': 'N3', '3.2': 'T10' };
   const s = score(a);
   const q = qualify(a, s);
