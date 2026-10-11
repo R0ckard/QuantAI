@@ -99,11 +99,14 @@ way. `cd worker && npm run deploy`.
 
 ## What's next
 
-1. **Phase 1, slice 1: the pipeline board, in the GTM engine.** Not started,
-   and Dave has not yet said go. Read `QUANTAI-CONSULTANT-REBUILD-PHASE-1-v3.md`
-   and the engine's own `CLAUDE.md` and `docs/handoff.md` first. Branch from
-   the engine's `main` (`feat/review-inbox` merged as PR 134). Fictional data,
-   no sends, show the SQL before any migration.
+1. **Phase 1, slice 1: the pipeline board, in the GTM engine.** Built on
+   11 Oct on the engine's branch `feat/pipeline-board` (three commits), not
+   pushed or merged when this was written. Contacts, deals, the 17 stages
+   and an append-only timeline, with a board at `/pipeline`. The app builds
+   and the engine's suite passes (623). Nobody has seen it in a browser yet:
+   its pages need the migration, which runs on merge. Once Dave has merged
+   it and tried it with the six test deals, slice 1 is done. The detail is
+   in the engine's `CLAUDE.md` under "The pipeline board".
 2. **Slice 2 touches this repo.** The worker passes each submission on to the
    engine; insurance broking and not-for-profit are added to question 1.6
    (codes added only, worker deployed before the site); a `?sector=` prefill;
