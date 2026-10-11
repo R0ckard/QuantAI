@@ -85,8 +85,8 @@ way. `cd worker && npm run deploy`.
    offering the $995 assessment. Strip the `<!--PRICE-->` block from
    `tools/out/<id>.html` by hand before rendering.
 4. **Run the report pipeline end to end on a real submission.** Still never
-   done. It needs `tools/.env`, which exists only in the old clone at
-   `~/Desktop/QuantAI/tools/.env` (and that copy still has the Calendly URL).
+   done. It needs `tools/.env`, which is now in this clone (copied from the old
+   Desktop clone on 10 Oct) and still has the Calendly URL.
 5. **Add two cards to "What I build"** when they exist: the DM automations
    (Dave expected them on 11 Oct) and the Content Engine. They were held back
    so nothing unbuilt is listed as built.
@@ -139,8 +139,9 @@ Settled, don't reopen:
 From this session:
 
 - **Working in `~/Documents/QuantAI/QuantAI/Website/QuantAI-repo` or
-  `~/Desktop/QuantAI`.** Both are iCloud-synced. The first is stale since
-  13 Aug and git fails there. Use `~/Projects/QuantAI`.
+  `~/Desktop/QuantAI`.** Both were iCloud-synced clones and both were removed
+  on 11 Oct (as was a Codex copy under `~/Documents/Codex`). `~/Projects/QuantAI`
+  is the only clone. Don't recreate one under Desktop or Documents.
 - **Treating noomoo-crm as the pattern library for sequences.** It has no
   sequence worker, no sequences as JSON, no dry-run send mode, no magic-link
   login, no one-click unsubscribe and no suppression table. Its `CLAUDE.md`

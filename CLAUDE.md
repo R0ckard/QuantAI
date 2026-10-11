@@ -187,15 +187,18 @@ Nothing in this repo is secret: it's a public repo and GitHub Pages serves every
 file as plain text. Worker secrets live only as Wrangler secrets
 (`npx wrangler secret put <NAME>` from `worker/`); the local pipeline's
 equivalents live in `tools/.env`, gitignored, copied from `tools/.env.example`.
-This clone has no `tools/.env` yet: the only one is in the old clone at
-`~/Desktop/QuantAI/tools/.env`, and it's Dave's to copy across.
+This clone's `tools/.env` is the only copy (brought across from the old Desktop
+clone on 10 Oct 2026). It still holds the Calendly URL.
 Never put a key in a committed file, ever, even temporarily.
 
-## Known environment hazard: iCloud eviction on `~/Desktop`
+## Known environment hazard: iCloud eviction on `~/Desktop` and `~/Documents`
 
-Work in `~/Projects/QuantAI`, which iCloud doesn't sync. The older clone on
-Dave's Desktop syncs to iCloud with "Optimise Mac Storage" on, and the notes
-below apply to it. Two distinct failure modes have hit this repo:
+Work in `~/Projects/QuantAI`, which iCloud doesn't sync. It's the only clone:
+the older ones on Dave's Desktop and in `~/Documents/QuantAI` were removed on
+11 Oct 2026. Both of those folders sync to iCloud with "Optimise Mac Storage"
+on, and the notes below apply to anything kept there (the business documents in
+`~/Documents/QuantAI`, noomoo-crm). Two distinct failure modes hit this repo
+when it lived there:
 
 1. **Disk nearly full.** macOS evicts file contents to free space; reads return
    empty or hang. Check `df -h /` before any `npm install` here and keep installs
