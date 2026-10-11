@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<title>Case Study · NorthStar Meeting Intelligence | QuantAI</title>
+<title>Demonstration · NorthStar Meeting Intelligence | QuantAI</title>
 <style>
   :root{
     --ink:#0F1B2A;--navy:#1B2C42;--muted:#7A8899;--slate:#40536B;--line:#E7EBEF;--bg:#F6F5F1;--card:#FFFFFF;
@@ -64,12 +64,12 @@
     <span class="tag">Live manager dashboard</span>
     <span class="tag">Human review &amp; confidentiality</span>
   </div>
-  <div class="meta">NorthStar Consulting · Prepared by Dave Richardson, QuantAI</div>
+  <div class="meta">Fair warning first: this is a demonstration built around a made-up business, not real client work, so the figures are modelled. By Dave Richardson, QuantAI.</div>
 </div></header>
 
 <div class="wrap">
   <section>
-    <p class="lead">NorthStar had a memory problem, not a meeting problem. Across about 120 meetings a week, decisions were hard to retrieve, actions were captured inconsistently and often without an owner or a due date, incomplete actions never made it into the next meeting, and managers had no view of overdue work across teams. The same discussions got repeated because nothing reliable was written down. The tools were all there (Teams, Otter.ai, SharePoint, Planner, Lists, Outlook, Power BI, Claude Team). What was missing was a <b>consistent method</b> and a <b>shared, accountable record</b>, with a human firmly in control of what gets published.</p>
+    <p class="lead">NorthStar had a memory problem, not a meeting problem. Across about 120 meetings a week, decisions were hard to retrieve, actions were captured inconsistently and often without an owner or a due date, incomplete actions never made it into the next meeting, and managers had no view of overdue work across teams. The same discussions got repeated because nothing reliable was written down. The tools were all there (Teams, Otter.ai, SharePoint, Planner, Lists, Outlook, Power BI, Claude Team). What was missing was a <b>consistent method</b> and a <b>shared, accountable record</b>, with a human in control of what gets published.</p>
   </section>
 
   <section>
@@ -81,14 +81,14 @@
       <div class="card stat teal"><div class="n">90%+</div><div class="l">Actions owned &amp; dated</div></div>
       <div class="card stat"><div class="n">by team</div><div class="l">Overdue &amp; stuck visible</div></div>
     </div>
-    <p class="muted" style="margin-top:12px;font-size:13px">Across the meetings that warrant a formal record, the admin saving models to roughly 2,700 staff hours a year. That aggregate is deliberately conservative and sensitive to how many of the 120 weekly meetings get a formal record, so it sizes the prize; the per-meeting measures (the 80% cut, the 5-minute draft, the 90% owned-and-dated) are the robust, directly measurable results.</p>
+    <p class="muted" style="margin-top:12px;font-size:13px">Across the meetings that warrant a formal record, the admin saving models to roughly 2,700 staff hours a year. That total is deliberately conservative, and it moves with how many of the 120 weekly meetings get a formal record, so it's only there to give a rough size. The per-meeting measures (the 80% cut, the 5-minute draft, the 90% owned-and-dated) are the ones you can rely on, because you can measure them directly.</p>
   </section>
 
   <section>
     <h2>The two prototypes</h2>
     <div class="grid g2">
       <div class="card"><h3>The Meeting Intelligence Assistant</h3><p class="muted">A Claude Team assistant that turns a transcript into a structured record: summary, decisions, risks, and actions each with an owner and a due date. It never invents an owner (it flags the gap for a human), never publishes on its own, and flags confidential content for careful handling.</p></div>
-      <div class="card"><h3>The register dashboard</h3><p class="muted">Every action, decision and risk from every meeting in one place. Managers can finally see open, overdue and carried-forward work by team, with repeatedly-slipped items surfaced as stuck. Built as a working, clickable prototype loaded with the 20-meeting pilot data.</p></div>
+      <div class="card"><h3>The register dashboard</h3><p class="muted">Every action, decision and risk from every meeting in one place. Managers can see open, overdue and carried-forward work by team, with repeatedly-slipped items surfaced as stuck. Built as a working, clickable prototype loaded with the 20-meeting pilot data.</p></div>
     </div>
   </section>
 
@@ -98,24 +98,24 @@
   </section>
 
   <section>
-    <h2>The line that makes it safe</h2>
+    <h2>What the AI never does</h2>
     <p>In a firm handling client-confidential material, an AI that could publish an unreviewed record would never be trusted. So the design keeps a human in control: <b>nothing is auto-published</b> (a reviewer approves every record), <b>no owner is ever invented</b> (unassigned actions are flagged, not guessed), and client-confidential content follows a clear protocol inside approved tools. The AI removes the two-hour write-up, not the accountability for what was decided.</p>
-    <div class="callout"><b>Why this wins the room.</b> The most valuable output is not a nicer summary; it is an owned, dated, tracked action that carries forward and shows up on a manager's dashboard. That is the difference between "we have minutes" and "we have organisational memory."</div>
+    <div class="callout">The output that matters most here is an action with a name and a date on it, that carries forward and shows up on a manager's dashboard. That's the difference between having minutes and having a memory.</div>
   </section>
 
   <section>
     <h2>Tested on twenty meetings</h2>
-    <p class="muted">The workflow was tested across twenty representative meetings spanning the five meeting types: client delivery, internal team, leadership, governance and sales. All five success measures were met, the human-review and confidentiality lines held, and, most tellingly, the pilot made overdue and stuck work visible for the first time. The twenty meetings are the same data loaded in the live dashboard prototype.</p>
+    <p class="muted">The workflow was tested across twenty representative meetings spanning the five meeting types: client delivery, internal team, leadership, governance and sales. All five success measures were met, the human-review and confidentiality lines held, and the pilot made overdue and stuck work visible for the first time. The twenty meetings are the same data loaded in the live dashboard prototype.</p>
   </section>
 
   <section>
-    <h2>What was delivered</h2>
+    <h2>What's in the repository</h2>
     <ul class="files">
       <li>Meeting workflow audit, a five-type <b>meeting taxonomy and minimum record standard</b>, and the transcript-to-follow-up <b>workflow design</b></li>
       <li>The <b>Meeting Intelligence Assistant</b>: prompt library, Claude Project config, and a standard minutes template</li>
       <li>The <b>action, decision and risk registers</b> with Planner/Lists field mapping and carry-forward rules, and a working, clickable <b>manager dashboard</b> prototype (plus the exec Power BI spec)</li>
       <li>Weekly digest and monthly reporting templates, and <b>human-review, exception and confidentiality</b> procedures</li>
-      <li>Current- &amp; future-state <b>process maps</b>, a <b>twenty-meeting pilot report</b>, a reproducible <b>benefits model</b>, three editable <b>guides and procedures docx</b>, and a seven-week-plus-hypercare implementation and training plan, all in a push-ready <b>GitHub repository</b></li>
+      <li>Current- &amp; future-state <b>process maps</b>, a <b>twenty-meeting pilot report</b>, a reproducible <b>benefits model</b>, three editable <b>guides and procedures docx</b>, and a seven-week-plus-hypercare implementation and training plan, all in the <b>GitHub repository</b></li>
     </ul>
   </section>
 
