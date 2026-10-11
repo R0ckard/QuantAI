@@ -4,6 +4,7 @@
 #   RESEND_API_KEY      confirmation email to them, alert email to Dave
 #   TURNSTILE_SECRET    spam check on submit (site key goes in check/config.js)
 #   PULL_TOKEN          long random string the local CLI sends as a bearer token
+#   ENGINE_TOKEN        the GTM engine's CHECK_INTAKE_TOKEN, to file each submission on the pipeline board
 name = "quantai-check"
 main = "src/index.js"
 compatibility_date = "2026-06-01"
@@ -18,6 +19,9 @@ ALLOWED_ORIGINS = "https://quantai.com.au,https://www.quantai.com.au,http://127.
 RESEND_FROM = "Dave Richardson, QuantAI <dave@send.quantai.com.au>"
 REPLY_TO = "dave@quantai.com.au"
 ALERT_TO = "dave@quantai.com.au"
+# Where each submission is also passed on, to become a deal on the pipeline board.
+# Without this or the ENGINE_TOKEN secret the worker carries on exactly as before.
+ENGINE_URL = "https://gtm-engine-dave-s-projects16.vercel.app/api/intake/check"
 
 [[kv_namespaces]]
 binding = "SUBMISSIONS"

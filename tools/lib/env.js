@@ -28,6 +28,10 @@ export const ENV = {
   RESEND_FROM: process.env.RESEND_FROM || 'Dave Richardson, QuantAI <dave@send.quantai.com.au>',
   REPLY_TO: process.env.REPLY_TO || 'dave@quantai.com.au',
   CALENDLY_URL: process.env.CALENDLY_URL || 'https://cal.com/dave-richardson/15min',
+  // The pipeline board's intake, for `npm run board`. The token is the
+  // engine's CHECK_INTAKE_TOKEN, the same value as the worker's ENGINE_TOKEN.
+  ENGINE_URL: process.env.ENGINE_URL || 'https://gtm-engine-dave-s-projects16.vercel.app/api/intake/check',
+  ENGINE_TOKEN: process.env.ENGINE_TOKEN || '',
 };
 
 export function need(...keys) {

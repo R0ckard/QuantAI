@@ -110,7 +110,7 @@ Dave` };
 
 Report's attached.
 
-The short version: on the numbers you gave me the repeat work is costing somewhere between ${low} and ${high} a year, and the heaviest slice of it is ${gap}. That's not where most firms point first, which is the interesting part.
+The short version: on the numbers you gave me the repeat work is costing somewhere between ${low} and ${high} a year, and the heaviest slice of it is ${gap}.
 
 It's an estimate, not an audit, and I've said so in the report rather than dressing it up. Read it, argue with it if you think the numbers are off, and tell me where.
 

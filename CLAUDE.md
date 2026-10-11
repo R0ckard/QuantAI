@@ -78,6 +78,23 @@ Don't tidy them.
 - **When option codes change, deploy the worker before pushing the site.** The
   live worker rejects codes it doesn't know (`invalid_answer:<id>`), so a site
   ahead of the worker breaks submissions.
+- **Every submission is also passed to the pipeline board** in the GTM engine
+  (`worker/src/forward.js`, 12 Oct 2026). The worker still keeps its own copy
+  and sends its own emails; if the engine is down the submission is stored
+  with `engine: 'failed'` and `npm run board -- <id>` passes it on again. The
+  engine stores this worker's scoring and never recomputes it. It needs the
+  `ENGINE_TOKEN` secret (the engine's `CHECK_INTAKE_TOKEN`); `ENGINE_URL` is
+  in `wrangler.toml`.
+- **What counts as a test submission:** an address ending in `.example`,
+  `.test` or `.invalid`, or Dave's own (`ALERT_TO`). It's filed as a test
+  deal, which can be cleared from the board, and a reserved address gets no
+  confirmation email. Anything else is a real deal and can't be deleted.
+- **The consent box** on the last screen is not a question and isn't scored.
+  Its exact words are `CONSENT_WORDING` in `check/questions.js`; the worker
+  stores those words with the submission, never what the browser sends.
+  Change them there and nowhere else. Nothing sends to those people yet.
+- **`?sector=`** on the check's URL (any 1.6 code, either case) starts that
+  answer picked, for the Phase 2 sector pages.
 - **Emails that actually go out:** `worker/src/emails.js` (confirmation to the
   respondent, review-sheet alert to Dave) and `tools/lib/report.js`
   `deliveryEmail()` (report emails: full, small, short). The human-readable copy
@@ -106,10 +123,11 @@ decisions are in `~/Documents/QuantAI/Consulting/Briefs/QUANTAI-CONSULTANT-REBUI
 - **Retired, and must not appear anywhere:** the $995 assessment, its
   "built and running or you don't pay" guarantee, and the $295 first automation.
   **Never guarantee an outcome.**
-- **Still to change (Phase 1):** page 3 of the report
-  (`tools/templates/report.html`) and the CLOSE instruction in
-  `tools/lib/draft-prompt.js` still describe the $995 assessment. Until then,
-  strip the `<!--PRICE-->` block from `tools/out/<id>.html` before rendering.
+- **Page 3 of the report** (`tools/templates/report.html`) offers the
+  founding audit and the free call, for a respondent scoring 15 or more who
+  isn't a 1 to 5 person business (changed 12 Oct 2026). It carries the fixed
+  founding line word for word. When the three founding audits are gone that
+  block has to change by hand, until Phase 1 slice 5 counts them down.
 - **Not-for-profits:** the standard price less 20%.
 - **Descriptor:** "Quantified AI consulting". Never "Fractional AI operations".
 - **Booking:** Cal.com, not Calendly. The free call is
@@ -160,8 +178,8 @@ machines, don't hardcode them here). The rules that matter most:
 ## Commands
 
 ```bash
-cd tools && npm test          # shared model + pipeline tests (18; 1 skips without tools/.env)
-cd worker && npm test         # worker tests (10), fake KV/Resend/Turnstile/Anthropic
+cd tools && npm test          # shared model + pipeline tests (19; 1 skips without ANTHROPIC_API_KEY)
+cd worker && npm test         # worker tests (16), fake KV/Resend/Turnstile/Anthropic/engine
 cd worker && npm run deploy   # runs its tests, then npx wrangler deploy
 curl -s https://quantai-check.dave-70b.workers.dev/api/health   # {"ok":true}
 
@@ -171,10 +189,13 @@ npm run pull                        # list what's waiting
 npm run draft <id>                  # numbers, family split, AI draft + lint
 npm run render <id>                 # Chrome headless to PDF, opens it
 npm run send <id> -- --reviewed     # refuses without a PDF and without this flag
+npm run board -- fixtures           # four made-up submissions onto the pipeline board, one per routing
+npm run board -- <id>               # pass a stored submission to the board again
 ```
 
-`worker/node_modules` isn't committed: run `npm ci --ignore-scripts --omit=dev`
-in `worker/` once in a fresh clone before `npm test`.
+`node_modules` isn't committed in `worker/` or `tools/`: run
+`npm ci --ignore-scripts --omit=dev` in each once in a fresh clone before
+`npm test`.
 
 To check a page change before handing it over, serve the repo and look at it
 (see "Previewing and screenshots"), and check for leftovers with

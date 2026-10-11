@@ -1,6 +1,6 @@
 # QuantAI site and the 6-minute AI check · handoff
 
-Last updated 11 Oct 2026, after the site copy audit. Architecture, conventions, commands
+Last updated 12 Oct 2026, with Phase 1 slice 2 built and waiting to go live. Architecture, conventions, commands
 and settled decisions live in `CLAUDE.md`. This file is status only. Rewrite
 it at each checkpoint; don't append.
 
@@ -77,11 +77,9 @@ in this repo.** It is a module in the GTM engine at
   (15 minutes plus a 5 minute buffer, public), `audit-interview` (45, hidden
   from profile), `audit-debrief` (60, hidden from profile). Webhooks are
   available on his plan.
-- **Tests:** last run 10 Oct: tools 17 pass and 1 skipped, worker 10 pass.
-  Not run on 11 Oct. `tools/` has no `node_modules` in this clone, so
-  `npm test` there stops on a missing `@anthropic-ai/sdk` until someone runs
-  `npm ci` in `tools/`. Now that `tools/.env` is here, the live drafting test
-  will run and cost a call.
+- **Tests (12 Oct, on the slice 2 branch):** worker 16 pass; tools 18 pass
+  and 1 skipped (the live drafting test, run without the Anthropic key).
+  `tools/` now has its `node_modules`.
 
 ## Confirmed live (11 Oct)
 
@@ -92,30 +90,42 @@ in this repo.** It is a module in the GTM engine at
   noomoo card wording isn't live until that last commit is pushed.
 - Worker health returns `{"ok":true}`.
 
-**Not confirmed:** whether the worker has been redeployed since these
-changes. Until it is, the alert subject still says "land the $995" and the
+**Not confirmed:** whether the worker has been redeployed since the 10 Oct
+changes. Slice 2's go-live redeploys it anyway. Until it is, the alert subject still says "land the $995" and the
 email signature text still shows the Calendly link. Nothing breaks either
 way. `cd worker && npm run deploy`.
 
 ## What's next
 
-1. **Phase 1, slice 1: the pipeline board, in the GTM engine.** Built on
-   11 Oct on the engine's branch `feat/pipeline-board` (three commits), not
-   pushed or merged when this was written. Contacts, deals, the 17 stages
-   and an append-only timeline, with a board at `/pipeline`. The app builds
-   and the engine's suite passes (623). Nobody has seen it in a browser yet:
-   its pages need the migration, which runs on merge. Once Dave has merged
-   it and tried it with the six test deals, slice 1 is done. The detail is
-   in the engine's `CLAUDE.md` under "The pipeline board".
-2. **Slice 2 touches this repo.** The worker passes each submission on to the
-   engine; insurance broking and not-for-profit are added to question 1.6
-   (codes added only, worker deployed before the site); a `?sector=` prefill;
-   a separate unticked consent box; and page 3 of the report
-   (`tools/templates/report.html`) plus the CLOSE instruction in
-   `tools/lib/draft-prompt.js` stop describing the $995 assessment.
-3. **Until slice 2 lands:** a respondent scoring 15 or more still gets a PDF
-   offering the $995 assessment. Strip the `<!--PRICE-->` block from
-   `tools/out/<id>.html` by hand before rendering.
+1. **Phase 1, slice 1 (the pipeline board) is live** in the GTM engine at
+   `/pipeline`, merged as PR 135 on 12 Oct. Dave tried it and it works.
+2. **Slice 2 (the check feeds the board) is built, not live.** Two branches,
+   neither pushed when this was written: `feat/check-feeds-board` here and
+   `feat/check-intake` in the engine. Here: the worker passes each
+   submission to the engine, insurance broking and not-for-profit are on
+   question 1.6, `?sector=` starts 1.6 picked, the last screen has an
+   unticked consent box, and page 3 of the report and the CLOSE instruction
+   offer the founding audit and the call. `CLAUDE.md` has the detail under
+   "Single sources of truth". **Going live has an order, and it matters:**
+   1. Dave makes one long random token and sets it as `CHECK_INTAKE_TOKEN`
+      in Vercel for the engine.
+   2. The engine branch is merged (it carries a migration) and the
+      deployment is checked.
+   3. The same token goes in as the worker's `ENGINE_TOKEN` secret, then
+      `cd worker && npm run deploy`. This is also the redeploy that was
+      never confirmed after 10 Oct.
+   4. The same token goes in `tools/.env` as `ENGINE_TOKEN`, then
+      `cd tools && npm run board -- fixtures` files four made-up
+      submissions, one per routing. Dave checks them on the board and clears
+      them. That is the brief's "done when".
+   5. Only then is this branch merged and pushed, because the live worker
+      has to know the two new codes before the site offers them.
+3. **Still to decide on slice 2's wording:** the consent box says "Send me
+   occasional practical notes on AI in a business like mine. Unsubscribe any
+   time." The brief had "in [sector]"; that read badly for "Something else".
+   Dave to confirm. And the last screen still says "Your answers are used to
+   write your report and nothing else", which stops being the whole truth
+   once slice 4 sends follow-ups.
 4. **Run the report pipeline end to end on a real submission.** Still never
    done. It needs `tools/.env`, which is now in this clone (copied from the old
    Desktop clone on 10 Oct) and still has the Calendly URL.

@@ -19,6 +19,6 @@ console.log(`${submissions.length} waiting, ${fresh} new, saved in ${DATA_DIR}\n
 for (const s of submissions) {
   const q = s.qualification;
   const flag = q.override ? ' OVERRIDE' : '';
-  console.log(`${s.id.slice(0, 8)}  ${s.receivedAt.slice(0, 16).replace('T', ' ')}  ${String(q.total).padStart(2)}/25 ${q.tier.padEnd(9)}${flag}  ${s.answers['1.2']} (${s.answers['1.1']})`);
+  console.log(`${s.id.slice(0, 8)}  ${s.receivedAt.slice(0, 16).replace('T', ' ')}  ${String(q.total).padStart(2)}/25 ${q.tier.padEnd(9)}${flag}  ${s.answers['1.2']} (${s.answers['1.1']})`);  if (s.engine === 'failed') console.log(`          not on the pipeline board yet: npm run board -- ${s.id}`);
 }
 if (submissions.length) console.log('\nNext: npm run draft <id>');

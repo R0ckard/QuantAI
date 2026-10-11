@@ -108,3 +108,5 @@ footer{font-size:12.5px;color:var(--graphite);padding:18px 20px 28px;max-width:6
 footer a{color:var(--graphite)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.consent{display:flex;gap:10px;align-items:flex-start;margin:22px 0 0;font-size:15px;color:var(--slate);cursor:pointer}
+.consent input{flex:none;width:18px;height:18px;margin:2px 0 0;accent-color:var(--viridian)}

@@ -5,6 +5,9 @@
 // 11 Sep 2026, Dave's call: wording widened from professional firms to any
 // business, and four industries added to 1.6. Codes were only added, never
 // changed, so scoring and stored submissions are unaffected.
+// 12 Oct 2026, Phase 1 slice 2: insurance broking and not-for-profit added
+// to 1.6 (codes added only), and the wording of the consent box, which is
+// not a question and is not scored.
 // Each option is [code, label]. The code is what the scoring model reads.
 
 export const SECTIONS = [
@@ -32,6 +35,7 @@ export const QUESTIONS = [
     ['PROP', 'Real estate, property or development'], ['AGY', 'Marketing or creative agency'],
     ['HEALTH', 'Health, dental or allied health'], ['TRADE', 'Trades or construction'],
     ['HOSP', 'Hospitality, retail or fitness'],
+    ['INS', 'Insurance broking'], ['NFP', 'Not-for-profit'],
     ['OTH', 'Something else'],
   ] },
   { id: '1.7', section: 1, type: 'single', label: 'How many people, including you?', options: [
@@ -127,6 +131,11 @@ export const QUESTIONS = [
 ];
 
 export const QUESTION_COUNT = QUESTIONS.length; // 26
+
+// The separate, unticked box on the last screen. These are the exact words a
+// person agrees to; the worker stores them with the submission as the record
+// of what was consented to, so change them here and nowhere else.
+export const CONSENT_WORDING = 'Send me occasional practical notes on AI in a business like mine. Unsubscribe any time.';
 
 export const byId = Object.fromEntries(QUESTIONS.map(q => [q.id, q]));
 

@@ -3,7 +3,7 @@
 // follow ups and the submission. Everything else is local.
 
 import { CONFIG } from './config.js';
-import { SECTIONS, QUESTIONS, QUESTION_COUNT, byId, optionLabel, isValidAnswer } from './questions.js';
+import { SECTIONS, QUESTIONS, QUESTION_COUNT, CONSENT_WORDING, byId, optionLabel, isValidAnswer } from './questions.js';
 import { score, publicEstimate, formatAUD } from './model.js';
 
 const CONTACT_IDS = ['1.1', '1.2', '1.3', '1.4', '1.5'];
@@ -23,6 +23,15 @@ SCREENS.push({ type: 'results' });
 const params = new URLSearchParams(location.search);
 const clean = v => (v || '').toString().slice(0, 60).replace(/[^\w .-]/g, '');
 
+// A sector page links here with ?sector=ins (any code from question 1.6, in
+// either case) and that answer starts picked. It is only a head start: the
+// question is still shown and they can change it.
+function sectorFromLink() {
+  const want = (params.get('sector') || '').trim().toUpperCase();
+  const hit = want && byId['1.6'].options.find(o => o[0] === want);
+  return hit ? hit[0] : '';
+}
+
 let state = {
   sessionId: uuid(),
   src: clean(params.get('src')),
@@ -31,6 +40,7 @@ let state = {
   answers: {},
   probes: {},         // '5.1': { question, answer, skipped, tried }
   probeCalls: 0,
+  consent: false,     // the unticked box on the last screen
   submitted: null,    // server response, or { stub: true }
 };
 
@@ -53,6 +63,8 @@ function load() {
       if (state.screen >= SCREENS.length - 2) state.screen = SCREENS.length - 3; // never resume onto submit or results
     }
   } catch (e) { /* storage unavailable, carry on in memory */ }
+  const sector = sectorFromLink();
+  if (sector && !state.answers['1.6']) state.answers['1.6'] = sector;
 }
 function save() {
   if (state.submitted) return; // once it's gone, nothing goes back into storage
@@ -305,10 +317,12 @@ function renderSubmit(root) {
   root.innerHTML = `<p class="kick">That's all ${QUESTION_COUNT}</p>
     <h1>Send it and see your number.</h1>
     <p class="lead">Your estimate comes up on the next screen straight away. The written version, checked by Dave, goes to <b>${esc(state.answers['1.4'])}</b> inside two business days.</p>
+    <label class="consent"><input type="checkbox" id="consent"${state.consent ? ' checked' : ''}><span>${esc(CONSENT_WORDING)}</span></label>
     <div id="ts" class="turnstile"></div>
     <div class="actions"><button type="button" class="btn ghost" id="back">Back</button><button type="button" class="btn primary" id="send">Send my answers</button></div>
     <p class="meta">Your answers are used to write your report and nothing else.</p>`;
   $('#back').addEventListener('click', () => go(state.screen - 1));
+  $('#consent').addEventListener('change', e => { state.consent = e.target.checked; save(); });
   if (!stub && CONFIG.TURNSTILE_SITE_KEY) mountTurnstile();
   $('#send').addEventListener('click', submit);
 }
@@ -331,7 +345,7 @@ function payload() {
     const p = state.probes[id];
     if (p && p.question) probes[id] = { question: p.question, answer: p.skipped ? '' : (p.answer || '') };
   }
-  return { sessionId: state.sessionId, submittedAt: new Date().toISOString(), src: state.src, ref: state.ref, answers: state.answers, probes, turnstileToken };
+  return { sessionId: state.sessionId, submittedAt: new Date().toISOString(), src: state.src, ref: state.ref, answers: state.answers, probes, consent: { notes: state.consent === true }, turnstileToken };
 }
 
 async function submit() {

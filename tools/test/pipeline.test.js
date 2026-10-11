@@ -40,7 +40,10 @@ test('the number on their screen is the number in the report, same model both wa
   assert.ok(html.includes('<td class="num">30</td>'));
   assert.ok(html.includes('<td class="num">$75</td>'));
   assert.equal(/{{/.test(html), false);
-  assert.ok(html.includes('$995'), 'a 20/25 lands the price');
+  assert.ok(html.includes('$1,500 + GST'), 'a 20/25 lands the founding audit');
+  assert.ok(html.includes("Three founding audits at $1,500 + GST. Once they&#39;re gone, audits move to standard rates.") || html.includes("Three founding audits at $1,500 + GST. Once they're gone, audits move to standard rates."), 'the founding line is word for word');
+  assert.ok(html.includes('https://cal.com/dave-richardson/15min'), 'and the free call is one click away');
+  assert.equal(/\$995|\$295|guarantee|or you don.t pay|workflow assessment/i.test(html), false, 'the retired offer appears nowhere');
   assert.ok(html.includes('I&#39;d get my Fridays back'), 'their words go in verbatim, escaped');
 });
 
@@ -55,10 +58,12 @@ test('section 3 exceeding section 2 puts the disagree line in the report', () =>
 test('the price comes off the page for a 9 to 14 and for the small firm override', () => {
   const hold = recordFor({ ...golden, '5.2': 'Q_COOL', '5.4': 'P_NONE', '4.4': 'SL_OCC', '1.7': 'S3' });
   assert.equal(hold.qualification.tier, 'full_hold');
-  assert.ok(!fill(hold).includes('$995'));
+  assert.ok(!fill(hold).includes('$1,500'));
+  assert.equal(/founding audit|\$995/i.test(fill(hold)), false);
   const tiny = recordFor({ ...golden, '1.7': 'S2' });
   assert.equal(tiny.qualification.override, true);
-  assert.ok(!fill(tiny).includes('$995'));
+  assert.ok(!fill(tiny).includes('$1,500'));
+  assert.equal(/founding audit|\$995/i.test(fill(tiny)), false);
 });
 
 test('lint catches invented figures, fixes, benchmarks and dashes', () => {
@@ -130,3 +135,20 @@ test('live: an injection attempt in 6.1 still drafts a normal report', { skip: !
   assert.ok(!/zapier/i.test(text));
   assert.deepEqual(lint(tokens, numbers, theirBandWords(rec.answers, QUESTIONS, optionLabel)), []);
 });
+
+test('the board fixtures cover every routing, and each is what the model says it is', async () => {
+  const { FIXTURES, fixtureRecord } = await import('../lib/fixtures.js');
+  const { enginePayload, isTestSubmission } = await import('../../worker/src/forward.js');
+  const seen = FIXTURES.map(f => {
+    const rec = fixtureRecord(f);
+    assert.equal(rec.qualification.tier, f.expect.tier, f.answers['1.2']);
+    assert.equal(rec.qualification.override, f.expect.override, f.answers['1.2']);
+    assert.equal(isTestSubmission(f.answers), true, 'a fixture address cannot receive mail');
+    const p = enginePayload(rec);
+    assert.equal(p.isTest, true);
+    assert.match(p.contact.email, /\.example$/);
+    return `${rec.qualification.tier}${rec.qualification.override ? '+small' : ''}`;
+  });
+  assert.deepEqual(seen.sort(), ['full_hold', 'full_land', 'full_land+small', 'short']);
+});
+

@@ -4,6 +4,7 @@
 // POST /api/submit     validate, verify Turnstile, score, store in KV, email
 // GET  /api/pull       bearer token, returns submissions not yet processed
 // POST /api/mark       bearer token, marks one processed
+// POST /api/forward    bearer token, passes one submission to the board again
 // GET  /api/health
 //
 // Rules this file keeps: no secret leaves the worker, no answer or email
@@ -11,10 +12,11 @@
 // page's copy so the two numbers can never disagree.
 
 import Anthropic from '@anthropic-ai/sdk';
-import { QUESTIONS, byId, isValidAnswer, optionLabel } from '../../check/questions.js';
+import { QUESTIONS, CONSENT_WORDING, byId, isValidAnswer, optionLabel } from '../../check/questions.js';
 import { score, qualify, publicEstimate } from '../../check/model.js';
 import { MODELS, PROBE_SYSTEM, probeMessages, cleanProbe } from './ai.js';
 import { confirmationEmail, alertEmail } from './emails.js';
+import { forwardToEngine, isReservedAddress, isTestSubmission } from './forward.js';
 
 const PROBE_IDS = QUESTIONS.filter(q => q.probe).map(q => q.id);
 const LIMITS = Object.freeze({
@@ -45,6 +47,7 @@ export async function handle(request, env, ctx) {
       case 'POST /api/submit': body = await submit(request, env, ctx); break;
       case 'GET /api/pull': requireToken(request, env); body = await pull(env, url); break;
       case 'POST /api/mark': requireToken(request, env); body = await mark(request, env); break;
+      case 'POST /api/forward': requireToken(request, env); body = await forward(request, env); break;
       default: throw new HttpError(404, 'not_found');
     }
     return json(body, 200, cors);
@@ -184,26 +187,40 @@ async function submit(request, env, ctx) {
     submittedAt: typeof b.submittedAt === 'string' ? b.submittedAt.slice(0, 40) : '',
     src: cleanTag(b.src), ref: cleanTag(b.ref),
     answers, probes, scored, qualification,
+    // The box is unticked by default, so only an explicit true counts, and
+    // the words stored are the ones this worker knows were on the page.
+    consent: b.consent && b.consent.notes === true ? { notes: true, wording: CONSENT_WORDING } : { notes: false },
+    isTest: isTestSubmission(answers, env),
     processed: false, processedAt: null,
     emails: { confirmation: 'skipped', alert: 'skipped' },
+    engine: 'skipped',
   };
+
+  // The board is told alongside the emails, not after them, so a slow engine
+  // adds nothing to the wait. It never fails the submission.
+  const boarded = forwardToEngine(env, record);
 
   if (env.RESEND_API_KEY) {
     const conf = confirmationEmail({ name: answers['1.1'] });
     const alert = alertEmail({ id, answers, probes, scored, qualification, estimate, src: record.src, ref: record.ref, receivedAt: record.receivedAt });
+    // An address that cannot receive mail gets no confirmation: it would
+    // only bounce and count against the sending domain.
+    const reserved = isReservedAddress(answers['1.4']);
     const [c, a] = await Promise.allSettled([
-      sendEmail(env, { to: answers['1.4'], subject: conf.subject, text: conf.text, html: conf.html, replyTo: env.REPLY_TO }),
+      reserved ? Promise.resolve('skipped') : sendEmail(env, { to: answers['1.4'], subject: conf.subject, text: conf.text, html: conf.html, replyTo: env.REPLY_TO }),
       sendEmail(env, { to: env.ALERT_TO, subject: alert.subject, text: alert.text, html: alert.html, replyTo: answers['1.4'] }),
     ]);
-    record.emails.confirmation = c.status === 'fulfilled' ? 'sent' : 'failed';
+    record.emails.confirmation = reserved ? 'skipped' : (c.status === 'fulfilled' ? 'sent' : 'failed');
     record.emails.alert = a.status === 'fulfilled' ? 'sent' : 'failed';
   }
+
+  record.engine = await boarded;
 
   await env.SUBMISSIONS.put(`sub:${id}`, JSON.stringify(record), {
     metadata: { processed: false, firm: answers['1.2'].slice(0, 80), receivedAt: record.receivedAt, score: qualification.total },
   });
   await env.SUBMISSIONS.put(`sess:${b.sessionId}`, JSON.stringify({ id, estimate }), { expirationTtl: LIMITS.sessionMemoryDays * 86400 });
-  console.log(`submit stored ${id} emails=${record.emails.confirmation}/${record.emails.alert}`);
+  console.log(`submit stored ${id} emails=${record.emails.confirmation}/${record.emails.alert} engine=${record.engine}`);
   return { ok: true, id, estimate };
 }
 
@@ -262,4 +279,21 @@ async function mark(request, env) {
     metadata: { processed: true, firm: rec.answers['1.2'].slice(0, 80), receivedAt: rec.receivedAt, score: rec.qualification.total },
   });
   return { ok: true, id: b.id };
+}
+
+// Pass one stored submission to the board again, after a failed first try or
+// for one that arrived before the board existed. The engine files a given id
+// once however often it is sent, so this is safe to repeat.
+async function forward(request, env) {
+  const b = await readJson(request);
+  if (!isSessionId(b.id)) throw new HttpError(400, 'bad_id');
+  const rec = await env.SUBMISSIONS.get(`sub:${b.id}`, 'json');
+  if (!rec) throw new HttpError(404, 'not_found');
+  if (!rec.consent) rec.consent = { notes: false };
+  if (typeof rec.isTest !== 'boolean') rec.isTest = isTestSubmission(rec.answers, env);
+  rec.engine = await forwardToEngine(env, rec);
+  await env.SUBMISSIONS.put(`sub:${b.id}`, JSON.stringify(rec), {
+    metadata: { processed: !!rec.processed, firm: rec.answers['1.2'].slice(0, 80), receivedAt: rec.receivedAt, score: rec.qualification.total },
+  });
+  return { ok: rec.engine === 'sent', id: b.id, engine: rec.engine };
 }

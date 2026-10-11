@@ -9,6 +9,7 @@
     "draft": "node draft.js",
     "render": "node render.js",
     "send": "node send.js",
+    "board": "node board.js",
     "test": "node --test"
   },
   "dependencies": {

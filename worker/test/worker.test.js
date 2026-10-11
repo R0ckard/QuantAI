@@ -178,3 +178,113 @@ test('cors: unknown origins get no allow header, preflight is answered', async (
   assert.equal(r.status, 204);
   assert.equal(r.headers.get('access-control-allow-origin'), null);
 });
+
+// ---------- the pipeline board (Phase 1, slice 2) ----------
+const ENGINE = 'https://engine.test/api/intake/check';
+const boardEnv = () => ({ ...baseEnv(), ENGINE_URL: ENGINE, ENGINE_TOKEN: 'engine_secret' });
+
+test('submit passes the submission to the board with the model\'s own scoring, and records that it did', async () => {
+  const env = boardEnv();
+  const calls = [];
+  globalThis.fetch = async (url, init) => { calls.push({ url: String(url), headers: init.headers, body: JSON.parse(init.body) }); return new Response(JSON.stringify({ ok: true, created: true }), { status: 200 }); };
+  try {
+    const j = await (await handle(post('/api/submit', { sessionId: SESSION, answers: golden, src: 'linkedin', consent: { notes: true, wording: 'whatever the browser claims' } }), env, {})).json();
+    assert.equal(calls.length, 1);
+    const c = calls[0];
+    assert.equal(c.url, ENGINE);
+    assert.equal(c.headers.authorization, 'Bearer engine_secret');
+    assert.equal(c.body.id, j.id);
+    assert.equal(c.body.isTest, false);
+    assert.deepEqual(c.body.contact, { name: 'Sam Whitfield', email: 'sam@example.com.au', company: 'Whitfield Partners', role: 'Managing partner', phone: '', sector: 'Accounting or bookkeeping', staffBand: '16 to 50' });
+    assert.equal(c.body.qualification.total, 20);
+    assert.equal(c.body.qualification.tier, 'full_land');
+    assert.match(c.body.qualification.routing, /Land the audit/);
+    assert.deepEqual(c.body.estimate, publicEstimate(score(golden)));
+    assert.equal(c.body.answers['2.2'], 'H30');
+    assert.equal(c.body.src, 'linkedin');
+    // The words stored are the page's own, never what the request says they were.
+    assert.deepEqual(c.body.consent, { notes: true, wording: 'Send me occasional practical notes on AI in a business like mine. Unsubscribe any time.' });
+    const rec = await env.SUBMISSIONS.get(`sub:${j.id}`, 'json');
+    assert.equal(rec.engine, 'sent');
+    assert.equal(rec.consent.notes, true);
+    // The respondent still sees only the public estimate.
+    assert.equal('qualification' in j, false);
+    assert.equal('engine' in j, false);
+  } finally { globalThis.fetch = realFetch; }
+});
+
+test('the consent box is unticked unless it is explicitly ticked', async () => {
+  for (const consent of [undefined, {}, { notes: 'yes' }, { notes: 1 }, { notes: false }]) {
+    const env = baseEnv();
+    const j = await (await handle(post('/api/submit', { sessionId: SESSION, answers: golden, consent }), env, {})).json();
+    const rec = await env.SUBMISSIONS.get(`sub:${j.id}`, 'json');
+    assert.deepEqual(rec.consent, { notes: false });
+  }
+});
+
+test('a board that is down or refuses never costs a submission', async () => {
+  for (const reply of [() => new Response('nope', { status: 500 }), () => { throw new Error('network'); }]) {
+    const env = boardEnv();
+    globalThis.fetch = async () => reply();
+    try {
+      const r = await handle(post('/api/submit', { sessionId: SESSION, answers: golden }), env, {});
+      assert.equal(r.status, 200);
+      const j = await r.json();
+      assert.equal(j.ok, true);
+      const rec = await env.SUBMISSIONS.get(`sub:${j.id}`, 'json');
+      assert.equal(rec.engine, 'failed');
+      assert.equal(rec.qualification.total, 20);
+    } finally { globalThis.fetch = realFetch; }
+  }
+  // Not configured at all: exactly as before the board existed.
+  const env = baseEnv();
+  const j = await (await handle(post('/api/submit', { sessionId: SESSION, answers: golden }), env, {})).json();
+  assert.equal((await env.SUBMISSIONS.get(`sub:${j.id}`, 'json')).engine, 'skipped');
+});
+
+test('a failed one can be passed on again, behind the token', async () => {
+  const env = { ...boardEnv(), PULL_TOKEN: 'pull_secret' };
+  globalThis.fetch = async () => new Response('down', { status: 503 });
+  let id;
+  try { id = (await (await handle(post('/api/submit', { sessionId: SESSION, answers: golden }), env, {})).json()).id; } finally { globalThis.fetch = realFetch; }
+  assert.equal((await handle(post('/api/forward', { id }), env, {})).status, 401);
+  const sent = [];
+  globalThis.fetch = async (url, init) => { sent.push(JSON.parse(init.body)); return new Response(JSON.stringify({ ok: true }), { status: 200 }); };
+  try {
+    const r = await handle(post('/api/forward', { id }, { authorization: 'Bearer pull_secret' }), env, {});
+    assert.deepEqual(await r.json(), { ok: true, id, engine: 'sent' });
+    assert.equal(sent[0].id, id);
+    assert.equal((await env.SUBMISSIONS.get(`sub:${id}`, 'json')).engine, 'sent');
+    assert.equal((await handle(post('/api/forward', { id: '99999999-2222-4333-8444-555555555555' }, { authorization: 'Bearer pull_secret' }), env, {})).status, 404);
+  } finally { globalThis.fetch = realFetch; }
+});
+
+test('an address that cannot receive mail, or Dave\'s own, is filed as a test and gets no confirmation', async () => {
+  const env = { ...boardEnv(), RESEND_API_KEY: 're_test' };
+  const calls = [];
+  globalThis.fetch = async (url, init) => { calls.push({ url: String(url), body: JSON.parse(init.body) }); return new Response(JSON.stringify({ id: 'x' }), { status: 200 }); };
+  try {
+    const j = await (await handle(post('/api/submit', { sessionId: SESSION, answers: { ...golden, '1.4': 'someone@check-fixture.example' } }), env, {})).json();
+    const toEngine = calls.find(c => c.url === ENGINE);
+    assert.equal(toEngine.body.isTest, true);
+    const mail = calls.filter(c => c.url === 'https://api.resend.com/emails');
+    assert.deepEqual(mail.map(c => c.body.to[0]), ['dave@quantai.com.au'], 'only the alert to Dave goes out');
+    const rec = await env.SUBMISSIONS.get(`sub:${j.id}`, 'json');
+    assert.deepEqual(rec.emails, { confirmation: 'skipped', alert: 'sent' });
+    assert.equal(rec.isTest, true);
+  } finally { globalThis.fetch = realFetch; }
+  const env2 = baseEnv();
+  const j2 = await (await handle(post('/api/submit', { sessionId: SESSION, answers: { ...golden, '1.4': 'Dave@QuantAI.com.au' } }), env2, {})).json();
+  assert.equal((await env2.SUBMISSIONS.get(`sub:${j2.id}`, 'json')).isTest, true);
+  const j3 = await (await handle(post('/api/submit', { sessionId: '22222222-2222-4333-8444-555555555555', answers: golden }), baseEnv(), {})).json();
+  assert.equal(j3.ok, true);
+});
+
+test('insurance broking and not-for-profit are accepted on 1.6, and every older code still is', async () => {
+  for (const code of ['INS', 'NFP', 'ACC', 'HOSP', 'OTH']) {
+    const env = baseEnv();
+    const r = await handle(post('/api/submit', { sessionId: SESSION, answers: { ...golden, '1.6': code } }), env, {});
+    assert.equal(r.status, 200, code);
+  }
+});
+

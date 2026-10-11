@@ -18,7 +18,7 @@ Return one JSON object and nothing else, with exactly these string keys:
 - GAP_LINE: 2 to 4 sentences naming the single heaviest family and its yearly figure from FIGURES, and why it carries the cost on THEIR numbers (frequency, volume, who does it). No advice.
 - DUP_LINE: 1 to 3 sentences on the duplicated slice using the DUP_COST figure, only if DUP_COST is above zero. If it is $0, return an empty string.
 - HONESTY: 2 to 3 sentences in first person: these are estimates from the bands they picked, conservative midpoints, shown as a range, they tell you the scale, not a figure to put in front of partners.
-- CLOSE: 2 to 4 sentences reacting to their own words in 6.1, in first person. If TIER says land, close by saying the assessment below is the natural next step, without repeating the price. If TIER says hold, close by offering a free 15-minute call to talk it through, and do not mention any price or the assessment. Never promise a saving.`;
+- CLOSE: 2 to 4 sentences reacting to their own words in 6.1, in first person. If TIER says land, close by saying the audit set out on this page is the natural next step and that it starts with a free 15-minute call, without repeating the price. If TIER says hold, close by offering a free 15-minute call to talk it through, and do not mention any price or the audit. Never promise a saving.`;
 
 function labelled(answers) {
   const lines = [];
