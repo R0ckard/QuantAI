@@ -1,6 +1,6 @@
 # QuantAI site and the 6-minute AI check · handoff
 
-Last updated 10 Oct 2026, end of session. Architecture, conventions, commands
+Last updated 11 Oct 2026, after the site copy audit. Architecture, conventions, commands
 and settled decisions live in `CLAUDE.md`. This file is status only. Rewrite
 it at each checkpoint; don't append.
 
@@ -28,12 +28,36 @@ in this repo.** It is a module in the GTM engine at
   really contains, and where the v2 brief was wrong. One part is now
   superseded: its section 7 recommends Cloudflare hosting and a Supabase
   schema, and Dave has since chosen the GTM engine (Vercel and Neon) instead.
+- **Site copy audit (11 Oct):** Dave asked for an AI-slop audit of the site
+  and had all of it applied, in two passes (`5391daa`, `d54ed7d`), plus the
+  noomoo card. Wording only: no scoring, answer codes, links or prices
+  changed. It covered the homepage, the check landing page, the how-I-work
+  page and the five demonstration pages. The check itself (`check/`) was
+  clean and wasn't touched. Not covered: the walkthrough demos, diagrams,
+  dashboards, READMEs and docs inside the five example folders.
+  - Homepage: new hero ("Find out what the admin's costing you, and what's
+    worth fixing with AI."), "What I help with" is five plain cards (the
+    audit card went, since "Where to start" covers it), and "How I work" is
+    one paragraph headed "If you bring me back to build it" with the four
+    step boxes removed
+  - Check landing page: three claims about past reports came out because
+    nothing backs them yet ("in my experience it's rarely the part people
+    point at first" and two like it). Don't put them back until real
+    reports have gone out
+  - How-I-work page: opens with the call and the audit, then describes the
+    build as what follows. "Alongside client engagements" is gone
+  - Demonstration pages: each says at the top that it's built around a
+    made-up business, the title says "Demonstration" and not "Case Study",
+    "What was delivered" is "What's in the repository", and 01 and 02 now
+    say the figures aren't measured client outcomes
 - **Homepage (`index.html`):**
   - title "QuantAI · AI consulting for Australian businesses · Melbourne",
     new meta description, eyebrow "QuantAI · Quantified AI consulting ·
     Melbourne"
   - "What I build" is three cards: noomoo, CarbonCut, the GTM engine. The
-    Wattlebid card and the six tooling cards are gone
+    Wattlebid card and the six tooling cards are gone. The noomoo card says
+    what the CRM does in plain words: unsubscribes and bounces are
+    suppressed (Dave's wording, 11 Oct)
   - the "Five engagements" section and its nav link are gone. The five
     example folders are still live at the same URLs and are mentioned once,
     in the approach section, as demonstrations built around made-up businesses
@@ -53,14 +77,19 @@ in this repo.** It is a module in the GTM engine at
   (15 minutes plus a 5 minute buffer, public), `audit-interview` (45, hidden
   from profile), `audit-debrief` (60, hidden from profile). Webhooks are
   available on his plan.
-- **Tests:** tools 17 pass and 1 skipped (the live drafting test, no
-  `tools/.env` in this clone), worker 10 pass.
+- **Tests:** last run 10 Oct: tools 17 pass and 1 skipped, worker 10 pass.
+  Not run on 11 Oct. `tools/` has no `node_modules` in this clone, so
+  `npm test` there stops on a missing `@anthropic-ai/sdk` until someone runs
+  `npm ci` in `tools/`. Now that `tools/.env` is here, the live drafting test
+  will run and cost a call.
 
-## Confirmed live (10 Oct)
+## Confirmed live (11 Oct)
 
-- `origin/main` is at `1253de2` and the working tree is clean.
-- quantai.com.au serves the new title, the founding offer and the Cal.com
-  link.
+- `origin/main` was at `d54ed7d` with both copy passes in it, before the
+  commit that carries this file and the noomoo card.
+- quantai.com.au serves the audited copy on the homepage, the check landing
+  page and the BrightPath demonstration page (curled, one line each). The
+  noomoo card wording isn't live until that last commit is pushed.
 - Worker health returns `{"ok":true}`.
 
 **Not confirmed:** whether the worker has been redeployed since these
@@ -111,8 +140,9 @@ way. `cd worker && npm run deploy`.
 5. **Vercel free plan:** the GTM engine runs on it and Vercel restricts it to
    non-commercial use. Dave knows. The only free way off is his Contabo VPS,
    which he has parked as later work.
-6. **The how-I-work PDF** still says "Fractional AI operations". The HTML is
-   fixed; the PDF needs re-exporting.
+6. **The how-I-work PDF** still says "Fractional AI operations" and now
+   differs from the HTML in most paragraphs after the 11 Oct copy changes.
+   It needs re-exporting by hand.
 7. **Homepage `lang`** is `en`; the landing page uses `en-AU`. No canonical
    links, `robots.txt` or `sitemap.xml` exist, and GitHub Pages isn't
    enforcing HTTPS. All Phase 2 or Phase 4 work.
@@ -121,6 +151,14 @@ way. `cd worker && npm run deploy`.
    `noindex`, moving the worker off `*.workers.dev` (DNS is on Namecheap, so
    that's a DNS change), the family-split bias towards documents, and the
    known flaw on Model rows 24 to 25 of Dave's `admin-load-scoring.xlsx`.
+
+9. **Routing after a check:** this file lists the thresholds as settled,
+   while `CLAUDE.md` says whether they still fit the audit ladder is an open
+   decision for Dave. Raised with him on 11 Oct, not answered.
+10. **Stat labels and tag strips:** the three stat labels on the check
+    landing page ("To answer. Most of it is one tap.") and the small tag
+    strips on the demonstration pages were left as labels. Dave hasn't said
+    whether he wants them rewritten too.
 
 Settled, don't reopen:
 
@@ -136,7 +174,20 @@ Settled, don't reopen:
 
 ## Dead ends already ruled out, don't retry these
 
-From this session:
+From the 11 Oct copy session:
+
+- **Fixing slop by compressing it.** A first set of rewrites cut the filler
+  down to short punchy sentences and Dave rejected the lot as more AI slop
+  ("Nobody writes 4 word sentences, only AI does that"). Write longer,
+  connected sentences. The `my-writing-style` skill now has the rejected and
+  accepted versions side by side, and `plain-english-ai` is a new skill for
+  explainer content (LinkedIn posts and site pages). Both live in
+  `~/quantai/skills/`, which is a local git repo with no remote. The
+  explainer skill is waiting on Dave's recordings for its examples.
+- **Judging the live site from an open browser tab.** Dave saw old copy
+  after a push because of his browser cache. Curl the page, or hard refresh.
+
+From the 10 Oct session:
 
 - **Working in `~/Documents/QuantAI/QuantAI/Website/QuantAI-repo` or
   `~/Desktop/QuantAI`.** Both were iCloud-synced clones and both were removed

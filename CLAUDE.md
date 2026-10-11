@@ -29,7 +29,7 @@ several things; `docs/SURVEY.md` section 1 lists them.
   ADR 0002 says every new component is a module in that repo.
 - Phase 1 work that does land here: the worker forwarding submissions, new
   options on question 1.6, the consent box, and page 3 of the report.
-- **noomoo-crm** (`~/Documents/QuantAI/noomoo/noomoo-crm`) is a source of UI
+- **noomoo-crm** (`~/Projects/noomoo-crm`) is a source of UI
   to copy (kanban, contact page) and schema conventions. It is not a working
   example of sequences, dry-run, or one-click unsubscribe.
 
@@ -109,7 +109,7 @@ decisions are in `~/Documents/QuantAI/Consulting/Briefs/QUANTAI-CONSULTANT-REBUI
 - **Still to change (Phase 1):** page 3 of the report
   (`tools/templates/report.html`) and the CLOSE instruction in
   `tools/lib/draft-prompt.js` still describe the $995 assessment. Until then,
-  strip the `<!--PRICE-->` block from `out/<id>.html` before rendering.
+  strip the `<!--PRICE-->` block from `tools/out/<id>.html` before rendering.
 - **Not-for-profits:** the standard price less 20%.
 - **Descriptor:** "Quantified AI consulting". Never "Fractional AI operations".
 - **Booking:** Cal.com, not Calendly. The free call is
@@ -139,6 +139,11 @@ machines, don't hardcode them here). The rules that matter most:
 - **No em dashes or en dashes, anywhere, in anything produced**: prose, code
   comments, commit messages, docs. Comma, colon, or a new sentence instead.
   Plain hyphen only for ranges and compounds ("6-minute", "15-minute").
+- **No runs of short sentences.** Dave reads four to six word sentences and
+  stacked fragments as AI slop, as much as corporate filler (11 Oct 2026).
+  Join related points with "and", "which" or "so". Headings and labels can be
+  short. Load the `my-writing-style` skill, and read its full profile, before
+  writing any copy in his name; `plain-english-ai` covers explainer content.
 - Contractions always. British/Australian spelling. Sentence case, not Title
   Case. No Australian idiom (Dave is a Londoner).
 - Viridian is the single accent colour, used sparingly. Ink/paper/slate do most
@@ -147,7 +152,7 @@ machines, don't hardcode them here). The rules that matter most:
   "written by hand" or "I write every one myself".
 - **Findings, never fixes.** The free report names what the repeat work costs and
   which family is heaviest. It never names a tool, a product, a sequence, or a
-  first step; that's the paid assessment. `tools/lib/draft-prompt.js` encodes
+  first step; that's the paid audit. `tools/lib/draft-prompt.js` encodes
   this, including a ban on the word "AI" in report prose (the product name sits
   on the cover only), and `lint()` in `tools/lib/report.js` checks the model's
   output before Dave sees the draft.
