@@ -1,6 +1,6 @@
 # QuantAI site and the 6-minute AI check · handoff
 
-Last updated 12 Oct 2026, with Phase 1 slice 2 built and waiting to go live. Architecture, conventions, commands
+Last updated 13 Oct 2026, as Phase 1 slice 2 went live. Architecture, conventions, commands
 and settled decisions live in `CLAUDE.md`. This file is status only. Rewrite
 it at each checkpoint; don't append.
 
@@ -90,8 +90,8 @@ in this repo.** It is a module in the GTM engine at
   noomoo card wording isn't live until that last commit is pushed.
 - Worker health returns `{"ok":true}`.
 
-**Not confirmed:** whether the worker has been redeployed since the 10 Oct
-changes. Slice 2's go-live redeploys it anyway. Until it is, the alert subject still says "land the $995" and the
+The worker was redeployed on 13 Oct (version `a5bb5095`), so the alert
+subject and signature changes from 10 Oct are live too. Until it is, the alert subject still says "land the $995" and the
 email signature text still shows the Calendly link. Nothing breaks either
 way. `cd worker && npm run deploy`.
 
@@ -99,33 +99,31 @@ way. `cd worker && npm run deploy`.
 
 1. **Phase 1, slice 1 (the pipeline board) is live** in the GTM engine at
    `/pipeline`, merged as PR 135 on 12 Oct. Dave tried it and it works.
-2. **Slice 2 (the check feeds the board) is built, not live.** Two branches,
-   neither pushed when this was written: `feat/check-feeds-board` here and
-   `feat/check-intake` in the engine. Here: the worker passes each
-   submission to the engine, insurance broking and not-for-profit are on
-   question 1.6, `?sector=` starts 1.6 picked, the last screen has an
-   unticked consent box, and page 3 of the report and the CLOSE instruction
-   offer the founding audit and the call. `CLAUDE.md` has the detail under
-   "Single sources of truth". **Going live has an order, and it matters:**
-   1. Dave makes one long random token and sets it as `CHECK_INTAKE_TOKEN`
-      in Vercel for the engine.
-   2. The engine branch is merged (it carries a migration) and the
-      deployment is checked.
-   3. The same token goes in as the worker's `ENGINE_TOKEN` secret, then
-      `cd worker && npm run deploy`. This is also the redeploy that was
-      never confirmed after 10 Oct.
-   4. The same token goes in `tools/.env` as `ENGINE_TOKEN`, then
-      `cd tools && npm run board -- fixtures` files four made-up
-      submissions, one per routing. Dave checks them on the board and clears
-      them. That is the brief's "done when".
-   5. Only then is this branch merged and pushed, because the live worker
-      has to know the two new codes before the site offers them.
-3. **Still to decide on slice 2's wording:** the consent box says "Send me
-   occasional practical notes on AI in a business like mine. Unsubscribe any
-   time." The brief had "in [sector]"; that read badly for "Something else".
-   Dave to confirm. And the last screen still says "Your answers are used to
-   write your report and nothing else", which stops being the whole truth
-   once slice 4 sends follow-ups.
+2. **Slice 2 (the check feeds the board) went live on 13 Oct.** The engine
+   half is merged (PR 136, migration ran), `CHECK_INTAKE_TOKEN` is set in
+   Vercel, the worker has `ENGINE_TOKEN` and was deployed that morning, and
+   the four fixtures filed and were read back from production: one per
+   routing, all in "Check submitted", all flagged as tests. The website is
+   the commit that carries this file. `CLAUDE.md` has how it works under
+   "Single sources of truth". Still to do:
+   - **Dave fills in the live check with his own address** as the real
+     end-to-end test (it files as a test deal), then clears the test deals.
+   - **A wording fix is waiting in the engine** on
+     `fix/small-business-next-step`: a 1 to 5 person business's next step
+     said both "a paid audit does not fit" and "land the audit".
+   - **`tools/.env` holds the token** as `ENGINE_TOKEN`. It's the only saved
+     copy outside Vercel and Cloudflare.
+3. **Slices 3 to 5 wait on the GoHighLevel snapshot** (Dave, 13 Oct). Nobody
+   has read Carly Meyers' actual build; the plan follows the brief's summary
+   of it. Booking, follow-ups and the offer-to-payment steps are the parts
+   her workflows, sequences and terms would shape, so they don't start until
+   the snapshot has been gone through with Dave in Chrome (read only) and
+   compared with what's built and planned. Her build may also use SMS, which
+   this plan doesn't. The trial runs 30 days from the night of 13 Oct.
+   **Decided:** the consent box keeps the words "Send me occasional practical
+   notes on AI in a business like mine. Unsubscribe any time." **Still
+   open:** the last screen says "Your answers are used to write your report
+   and nothing else", which stops being the whole truth once follow-ups send.
 4. **Run the report pipeline end to end on a real submission.** Still never
    done. It needs `tools/.env`, which is now in this clone (copied from the old
    Desktop clone on 10 Oct) and still has the Calendly URL.
@@ -186,6 +184,20 @@ Settled, don't reopen:
 - No ongoing monthly costs. Don't propose a paid plan as a fallback.
 
 ## Dead ends already ruled out, don't retry these
+
+From the 13 Oct go-live:
+
+- **Handing Dave a token to carry between steps.** He generated one to the
+  clipboard, it was overwritten, and Vercel ended up holding a token nothing
+  else had. Write a new secret straight into `tools/.env` and pipe it from
+  there into `wrangler secret put` and `vercel env add`, so nothing is
+  pasted. Strip the newline for Vercel (`tr -d '\n'`).
+- **Setting a Vercel variable and expecting the running deployment to have
+  it.** It needs a redeploy (`vercel redeploy <deployment url>`).
+- **`wrangler` as a bare command in `worker/`.** It isn't installed there.
+  The deploy script now calls `npx wrangler`.
+- **Giving instructions after the step they apply to.** "Save the token"
+  came after he'd already moved on. Put the thing that can't be undone first.
 
 From the 11 Oct copy session:
 
