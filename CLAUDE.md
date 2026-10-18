@@ -16,8 +16,16 @@ QuantAI is being rebuilt as an AI consulting practice. The plan lives outside
 this repo in `~/Documents/QuantAI/Consulting/Briefs/`:
 `QUANTAI-CONSULTANT-REBUILD-BRIEF.md` (v2, all phases) and
 `QUANTAI-CONSULTANT-REBUILD-PHASE-1-v3.md` (replaces v2's section 5 and holds
-Dave's decisions). Where they disagree, v3 wins. The v2 brief is wrong about
-several things; `docs/SURVEY.md` section 1 lists them.
+Dave's decisions). Where they disagree, v3 wins. **Addendum v3,
+`quantai-sm-machine-marketing-addendum.md`, sets priority and scope and wins
+over both on those** (17 Oct 2026). The v2 brief is wrong about several
+things; `docs/SURVEY.md` section 1 lists them. Before starting anything a
+brief calls outstanding, check `docs/handoff.md` and the live site: on
+17 Oct a prompt asked for Phase 0 again, which had been live for a week.
+
+Files Dave's chat Claude cites as `project:claude/<name>.md` or "(QuantAI
+project)" are in a claude.ai project. No session can read them; ask Dave to
+save the file to disk or paste it.
 
 - **This repo** is the public website, the check, its worker and the local
   report pipeline. Nothing else.
@@ -191,7 +199,22 @@ npm run render <id>                 # Chrome headless to PDF, opens it
 npm run send <id> -- --reviewed     # refuses without a PDF and without this flag
 npm run board -- fixtures           # four made-up submissions onto the pipeline board, one per routing
 npm run board -- <id>               # pass a stored submission to the board again
+npm run send <id> -- --reviewed --dry-run   # prints recipient, subject and body, sends nothing
+npm run draft <id> -- --yes --no-ai         # numbers only, placeholder prose, no API call
 ```
+
+**To run the report pipeline without a real submission**, save a made-up one
+from `tools/lib/fixtures.js` into `tools/data/` with `answers['1.4']` set to
+`dave@quantai.com.au` (`fixtureRecord(f)`, then `dataFile(rec.id)`), and draft,
+render and send that. Never submit the live check from a session: Turnstile
+shows "Verify you are human", which a session must not tick, and Dave tests
+the form himself. The fixture's `1.1` is "Test: Sam Whitfield", so its email
+greets "Hi Test:,"; a real name doesn't do that.
+
+**Check a layout change with real prose.** `--no-ai` placeholders are short
+and fit on the page when real paragraphs don't. To re-render one draft
+against a changed template without paying for a new draft, fill the template
+from `out/<id>.json`'s `tokens` with `fillTemplate` and run `render`.
 
 `node_modules` isn't committed in `worker/` or `tools/`: run
 `npm ci --ignore-scripts --omit=dev` in each once in a fresh clone before
@@ -203,7 +226,10 @@ To check a page change before handing it over, serve the repo and look at it
 (quote the patterns: zsh errors on an unquoted `--include=*.js`).
 
 `tools` tests include one live drafting test that calls Anthropic whenever
-`tools/.env` has `ANTHROPIC_API_KEY`. It costs a call and very occasionally fails
+`tools/.env` has `ANTHROPIC_API_KEY`. **That account ran out of credit before
+18 Oct 2026**: `draft` failed with "Your credit balance is too low", and the
+check's follow-up question fails soft to nothing in the same case, so a
+missing follow-up is the only sign on the live site. It costs a call and very occasionally fails
 `lint()` on a figure the model wrote; rerun once before treating it as a
 regression. Full detail on each command: `tools/README.md`, `worker/README.md`.
 
@@ -214,7 +240,16 @@ file as plain text. Worker secrets live only as Wrangler secrets
 (`npx wrangler secret put <NAME>` from `worker/`); the local pipeline's
 equivalents live in `tools/.env`, gitignored, copied from `tools/.env.example`.
 This clone's `tools/.env` is the only copy (brought across from the old Desktop
-clone on 10 Oct 2026). It still holds the Calendly URL.
+clone on 10 Oct 2026). Its `CALENDLY_URL` key holds the Cal.com link.
+
+**`tools/.env`'s `PULL_TOKEN` must equal the worker's.** On 18 Oct they
+differed and `pull`, `mark` and `board -- <id>` all got 401. A Wrangler secret
+can't be read back, so the fix is to push the local one up, which a session's
+permission check refuses; Dave runs:
+`cd ~/Projects/QuantAI && grep '^PULL_TOKEN=' tools/.env | cut -d= -f2- | tr -d ' \r\n"' | npx wrangler secret put PULL_TOKEN --cwd worker`.
+To see what's stored without the token:
+`npx wrangler kv key list --binding SUBMISSIONS --remote --prefix sub:` from
+`worker/` (read only).
 Never put a key in a committed file, ever, even temporarily.
 
 ## Known environment hazard: iCloud eviction on `~/Desktop` and `~/Documents`
