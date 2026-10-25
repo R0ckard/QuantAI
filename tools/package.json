@@ -10,7 +10,8 @@
     "render": "node render.js",
     "send": "node send.js",
     "board": "node board.js",
-    "test": "node --test"
+    "test": "node --test",
+    "shared": "node shared.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0"

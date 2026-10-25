@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://quantai.com.au/sitemap.xml
