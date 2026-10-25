@@ -57,6 +57,18 @@ export function enginePayload(record) {
   };
 }
 
+// One-click unsubscribe (RFC 8058) for the check's own emails, by the
+// submission's id: the S&M Machine puts the address on the one do-not-contact
+// list every sender reads. Empty when the board is not configured.
+export function unsubscribeHeaders(env, id) {
+  if (!env.ENGINE_URL || !id) return undefined;
+  const origin = new URL(env.ENGINE_URL).origin;
+  return {
+    'List-Unsubscribe': `<${origin}/api/unsubscribe/check/${id}>`,
+    'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+  };
+}
+
 // 'sent', 'failed' or 'skipped' (not configured). Never throws: a submission
 // must not fail because the board could not be reached.
 export async function forwardToEngine(env, record) {

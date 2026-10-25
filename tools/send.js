@@ -6,6 +6,7 @@ import { loadRecord, resolveId, outJson, outPdf, SENT_LOG } from './lib/paths.js
 import { score } from '../check/model.js';
 import { deliveryEmail, oneLineFinding, firstNameOf, tierFor } from './lib/report.js';
 import { wrapHtml, paragraphsToHtml, SIGNATURE_TEXT } from '../worker/src/emails.js';
+import { unsubscribeHeaders } from '../worker/src/forward.js';
 
 const args = process.argv.slice(2);
 const flag = f => args.includes(f);
@@ -45,6 +46,9 @@ if (dry) { console.log('Dry run, nothing sent.'); process.exit(0); }
 need('RESEND_API_KEY');
 const html = wrapHtml({ preheader: email.text.split('\n').filter(Boolean)[1] || '', bodyHtml: paragraphsToHtml(email.text) });
 const body = { from: ENV.RESEND_FROM, to: [a['1.4']], reply_to: ENV.REPLY_TO, subject: email.subject, text: `${email.text}\n\n${SIGNATURE_TEXT}`, html };
+// One-click unsubscribe onto the S&M Machine's do-not-contact list (parity D8).
+const unsubscribe = unsubscribeHeaders(ENV, id);
+if (unsubscribe) body.headers = unsubscribe;
 if (pdfPath) body.attachments = [{ filename: `QuantAI-AI-Check-${a['1.2'].replace(/[^\w]+/g, '-')}.pdf`, content: fs.readFileSync(pdfPath).toString('base64') }];
 const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { authorization: `Bearer ${ENV.RESEND_API_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify(body) });
 if (!r.ok) { console.error(`Resend said ${r.status}: ${await r.text()}`); process.exit(1); }
@@ -53,6 +57,21 @@ const { id: emailId } = await r.json();
 const line = `${new Date().toISOString()}\t${id}\t${a['1.2']}\t${record.qualification.total}/25\t${kind}\t${emailId}\n`;
 fs.appendFileSync(SENT_LOG, line);
 console.log(`Sent (${emailId}). Logged to ${SENT_LOG}.`);
+
+// The board moves the deal to Report sent, which starts the clock for check
+// emails 5 and 6 (parity C4). A failure here never undoes the send: move the
+// card by hand on /pipeline instead.
+if (ENV.ENGINE_URL && ENV.ENGINE_TOKEN) {
+  try {
+    const b = await fetch(`${new URL(ENV.ENGINE_URL).origin}/api/intake/report-sent`, { method: 'POST', headers: { authorization: `Bearer ${ENV.ENGINE_TOKEN}`, 'content-type': 'application/json' }, body: JSON.stringify({ id }), signal: AbortSignal.timeout(10000) });
+    const j = await b.json().catch(() => ({}));
+    console.log(b.ok ? (j.moved ? 'Moved to Report sent on the board.' : 'The board already had it at Report sent or further on.') : `Sent, but the board said ${b.status}: move the card to Report sent by hand.`);
+  } catch (e) {
+    console.log(`Sent, but the board could not be reached (${e.name}): move the card to Report sent by hand.`);
+  }
+} else {
+  console.log('ENGINE_TOKEN not set, so the card was not moved to Report sent. Move it by hand.');
+}
 
 if (ENV.WORKER_URL && ENV.PULL_TOKEN) {
   const m = await fetch(`${ENV.WORKER_URL}/api/mark`, { method: 'POST', headers: { authorization: `Bearer ${ENV.PULL_TOKEN}`, 'content-type': 'application/json' }, body: JSON.stringify({ id }) });

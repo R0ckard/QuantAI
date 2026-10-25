@@ -320,3 +320,18 @@ test('a referrer that is not a plain host name is dropped, and a submission with
     assert.equal(calls[0].referredBy, '');
   } finally { globalThis.fetch = realFetch; }
 });
+
+test('the confirmation carries one-click unsubscribe headers pointing at the board, by the submission id', async () => {
+  const env = { ...boardEnv(), RESEND_API_KEY: 're_test', RESEND_FROM: 'Dave <dave@send.quantai.com.au>', ALERT_TO: 'alerts@quantai.com.au' };
+  const calls = [];
+  globalThis.fetch = async (url, init) => { calls.push({ url: String(url), body: JSON.parse(init.body) }); return new Response(JSON.stringify({ ok: true, id: 're_1' }), { status: 200 }); };
+  try {
+    const j = await (await handle(post('/api/submit', { sessionId: '33333333-3333-4333-8333-333333333333', answers: golden }), env, {})).json();
+    const conf = calls.find(c => c.url.includes('resend') && c.body.to[0] === golden['1.4']);
+    assert.ok(conf, 'confirmation sent');
+    assert.equal(conf.body.headers['List-Unsubscribe'], `<${new URL(ENGINE).origin}/api/unsubscribe/check/${j.id}>`);
+    assert.equal(conf.body.headers['List-Unsubscribe-Post'], 'List-Unsubscribe=One-Click');
+    const alert = calls.find(c => c.url.includes('resend') && c.body.to[0] === 'alerts@quantai.com.au');
+    assert.equal(alert.body.headers, undefined);
+  } finally { globalThis.fetch = realFetch; }
+});
