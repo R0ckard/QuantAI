@@ -288,3 +288,35 @@ test('insurance broking and not-for-profit are accepted on 1.6, and every older 
   }
 });
 
+
+test('submit passes on where they came from, cleaned, and the board gets it alongside the answers', async () => {
+  const env = boardEnv();
+  const calls = [];
+  globalThis.fetch = async (url, init) => { calls.push(JSON.parse(init.body)); return new Response(JSON.stringify({ ok: true }), { status: 200 }); };
+  try {
+    const j = await (await handle(post('/api/submit', {
+      sessionId: SESSION, answers: golden,
+      utm: { source: 'outreach', medium: 'email', campaign: 'ins-2026-11<script>' },
+      referrer: 'WWW.Google.com', sectorLink: 'INS', referredBy: 'smith-accounting',
+    }), env, {})).json();
+    const body = calls[0];
+    assert.deepEqual(body.utm, { source: 'outreach', medium: 'email', campaign: 'ins-2026-11script' });
+    assert.equal(body.referrer, 'www.google.com');
+    assert.equal(body.sectorLink, 'INS');
+    assert.equal(body.referredBy, 'smith-accounting');
+    const rec = await env.SUBMISSIONS.get(`sub:${j.id}`, 'json');
+    assert.equal(rec.utm.source, 'outreach');
+  } finally { globalThis.fetch = realFetch; }
+});
+
+test('a referrer that is not a plain host name is dropped, and a submission without any of it still forwards', async () => {
+  const env = boardEnv();
+  const calls = [];
+  globalThis.fetch = async (url, init) => { calls.push(JSON.parse(init.body)); return new Response(JSON.stringify({ ok: true }), { status: 200 }); };
+  try {
+    await handle(post('/api/submit', { sessionId: '22222222-2222-4222-8222-222222222222', answers: golden, referrer: 'https://evil.example/?q=x' }), env, {});
+    assert.equal(calls[0].referrer, '');
+    assert.deepEqual(calls[0].utm, { source: '', medium: '', campaign: '' });
+    assert.equal(calls[0].referredBy, '');
+  } finally { globalThis.fetch = realFetch; }
+});

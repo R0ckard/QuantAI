@@ -96,6 +96,10 @@ function timingSafeEqual(a, b) {
 
 const isSessionId = s => typeof s === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
 const cleanTag = v => String(v || '').slice(0, 60).replace(/[^\w .-]/g, '');
+// The referring site's host, as the browser worked it out. Anything that is
+// not a plain host name is dropped rather than passed on.
+const cleanHost = v => { const s = String(v || '').trim().toLowerCase().slice(0, 253); return /^[a-z0-9.-]+$/.test(s) ? s : ''; };
+const cleanUtm = u => ({ source: cleanTag(u && u.source), medium: cleanTag(u && u.medium), campaign: cleanTag(u && u.campaign) });
 
 async function sha256(text) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
@@ -186,6 +190,8 @@ async function submit(request, env, ctx) {
     receivedAt: new Date().toISOString(),
     submittedAt: typeof b.submittedAt === 'string' ? b.submittedAt.slice(0, 40) : '',
     src: cleanTag(b.src), ref: cleanTag(b.ref),
+    utm: cleanUtm(b.utm), referrer: cleanHost(b.referrer),
+    sectorLink: cleanTag(b.sectorLink), referredBy: cleanTag(b.referredBy),
     answers, probes, scored, qualification,
     // The box is unticked by default, so only an explicit true counts, and
     // the words stored are the ones this worker knows were on the page.

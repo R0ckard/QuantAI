@@ -48,6 +48,12 @@ export function enginePayload(record) {
     consent,
     src: record.src || '',
     ref: record.ref || '',
+    // Where they came from (addendum v3 row 5). The board keeps the first
+    // arrival on the contact and every one on the submission.
+    utm: record.utm || { source: '', medium: '', campaign: '' },
+    referrer: record.referrer || '',
+    sectorLink: record.sectorLink || '',
+    referredBy: record.referredBy || '',
   };
 }
 

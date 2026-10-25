@@ -32,10 +32,33 @@ function sectorFromLink() {
   return hit ? hit[0] : '';
 }
 
+// Where they came from (addendum v3 row 5): this page's own link first, then
+// the first arrival that /assets/first-touch.js remembered on any page.
+function firstTouch() {
+  try { return JSON.parse(localStorage.getItem('qa-first-touch') || 'null') || {}; }
+  catch (e) { return {}; }
+}
+function attribution() {
+  const t = firstTouch();
+  const here = { source: clean(params.get('utm_source')), medium: clean(params.get('utm_medium')), campaign: clean(params.get('utm_campaign')) };
+  const linked = here.source || here.medium || here.campaign;
+  const utm = linked ? here : { source: clean(t.utm && t.utm.source), medium: clean(t.utm && t.utm.medium), campaign: clean(t.utm && t.utm.campaign) };
+  let ref = '';
+  try { ref = document.referrer ? new URL(document.referrer).hostname.toLowerCase() : ''; } catch (e) { ref = ''; }
+  if (/(^|\.)quantai\.com\.au$/.test(ref)) ref = '';
+  return {
+    utm,
+    referrer: ref || clean(t.referrer),
+    sectorLink: clean(params.get('sector')) || clean(t.sector),
+    referredBy: clean(params.get('partner')) || clean(t.partner),
+  };
+}
+
 let state = {
   sessionId: uuid(),
   src: clean(params.get('src')),
   ref: clean(params.get('ref')),
+  came: attribution(),
   screen: 0,
   answers: {},
   probes: {},         // '5.1': { question, answer, skipped, tried }
@@ -60,6 +83,7 @@ function load() {
       state = { ...state, ...saved, submitted: null };
       if (params.get('src')) state.src = clean(params.get('src'));
       if (params.get('ref')) state.ref = clean(params.get('ref'));
+      if (!saved.came) state.came = attribution();
       if (state.screen >= SCREENS.length - 2) state.screen = SCREENS.length - 3; // never resume onto submit or results
     }
   } catch (e) { /* storage unavailable, carry on in memory */ }
@@ -345,7 +369,8 @@ function payload() {
     const p = state.probes[id];
     if (p && p.question) probes[id] = { question: p.question, answer: p.skipped ? '' : (p.answer || '') };
   }
-  return { sessionId: state.sessionId, submittedAt: new Date().toISOString(), src: state.src, ref: state.ref, answers: state.answers, probes, consent: { notes: state.consent === true }, turnstileToken };
+  const came = state.came || {};
+  return { sessionId: state.sessionId, submittedAt: new Date().toISOString(), src: state.src, ref: state.ref, utm: came.utm, referrer: came.referrer, sectorLink: came.sectorLink, referredBy: came.referredBy, answers: state.answers, probes, consent: { notes: state.consent === true }, turnstileToken };
 }
 
 async function submit() {
@@ -363,7 +388,10 @@ async function submit() {
     clearTimeout(t);
     const j = await r.json().catch(() => ({}));
     if (!r.ok || !j.ok) throw new Error(j.error || `HTTP ${r.status}`);
-    state.submitted = j; clearSaved(); go(state.screen + 1);
+    state.submitted = j; clearSaved();
+    // GA4 key event (addendum v3 5.6). The sector code only, nothing about the person.
+    if (typeof window.gtag === 'function') window.gtag('event', 'check_submitted', { sector: state.answers['1.6'] || '' });
+    go(state.screen + 1);
   } catch (e) {
     state.submitted = { failed: true, error: String(e.message || e) };
     go(state.screen + 1);
