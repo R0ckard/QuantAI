@@ -41,7 +41,9 @@ for (const [slug, m] of Object.entries(MOCKUPS)) {
   });
 
   test(`${slug}: labelled, linked to the check with its sector, and readable by search`, () => {
-    assert.ok(html.includes('Illustrative audit · fictional business · figures modelled from stated assumptions'));
+    // Labelled once, plainly, with the figures marked illustrative (Dave, 27 Oct 2026: no more than that).
+    assert.ok(html.includes('<div class="kick">A mock-up audit</div>'));
+    assert.ok(html.includes('* Figures are illustrative'));
     const codes = QUESTIONS.find(q => q.id === '1.6').options.map(o => o[0]);
     assert.ok(codes.includes(m.sector));
     assert.ok(html.includes(`/check/?sector=${m.sector}`));
