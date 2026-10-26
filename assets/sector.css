@@ -23,7 +23,7 @@ a{color:var(--viridian);text-decoration:none}a:hover{text-decoration:underline}
 .hero{background:radial-gradient(1100px 520px at 70% -10%,#20344f,#0F1B2A);color:#fff;padding:72px 0 80px}
 .eyebrow{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--viridian400);font-weight:700}
 .hero h1{font-family:var(--qa-display);font-weight:700;font-size:42px;line-height:1.1;letter-spacing:-.02em;margin:14px 0 16px;max-width:22ch}
-.hero p.lead{font-size:19px;color:#dbe2ec;max-width:62ch;margin:0 0 28px}
+.hero p.lead{font-size:19px;color:#dbe2ec;margin:0 0 28px}
 .btnrow{display:flex;gap:12px;flex-wrap:wrap}
 .btn{display:inline-block;padding:12px 20px;border-radius:5px;font-weight:600;font-size:15px}
 .btn.primary{background:var(--viridian400);color:#08221f}
@@ -32,10 +32,10 @@ a{color:var(--viridian);text-decoration:none}a:hover{text-decoration:underline}
 .btn.ghost:hover{border-color:#fff;text-decoration:none}
 section{padding:60px 0}
 section.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.sec-head{max-width:66ch}
+
 h2{font-family:var(--qa-display);font-weight:600;font-size:28px;letter-spacing:-.01em;color:var(--ink);margin:0 0 8px}
 .sec-head p,.prose p{color:var(--slate);font-size:16.5px;margin:0 0 12px}
-.prose{max-width:68ch}
+
 .kick{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--viridian);font-weight:700;margin-bottom:10px}
 .grid{display:grid;gap:18px;margin-top:28px}
 .g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
@@ -44,7 +44,7 @@ section.alt .card{background:var(--paper)}
 .card h3{margin:0 0 6px;font-size:16px;color:var(--ink)}
 .card p{margin:0;color:var(--slate);font-size:14.5px}
 .tag{display:inline-block;font-size:11px;font-family:var(--qa-mono);color:var(--graphite);margin-bottom:8px;letter-spacing:.02em}
-.rule{border-left:3px solid var(--viridian);background:var(--viridian050);padding:16px 20px;border-radius:0 6px 6px 0;margin-top:24px;max-width:72ch}
+.rule{border-left:3px solid var(--viridian);background:var(--viridian050);padding:16px 20px;border-radius:0 6px 6px 0;margin-top:24px}
 .rule p{margin:0;color:var(--ink);font-size:15.5px}
 /* the mock-up audit */
 .audit{background:#fff;border:1px solid var(--line);border-radius:8px;padding:28px;margin-top:28px}
@@ -65,7 +65,7 @@ section.alt .card{background:var(--paper)}
 .roadmap li{margin-bottom:8px}
 .money{background:var(--paper);border-radius:6px;padding:16px 18px;font-family:var(--qa-mono);font-size:13.5px;color:var(--ink);line-height:1.8;overflow-x:auto}
 .money .big{font-family:var(--qa-display);font-size:26px;font-weight:700}
-.note{color:var(--graphite);font-size:12.5px;max-width:72ch;margin-top:10px}
+.note{color:var(--graphite);font-size:12.5px;margin-top:10px}
 /* the shared bottom half */
 .start{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:28px;align-items:stretch}
 .panel{background:#fff;border:1px solid var(--line);border-radius:6px;padding:22px 24px}
@@ -77,7 +77,7 @@ section.alt .card{background:var(--paper)}
 .price p{color:var(--slate);font-size:14.5px;margin:0 0 14px}
 .price .btn.primary{background:var(--viridian);color:#fff}
 .price .btn.ghost{border:1px solid var(--viridian400);color:var(--viridian)}
-.faq details{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px 18px;margin-top:10px;max-width:76ch}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px 18px;margin-top:10px}
 .faq summary{cursor:pointer;font-weight:600;color:var(--ink)}
 .faq details p{color:var(--slate);font-size:15px;margin:10px 0 0}
 section.contact{background:linear-gradient(135deg,var(--ink),var(--navy));color:#fff;text-align:center}
