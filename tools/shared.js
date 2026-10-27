@@ -1,4 +1,4 @@
-// npm run shared            rewrites every sector page's shared blocks
+// npm run shared            rewrites the shared blocks on the homepage and every sector page
 // npm run shared -- --check  exits 1 if any page has drifted (the test runs this)
 //
 // Sector pages (ai-consulting/<sector>/index.html) are a sector-specific top
@@ -24,6 +24,11 @@ export function sectorPages() {
     .filter(f => fs.existsSync(f));
 }
 
+// Every page carrying shared blocks: the sector pages and the homepage.
+export function sharedPages() {
+  return [path.join(root, 'index.html'), ...sectorPages()];
+}
+
 const text = html => html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/\s+/g, ' ').trim();
 
 export function faqSchema(html) {
@@ -46,7 +51,7 @@ export function build(html) {
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
   const check = process.argv.includes('--check');
   let drifted = 0;
-  for (const file of sectorPages()) {
+  for (const file of sharedPages()) {
     const before = fs.readFileSync(file, 'utf8');
     const after = build(before);
     if (before === after) continue;

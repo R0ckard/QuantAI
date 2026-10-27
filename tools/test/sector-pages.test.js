@@ -8,7 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { score, CONSTANTS, formatAUD } from '../../check/model.js';
 import { QUESTIONS } from '../../check/questions.js';
-import { build, sectorPages } from '../shared.js';
+import { build, sectorPages, sharedPages } from '../shared.js';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = rel => fs.readFileSync(path.join(root, rel), 'utf8');
@@ -70,4 +70,14 @@ test('no long dashes anywhere a prospect reads, and every sector page is in the 
   for (const f of files) assert.ok(!/[–—]/.test(fs.readFileSync(f, 'utf8')), f);
   const sitemap = read('sitemap.xml');
   for (const slug of Object.keys(MOCKUPS)) assert.ok(sitemap.includes(`https://quantai.com.au/ai-consulting/${slug}/`));
+});
+
+test('the homepage carries the same shared half, so the audit is described one way across the site', () => {
+  const html = read('index.html');
+  assert.equal(build(html), html, 'run npm run shared');
+  for (const name of ['who-its-for', 'how-the-audit-works', 'founder', 'contact']) assert.ok(html.includes(`<!-- shared:${name} -->`), name);
+  assert.ok(!/[–—]/.test(html));
+  assert.ok(!/puts a number|carries a number/.test(html));
+  for (const slug of Object.keys(MOCKUPS)) assert.ok(html.includes(`href="/ai-consulting/${slug}/"`), slug);
+  assert.equal(sharedPages()[0], path.join(root, 'index.html'));
 });

@@ -14,7 +14,7 @@
 <script src="/assets/first-touch.js"></script>
 <script src="/assets/founding.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="AI consulting for Australian businesses. An audit that finds where AI is worth using in your business and puts a number on each recommendation, built from your own hours and rates.">
+<meta name="description" content="AI consulting for Australian businesses. An audit that finds where AI is worth using in your business and puts a figure on each recommendation, worked out from your own hours and rates.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <title>QuantAI · AI consulting for Australian businesses · Melbourne</title>
@@ -46,7 +46,7 @@
   .hero{background:radial-gradient(1100px 520px at 70% -10%,#20344f,#0F1B2A);color:#fff;padding:76px 0 84px}
   .eyebrow{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--viridian400);font-weight:700}
   .hero h1{font-family:var(--qa-display);font-weight:700;font-size:44px;line-height:1.08;letter-spacing:-.02em;margin:14px 0 16px;max-width:20ch}
-  .hero p.lead{font-size:19px;color:#dbe2ec;max-width:60ch;margin:0 0 28px}
+  .hero p.lead{font-size:19px;color:#dbe2ec;margin:0 0 28px}
   .btnrow{display:flex;gap:12px;flex-wrap:wrap}
   .btn{display:inline-block;padding:12px 20px;border-radius:5px;font-weight:600;font-size:15px}
   .btn.primary{background:var(--viridian400);color:#08221f}
@@ -57,9 +57,10 @@
   .hero .tiny b{color:#dbe2ec;font-weight:600}
   /* sections */
   section{padding:64px 0}
-  .sec-head{max-width:64ch}
   h2{font-family:var(--qa-display);font-weight:600;font-size:28px;letter-spacing:-.01em;color:var(--ink);margin:0 0 8px}
-  .sec-head p{color:var(--slate);font-size:16.5px;margin:0}
+  .sec-head p,.prose p{color:var(--slate);font-size:16.5px;margin:0 0 12px}
+  section.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  section.alt .card{background:var(--paper)}
   .kick{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--viridian);font-weight:700;margin-bottom:10px}
   .grid{display:grid;gap:18px;margin-top:30px}
   .g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
@@ -100,7 +101,6 @@
   footer{background:var(--ink);color:#9fb0c4;font-size:13px;padding:26px 0 40px;border-top:1px solid rgba(255,255,255,.08)}
   footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
   footer a{color:#c7d0dc}
-  .note{color:#7a8899;font-size:12px;max-width:70ch;margin-top:8px}
   @media(max-width:820px){.g4,.g3{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.hero h1{font-size:34px}}
   @media(max-width:520px){.g4,.g3,.g2{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
   /* where to start */
@@ -128,7 +128,7 @@
   <div class="links">
     <a href="#build" class="hide">What I build</a>
     <a href="#help" class="hide">What I help with</a>
-    <a href="#start" class="hide">Where to start</a>
+    <a href="#audit" class="hide">How the audit works</a>
     <a href="admin-load-check.html" class="hide">6-minute AI check</a>
     <a href="#contact" class="cta">Get in touch</a>
   </div>
@@ -138,11 +138,10 @@
 <header class="hero" id="top"><div class="wrap">
   <div class="eyebrow">QuantAI · Quantified AI consulting · Melbourne</div>
   <h1>Find out where AI is worth using in your business, and what each change is worth.</h1>
-  <p class="lead">An audit looks at where the opportunities are, where revenue is leaking and which processes are falling down, and puts a number on each change that's worth making, built from your own hours and rates. Some of those will be quick wins and some will take longer, and what you do with them is your call.</p>
+  <p class="lead">An audit looks at where the opportunities are, where revenue is leaking and which processes are falling down, and puts a figure on each change that's worth making, worked out from your own hours and rates. Some of those will be quick wins and some will take longer, and what you do with them is your call.</p>
   <div class="btnrow">
-    <a class="btn primary" href="mailto:dave@quantai.com.au?subject=QuantAI%20enquiry">Email me</a>
+    <a class="btn primary" href="admin-load-check.html">Take the free 6-minute check</a>
     <a class="btn ghost" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Free 15-minute call</a>
-    <a class="btn ghost" href="admin-load-check.html">Take the free 6-minute AI check</a>
   </div>
 </div></header>
 
@@ -162,10 +161,10 @@
 </div></section>
 
 <!-- WHAT I HELP WITH -->
-<section id="help" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+<section id="help" class="alt"><div class="wrap">
   <div class="sec-head">
     <div class="kick">What I help with</div>
-    <h2>The kind of work I look at</h2>
+    <h2>The kind of work I look at.</h2>
     <p>I work with businesses that sell their time: accounting, advice, recruitment, engineering, consulting and plenty in between. These are some of the places an audit tends to look first.</p>
   </div>
   <div class="grid g3">
@@ -174,27 +173,32 @@
     <div class="card"><h3>Client onboarding</h3><p>One consistent way of bringing on a new client, so that nobody gets forgotten between the steps.</p></div>
     <div class="card"><h3>Recruitment admin</h3><p>The drafting and paperwork around hiring, with every decision about a candidate left to the recruiter.</p></div>
     <div class="card"><h3>Training</h3><p>Training and playbooks, so that the team keeps using what's been put in place.</p></div>
+    <div class="card"><h3>Written for your sector</h3><p>If you run an <a href="/ai-consulting/insurance-brokers/">insurance brokerage</a>, an <a href="/ai-consulting/accounting-firms/">accounting firm</a> or a <a href="/ai-consulting/recruitment-agencies/">recruitment agency</a>, there's a page with the jobs I'd look at first in your line of work and a mock-up of the report.</p></div>
   </div>
 </div></section>
 
-<!-- WHERE TO START -->
-<section id="start"><div class="wrap">
+<!-- shared:who-its-for -->
+<section id="fit"><div class="wrap">
   <div class="sec-head">
-    <div class="kick">Where to start</div>
-    <h2>Two steps, and the first one's free.</h2>
-    <p>The call tells you whether an audit's worth doing. The audit tells you what to change, and what each change is worth.</p>
+    <div class="kick">Who it's for</div>
+    <h2>Firms of about five to thirty people.</h2>
+    <p>It suits a business where the principals are still close enough to the work to know where the week's going, where the same jobs keep coming round, and where somebody's already wondering whether AI could take some of it off the team's plate.</p>
   </div>
-  <div class="grid g2">
-    <a class="card" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener"><span class="tag">Step 1 · Free · 15 minutes</span><h3>A quick call &#8599;</h3><p>You tell me what's eating the week, I ask three questions, and then I tell you straight whether an audit's worth doing and what it would cost. There's no advice or plan on this call, and nothing to sign.</p></a>
-    <div class="card"><span class="tag">Step 2 · Fixed fee</span><h3>The audit</h3><p>I talk to you and the people who actually do the work, map where the time goes, and write up what's worth changing. Every recommendation carries a number built from your own hours and rates, so you can judge it on your figures and not mine.</p></div>
+</div></section>
+<!-- /shared:who-its-for -->
+<!-- shared:how-the-audit-works -->
+<section id="audit" class="alt"><div class="wrap">
+  <div class="sec-head">
+    <div class="kick">How the audit works</div>
+    <h2>Two steps, and the first one's free.</h2>
+    <p>The 15-minute call tells you whether an audit's worth doing at all. The audit tells you what to change, and what each change is worth on your own figures.</p>
   </div>
   <div class="start">
     <div class="panel">
-      <div class="subhead" style="margin-top:0">How the audit works</div>
       <ol>
-        <li>Short interviews with you and the people who do the work, 30 to 45 minutes each, and recorded so that nothing gets lost.</li>
-        <li>A written report: where the time goes, which workflows are worth changing, and which ones AI should stay away from.</li>
-        <li>A debrief where I walk you through it, with the opportunities ranked by effort and impact and a plan for the next few months.</li>
+        <li>An interview with you, about an hour, then 45 minutes each with up to three of the people who actually do the work, all of it recorded so that nothing gets lost.</li>
+        <li>A written report on where the week goes, which workflows are worth changing and what each one's worth, worked out from your own hours and rates, and which ones AI should stay well away from.</li>
+        <li>A debrief where I walk you through it, with everything ranked by effort and by what it's worth, and a plan for the next few months.</li>
         <li>After that it's your call whether you run the plan yourself, hand it to someone else, or bring me back to build it.</li>
       </ol>
     </div>
@@ -203,16 +207,36 @@
       <p class="sub" data-founding>+ GST · Founding audit</p>
       <p data-founding="line">Three founding audits at $1,500 + GST. Once they're gone, audits move to standard rates.</p>
       <p data-founding-over hidden>The three founding audits have gone. Ask me about the standard rate.</p>
-      <p>That covers interviews with you and up to three of your team, one written report and one debrief. In return I ask for an anonymised case study and half an hour of feedback on how it went. If you go ahead with a build inside 60 days, the fee comes off it.</p>
+      <p>That covers the interviews, one written report and one debrief. In return I ask for an anonymised case study and half an hour of feedback on how it went, and if you go ahead with a build inside 60 days the fee comes off it.</p>
       <div class="btnrow">
         <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Start with the free call</a>
         <a class="btn ghost" href="mailto:dave@quantai.com.au?subject=AI%20audit">Email me</a>
       </div>
     </div>
   </div>
-  <p class="note">If you'd rather not talk yet, <a href="admin-load-check.html">the 6-minute AI check</a> is the same first step without the call. It's twenty six quick questions, mostly one tap, and it shows you where the week goes and what the repeat work is costing you before you spend anything on AI.</p>
 </div></section>
-
+<!-- /shared:how-the-audit-works -->
+<!-- THE CHECK -->
+<section id="check"><div class="wrap">
+  <div class="sec-head">
+    <div class="kick">Not ready to talk yet?</div>
+    <h2>Take the 6-minute check instead.</h2>
+    <p>It's the same first step without the call: twenty six quick questions, mostly one tap, and it shows you where the week goes and what the repeat work is costing you before you spend anything on AI.</p>
+  </div>
+  <div class="btnrow" style="margin-top:18px">
+    <a class="btn primary" style="background:var(--viridian);color:#fff" href="admin-load-check.html">Take the free 6-minute check</a>
+  </div>
+</div></section>
+<!-- shared:founder -->
+<section id="founder" class="alt"><div class="wrap">
+  <div class="prose">
+    <div class="kick">Who you'd be dealing with</div>
+    <h2>Dave Richardson, QuantAI, Melbourne.</h2>
+    <p>I build and run my own businesses on this (noomoo, CarbonCut, and the sales and marketing system that runs across them), so when I suggest a change to the way your team works I've a fair idea of what it takes to keep it running once I've gone.</p>
+    <p>The audit is me doing the interviews, me writing the report and me in the room for the debrief, and every figure in it is worked out from what you and your team tell me, not from somebody else's survey.</p>
+  </div>
+</div></section>
+<!-- /shared:founder -->
 <!-- APPROACH -->
 <section id="approach"><div class="wrap">
   <div class="sec-head">
@@ -220,27 +244,23 @@
     <h2>If you bring me back to build it</h2>
     <p>We agree in writing what's changing before anything starts, then it gets built, and the people who'll be using it are trained so that you can run it without me.</p>
   </div>
-  <p style="margin-top:14px;color:var(--slate);font-size:16.5px;max-width:64ch">There's a short one-pager on how I work <a href="how-i-work/QuantAI_How_I_Work.html">here</a>. There are also five demonstration projects on <a href="https://github.com/R0ckard/QuantAI">GitHub</a>, built around made-up businesses to show the method.</p>
+  <p style="margin-top:14px;color:var(--slate);font-size:16.5px">There's a short one-pager on how I work <a href="how-i-work/QuantAI_How_I_Work.html">here</a>. There are also five demonstration projects on <a href="https://github.com/R0ckard/QuantAI">GitHub</a>, built around made-up businesses to show the method.</p>
 </div></section>
 
-<!-- CONTACT -->
+<!-- shared:contact -->
 <section class="contact" id="contact"><div class="wrap">
-  <h2>Start with a free 15-minute call.</h2>
-  <p>If your business is using AI in bits and pieces and you want it to add up to something, start with a free 15-minute call. I'll tell you whether there's anything worth doing.</p>
+  <h2>Start with the check, or a 15-minute call.</h2>
+  <p>The check takes about six minutes and shows you what the repeat work is costing before you spend anything on AI. The call is free, and I'll tell you straight whether there's anything worth doing.</p>
   <div class="btnrow" style="justify-content:center">
-    <a class="btn primary" href="mailto:dave@quantai.com.au?subject=QuantAI%20enquiry">Email me</a>
-    <a class="btn ghost" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Free 15-minute call</a>
+    <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Free 15-minute call</a>
+    <a class="btn ghost" href="mailto:dave@quantai.com.au?subject=QuantAI%20enquiry">Email me</a>
   </div>
 </div></section>
-
-<!-- FOOTER -->
 <footer><div class="wrap">
-  <div>
-    <div style="color:#c7d0dc;font-weight:600">QuantAI · Dave Richardson</div>
-    <div><a href="mailto:dave@quantai.com.au">dave@quantai.com.au</a> · Melbourne, Australia</div>
-  </div>
+  <div style="color:#c7d0dc;font-weight:600">QuantAI · Dave Richardson</div>
+  <div><a href="mailto:dave@quantai.com.au">dave@quantai.com.au</a> · Melbourne, Australia · <a href="/">quantai.com.au</a></div>
 </div></footer>
-
+<!-- /shared:contact -->
 <script>
 document.querySelectorAll('a.btn[href^="mailto:"]').forEach(function(a){
   a.addEventListener('click', function(){
