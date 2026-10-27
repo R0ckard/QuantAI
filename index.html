@@ -41,7 +41,9 @@
   .nav .links a:hover{color:#fff;text-decoration:none}
   .nav .cta{background:var(--viridian400);color:#08221f !important;padding:7px 14px;border-radius:4px;font-weight:600;font-size:13.5px}
   .nav .cta:hover{background:#4bb3a4;text-decoration:none}
-  @media(max-width:720px){.nav .links a.hide{display:none}}
+  @media(max-width:720px){.nav .links a.hide{display:none}.nav .links{gap:16px}.nav .logo{height:18px}}
+  .nav .links a{white-space:nowrap}
+  @media(max-width:400px){.nav .links{gap:12px}.nav .links a,.nav .cta{font-size:13px}.nav .cta{padding:6px 10px}}
   /* hero */
   .hero{background:radial-gradient(1100px 520px at 70% -10%,#20344f,#0F1B2A);color:#fff;padding:76px 0 84px}
   .eyebrow{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--viridian400);font-weight:700}
@@ -128,6 +130,7 @@
   <div class="links">
     <a href="#build" class="hide">What I build</a>
     <a href="#help" class="hide">What I help with</a>
+    <a href="#sectors">By sector</a>
     <a href="#audit" class="hide">How the audit works</a>
     <a href="admin-load-check.html" class="hide">6-minute AI check</a>
     <a href="#contact" class="cta">Get in touch</a>
@@ -173,7 +176,7 @@
     <div class="card"><h3>Client onboarding</h3><p>One consistent way of bringing on a new client, so that nobody gets forgotten between the steps.</p></div>
     <div class="card"><h3>Recruitment admin</h3><p>The drafting and paperwork around hiring, with every decision about a candidate left to the recruiter.</p></div>
     <div class="card"><h3>Training</h3><p>Training and playbooks, so that the team keeps using what's been put in place.</p></div>
-    <div class="card"><h3>Written for your sector</h3><p>If you run an <a href="/ai-consulting/insurance-brokers/">insurance brokerage</a>, an <a href="/ai-consulting/accounting-firms/">accounting firm</a> or a <a href="/ai-consulting/recruitment-agencies/">recruitment agency</a>, there's a page with the jobs I'd look at first in your line of work and a mock-up of the report.</p></div>
+    <div class="card" id="sectors" style="scroll-margin-top:80px"><h3>Written for your sector</h3><p>If you run an <a href="/ai-consulting/insurance-brokers/">insurance brokerage</a>, an <a href="/ai-consulting/accounting-firms/">accounting firm</a> or a <a href="/ai-consulting/recruitment-agencies/">recruitment agency</a>, there's a page with the jobs I'd look at first in your line of work and a mock-up of the report.</p></div>
   </div>
 </div></section>
 
@@ -259,6 +262,7 @@
 <footer><div class="wrap">
   <div style="color:#c7d0dc;font-weight:600">QuantAI · Dave Richardson</div>
   <div><a href="mailto:dave@quantai.com.au">dave@quantai.com.au</a> · Melbourne, Australia · <a href="/">quantai.com.au</a></div>
+  <div>AI consulting for <a href="/ai-consulting/insurance-brokers/">insurance brokers</a> · <a href="/ai-consulting/accounting-firms/">accounting firms</a> · <a href="/ai-consulting/recruitment-agencies/">recruitment agencies</a></div>
 </div></footer>
 <!-- /shared:contact -->
 <script>

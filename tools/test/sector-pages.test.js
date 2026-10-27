@@ -62,6 +62,8 @@ for (const [slug, m] of Object.entries(MOCKUPS)) {
 
   test(`${slug}: the shared half is up to date`, () => {
     assert.equal(build(html), html, 'run npm run shared');
+    // Every sector page links to every other one, through the shared footer.
+    for (const other of Object.keys(MOCKUPS)) assert.ok(html.includes(`href="/ai-consulting/${other}/"`), other);
   });
 }
 
@@ -79,5 +81,6 @@ test('the homepage carries the same shared half, so the audit is described one w
   assert.ok(!/[–—]/.test(html));
   assert.ok(!/puts a number|carries a number/.test(html));
   for (const slug of Object.keys(MOCKUPS)) assert.ok(html.includes(`href="/ai-consulting/${slug}/"`), slug);
+  assert.ok(html.includes('<a href="#sectors">By sector</a>') && html.includes('id="sectors"'));
   assert.equal(sharedPages()[0], path.join(root, 'index.html'));
 });
