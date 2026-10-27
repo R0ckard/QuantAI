@@ -19,6 +19,7 @@ const read = rel => fs.readFileSync(path.join(root, rel), 'utf8');
 const MOCKUPS = {
   'insurance-brokers': { sector: 'INS', hours: 'H30', cost: 'C50', words: ['30 hours a week', '$50 an hour'] },
   'accounting-firms': { sector: 'ACC', hours: 'H30', cost: 'C75', words: ['30 hours a week', '$75 an hour'] },
+  'recruitment-agencies': { sector: 'REC', hours: 'H60', cost: 'C50', words: ['60 hours a week', '$50 an hour'] },
 };
 
 test('there is a page for each mock-up, and nothing else', () => {
@@ -37,7 +38,8 @@ for (const [slug, m] of Object.entries(MOCKUPS)) {
     assert.ok(html.includes(`= ${formatAUD(s.total)} a year spent on it`), formatAUD(s.total));
     assert.ok(html.includes(`${CONSTANTS.RECOVERABLE_LOW * 100}% to ${CONSTANTS.RECOVERABLE_HIGH * 100}%`));
     assert.ok(html.includes(`${formatAUD(s.recoverableLow)} to ${formatAUD(s.recoverableHigh)} a year`), `${s.recoverableLow} to ${s.recoverableHigh}`);
-    assert.ok(html.includes(`${s.hoursLow} to ${s.hoursHigh} hours`));
+    const h = n => n.toLocaleString('en-AU');
+    assert.ok(html.includes(`${h(s.hoursLow)} to ${h(s.hoursHigh)} hours`));
   });
 
   test(`${slug}: labelled, linked to the check with its sector, and readable by search`, () => {
