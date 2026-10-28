@@ -21,6 +21,9 @@
 <link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
 <link rel="icon" href="favicon.ico?v=2" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+<!-- faq-schema -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What's in the report?","acceptedAnswer":{"@type":"Answer","text":"Where the week goes, written up from the interviews, then each workflow that's worth changing with a figure on it from your team's own numbers, the ones AI should stay away from and why, and a plan for the next few months ranked by effort and by what each change is worth."}},{"@type":"Question","name":"Do I have to hire you to build anything?","acceptedAnswer":{"@type":"Answer","text":"No. The report's yours, and it's written so that you or anyone else can run with it. If you do bring me back for a build inside 60 days, the audit fee comes off it."}},{"@type":"Question","name":"Do we need to be using AI already?","acceptedAnswer":{"@type":"Answer","text":"No. Plenty of the firms I talk to are using it in bits and pieces or not at all, and that's fine, because the audit starts from where your week goes and not from the tools."}},{"@type":"Question","name":"How long does it take?","acceptedAnswer":{"@type":"Answer","text":"That mostly depends on your diary and how many of the team I'm talking to, so I'll give you dates on the call rather than guess here and get it wrong."}},{"@type":"Question","name":"What happens to what we tell you?","acceptedAnswer":{"@type":"Answer","text":"The interviews are only recorded with your OK, so that nothing gets lost, and the recordings, transcripts and notes are kept where only I can get at them and used for your audit and nothing else. Client details stay in business-grade tools that don't train on what goes into them, names come out wherever they don't need to be in, and a person checks anything that matters before it's used. The recordings are deleted 90 days after the debrief, or sooner if you ask, and nothing about your business gets published without your written OK, the case study included."}},{"@type":"Question","name":"What if there's nothing worth doing?","acceptedAnswer":{"@type":"Answer","text":"Then I'll say so on the call, before you've spent anything. I'd much rather tell you that than talk you into an audit that won't pay for itself."}}]}</script>
+<!-- /faq-schema -->
 <style>
   :root{
     --ink:#0F1B2A;--navy:#1B2C42;--slate:#40536B;--graphite:#7A8899;--line:#E7EBEF;--paper:#F6F5F1;--white:#FFFFFF;
@@ -129,6 +132,30 @@
   .start .price .btn.ghost{border:1px solid var(--viridian400);color:var(--viridian)}
   .start .price .btn.ghost:hover{border-color:var(--viridian)}
   @media(max-width:820px){.start{grid-template-columns:1fr}}
+  section.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  /* the mock-up slice, the same pieces as the sector pages */
+  .slice{background:#fff;border:1px solid var(--line);border-radius:8px;padding:26px 28px;margin-top:28px}
+  .slice .label{font-family:var(--qa-mono);font-size:12px;color:var(--brass);letter-spacing:.04em;text-transform:uppercase;margin:0 0 14px}
+  .slice h4{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--graphite);margin:24px 0 10px}
+  .findings{list-style:none;margin:0;padding:0}
+  .findings li{border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:14.5px;color:var(--slate)}
+  .findings li b{color:var(--ink)}
+  .pill{display:inline-block;font-family:var(--qa-mono);font-size:11px;padding:1px 7px;border-radius:10px;margin-right:6px;border:1px solid var(--line);color:var(--graphite)}
+  .pill.sink{border-color:var(--viridian400);color:var(--viridian)}
+  .quad{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .quad div{border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:14px;color:var(--slate)}
+  .quad div b{display:block;color:var(--ink);margin-bottom:4px}
+  .quad .q1{background:var(--viridian050);border-color:var(--viridian400)}
+  .money{background:var(--paper);border-radius:6px;padding:16px 18px;font-family:var(--qa-mono);font-size:13.5px;color:var(--ink);line-height:1.8;overflow-x:auto}
+  .money .big{font-family:var(--qa-display);font-size:26px;font-weight:700}
+  .mockup-cta{border:1px solid var(--viridian400);background:var(--viridian050);border-radius:6px;padding:20px 22px;margin-top:18px}
+  .mockup-cta .ask{font-family:var(--qa-display);font-size:20px;font-weight:600;color:var(--ink);margin:0 0 14px}
+  .mockup-cta .btn.primary{background:var(--viridian);color:#fff}
+  .mockup-cta .or{color:var(--slate);font-size:14.5px;margin:12px 0 0}
+  .faq details{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px 18px;margin-top:10px}
+  .faq summary{cursor:pointer;font-weight:600;color:var(--ink)}
+  .faq details p{color:var(--slate);font-size:15px;margin:10px 0 0}
+  @media(max-width:560px){.quad{grid-template-columns:1fr}.slice{padding:20px}}
 </style>
 </head>
 <body>
@@ -137,11 +164,11 @@
 <div class="nav"><div class="wrap">
   <a href="#top" aria-label="QuantAI home"><svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.99 85.12" role="img" aria-label="QuantAI"><g transform="translate(0.000 0.000) scale(1.88489)"><rect x="0" y="36" width="20" height="8" fill="#FFFFFF"/><rect x="12" y="18" width="8" height="26" fill="#FFFFFF"/><rect x="12" y="18" width="16" height="8" fill="#FFFFFF"/><rect x="28" y="0" width="8" height="26" fill="#2E9C8E"/><rect x="28" y="0" width="20" height="8" fill="#2E9C8E"/></g><g transform="translate(117.45 78.82)"><path fill="#FFFFFF" fill-rule="nonzero" d="M38.48 0.98 C43.17 0.98 47.56 0.14 51.52 -1.47 L57.62 6.30 L70.12 6.30 L60.02 -6.69 C67.33 -13.03 71.83 -23.14 71.83 -36.33 C71.83 -59.86 57.52 -73.73 38.48 -73.73 C19.39 -73.73 5.03 -59.86 5.03 -36.33 C5.03 -12.89 19.39 0.98 38.48 0.98 Z M34.38 -24.27 L44.09 -11.47 C42.33 -10.98 40.44 -10.69 38.48 -10.69 C26.56 -10.69 18.11 -19.78 18.11 -36.33 C18.11 -52.98 26.56 -62.06 38.48 -62.06 C50.30 -62.06 58.69 -53.03 58.69 -36.33 C58.69 -27.39 56.30 -20.66 52.20 -16.36 L46.09 -24.27 L34.38 -24.27 Z M102.73 0.69 C110.64 0.69 116.36 -3.12 119.62 -10.94 L119.73 -0.00 L131.79 -0.00 L131.79 -54.59 L119.04 -54.59 L119.04 -22.61 C119.04 -14.70 114.15 -10.11 107.42 -10.11 C100.78 -10.11 96.73 -14.50 96.73 -21.83 L96.73 -54.59 L84.03 -54.59 L84.03 -19.88 C84.03 -6.73 91.50 0.69 102.73 0.69 Z M160.49 1.12 C168.99 1.12 174.17 -2.83 176.56 -7.52 L177.06 -7.52 L177.06 -0.00 L189.21 -0.00 L189.21 -36.47 C189.21 -51.03 177.20 -55.28 166.95 -55.28 C156.01 -55.28 147.03 -50.64 143.81 -41.02 L155.57 -38.62 C156.88 -42.23 160.65 -45.52 166.99 -45.52 C173.20 -45.52 176.51 -42.39 176.51 -37.06 L176.51 -36.81 C176.51 -33.06 172.51 -32.91 163.04 -31.89 C152.49 -30.77 142.24 -27.64 142.24 -15.33 C142.24 -4.59 150.10 1.12 160.49 1.12 Z M163.78 -8.30 C158.40 -8.30 154.54 -10.75 154.54 -15.48 C154.54 -20.45 158.84 -22.56 164.56 -23.34 C167.82 -23.78 174.90 -24.66 176.62 -26.03 L176.62 -19.58 C176.62 -13.53 171.59 -8.30 163.78 -8.30 Z M215.38 -31.98 C215.38 -39.89 220.26 -44.48 227.06 -44.48 C233.70 -44.48 237.70 -40.09 237.70 -32.77 L237.70 -0.00 L250.38 -0.00 L250.38 -34.72 C250.38 -47.86 242.96 -55.28 231.74 -55.28 C223.73 -55.28 218.07 -51.38 214.84 -43.70 L214.70 -54.59 L202.68 -54.59 L202.68 -0.00 L215.38 -0.00 L215.38 -31.98 Z M289.11 -54.59 L278.57 -54.59 L278.57 -67.58 L265.86 -67.58 L265.86 -54.59 L258.11 -54.59 L258.11 -44.62 L265.86 -44.62 L265.86 -14.31 C265.86 -4.64 271.68 0.73 282.13 0.73 C284.82 0.73 287.85 0.39 290.63 -0.44 L288.63 -10.25 C287.41 -9.97 285.16 -9.62 283.99 -9.62 C280.13 -9.62 278.57 -11.42 278.57 -15.38 L278.57 -44.62 L289.11 -44.62 L289.11 -54.59 Z M294.87 -0.00 L309.13 -0.00 L315.09 -18.02 L342.29 -18.02 L348.49 -0.00 L362.79 -0.00 L336.82 -72.75 L320.26 -72.75 L294.87 -0.00 Z M318.56 -28.52 L321.63 -37.80 C323.63 -44.28 325.84 -52.44 328.42 -62.59 C331.10 -52.55 333.40 -44.48 335.54 -37.80 L338.73 -28.52 L318.56 -28.52 Z M385.54 -72.75 L372.51 -72.75 L372.51 -0.00 L385.54 -0.00 L385.54 -72.75 Z"/></g></svg></a>
   <div class="links">
-    <a href="#build" class="hide">What I build</a>
-    <a href="#help" class="hide">What I help with</a>
+    <a href="#help" class="hide">What I look at</a>
     <a href="#sectors">By sector</a>
     <a href="#audit" class="hide">How the audit works</a>
-    <a href="/check/" class="hide">6-minute AI check</a>
+    <a href="#mockup" class="hide">A mock-up audit</a>
+    <a href="#faq" class="hide">Questions</a>
     <a href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener" class="cta">Book a call</a>
   </div>
 </div></div>
@@ -150,7 +177,7 @@
 <header class="hero" id="top"><div class="wrap">
   <div class="eyebrow">QuantAI · Quantified AI consulting · Melbourne</div>
   <h1>Find out where AI is worth using in your business, and what each change is worth.</h1>
-  <p class="lead">An audit looks at where the opportunities are, where revenue is leaking and which processes are falling down, and puts a figure on each change that's worth making, worked out from your own hours and rates. Some of those will be quick wins and some will take longer, and what you do with them is your call.</p>
+  <p class="lead">I interview you and the people who do the work, then show you which jobs are worth changing, which aren't, and what each change is worth, worked out from your own hours and rates. It's built for businesses of about 5 to 30 people.</p>
   <div class="btnrow">
     <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
   </div>
@@ -159,34 +186,19 @@
 </div></header>
 <div class="founding-strip" data-founding><div class="wrap">Founding audits: $1,500 + GST<span data-founding-left>, 3 left</span>. <a href="#audit">See how it works</a></div></div>
 
-<!-- WHAT I BUILD -->
-<section id="build"><div class="wrap">
-  <div class="sec-head">
-    <div class="kick">What I build</div>
-    <h2>Products built with AI, and in use every day.</h2>
-    <p>The advice in an audit comes from building and running my own products with AI, and these are the ones I use every day: two products, and the sales and marketing system that runs across them.</p>
-  </div>
-
-  <div class="grid g3">
-    <a class="card" href="https://noomoo.com.au" target="_blank" rel="noopener"><span class="tag">Product · self-built CRM</span><h3>noomoo &#8599;</h3><p>Australia's vegan eats directory. Behind it is a CRM built in-house, with automated communications, lead qualification and pipeline management.</p></a>
-    <a class="card" href="https://carboncut.com.au" target="_blank" rel="noopener"><span class="tag">SaaS · carbon accounting</span><h3>CarbonCut &#8599;</h3><p>Carbon accounting software for Australian businesses that have to show their numbers in a tender or to a customer.</p></a>
-    <div class="card"><span class="tag">Sales and marketing · in daily use</span><h3>The sales and marketing machine</h3><p>One system that runs sales and marketing across several businesses, covering outbound lead generation and lead management.</p></div>
-  </div>
-</div></section>
-
-<!-- WHAT I HELP WITH -->
+<!-- WHAT THE AUDIT LOOKS AT -->
 <section id="help" class="alt"><div class="wrap">
   <div class="sec-head">
-    <div class="kick">What I help with</div>
-    <h2>The kind of work I look at.</h2>
-    <p>I work with businesses that sell their time: accounting, advice, recruitment, engineering, consulting and plenty in between. These are some of the places an audit tends to look first.</p>
+    <div class="kick">What the audit looks at</div>
+    <h2>The things you've probably already noticed.</h2>
+    <p>I work with businesses that sell their time, and at the moment that's mostly <a href="/ai-consulting/insurance-brokers/">insurance brokers</a>, <a href="/ai-consulting/accounting-firms/">accounting firms</a>, aged care and NDIS providers, and not-for-profits. These are some of the places an audit tends to look first.</p>
   </div>
   <div class="grid g3">
-    <div class="card"><h3>House rules for AI</h3><p>Which AI tools the business uses, what can go into them, and who signs off what comes out.</p></div>
-    <div class="card"><h3>Meetings</h3><p>Meetings that end with a clear record of what was decided, and who's doing what by when.</p></div>
-    <div class="card"><h3>Client onboarding</h3><p>One consistent way of bringing on a new client, so that nobody gets forgotten between the steps.</p></div>
-    <div class="card"><h3>Recruitment admin</h3><p>The drafting and paperwork around hiring, with every decision about a candidate left to the recruiter.</p></div>
-    <div class="card"><h3>Training</h3><p>Training and playbooks, so that the team keeps using what's been put in place.</p></div>
+    <div class="card"><span class="tag">House rules for AI</span><h3>Nobody's quite sure what the team is pasting into ChatGPT.</h3></div>
+    <div class="card"><span class="tag">Meetings</span><h3>Meetings end without anyone writing down who's doing what.</h3></div>
+    <div class="card"><span class="tag">Client onboarding</span><h3>Every new client gets brought on a slightly different way.</h3></div>
+    <div class="card"><span class="tag">Double handling</span><h3>The same details get typed into two or three systems.</h3></div>
+    <div class="card"><span class="tag">Training</span><h3>A tool gets bought, used for a month, then quietly dropped.</h3></div>
     <div class="card" id="sectors" style="scroll-margin-top:80px"><h3>Written for your sector</h3><p>If you run an <a href="/ai-consulting/insurance-brokers/">insurance brokerage</a>, an <a href="/ai-consulting/accounting-firms/">accounting firm</a> or a <a href="/ai-consulting/recruitment-agencies/">recruitment agency</a>, there's a page with the jobs I'd look at first in your line of work and a mock-up of the report.</p></div>
   </div>
 </div></section>
@@ -196,7 +208,7 @@
   <div class="sec-head">
     <div class="kick">Who it's for</div>
     <h2>Firms of about five to thirty people.</h2>
-    <p>It suits a business where the principals are still close enough to the work to know where the week's going, where the same jobs keep coming round, and where somebody's already wondering whether AI could take some of it off the team's plate.</p>
+    <p>It suits a business where the principals are still close enough to the work to know where the week's going, and where somebody's already wondering whether AI could do some of it.</p>
     <p>It's probably not for you if you're a sole trader, if you've more than about fifty staff and a transformation team already, or if you want someone to pick an AI tool for you before anyone's looked at the work.</p>
   </div>
 </div></section>
@@ -241,46 +253,102 @@
   </div>
 </div></section>
 <!-- /shared:how-the-audit-works -->
-<!-- THE CHECK -->
-<section id="check"><div class="wrap">
+
+<!-- A SLICE OF A MOCK-UP AUDIT -->
+<section id="mockup"><div class="wrap">
   <div class="sec-head">
-    <div class="kick">Not ready to talk yet?</div>
-    <h2>Take the 6-minute check instead.</h2>
-    <p>It's the same first step without the call: twenty six quick questions, mostly one tap, and it shows you where the week goes and what the repeat work is costing you before you spend anything on AI.</p>
+    <div class="kick">A slice of a mock-up audit</div>
+    <h2>What a finding looks like, and what it's worth.</h2>
+    <p>This comes from the mock-up audit for a made-up 14-person commercial broker, and the money at the end uses the same arithmetic as the 6-minute check.</p>
   </div>
-  <div class="btnrow" style="margin-top:18px">
-    <a class="btn primary" style="background:var(--viridian);color:#fff" href="/check/">Take the free 6-minute check</a>
+  <div class="slice">
+    <p class="label">Illustrative audit · fictional business · figures modelled from stated assumptions</p>
+    <ul class="findings">
+      <li><span class="pill">Delivery</span><span class="pill sink">Time sink</span><b>Renewal information is chased one client at a time.</b> It starts about six weeks out, by email, with the reminders kept in each account manager's own inbox.</li>
+    </ul>
+    <h4>Where each finding sits</h4>
+    <div class="quad">
+      <div class="q1"><b>Quick wins</b>The renewal information chase, and certificate and endorsement requests: drafted for a person to check and send, and tracked in one place instead of a dozen inboxes.</div>
+      <div><b>Big swings</b>The re-keying between the broking platform and the insurer portals, and one standard market comparison that every account manager uses.</div>
+      <div><b>Nice-to-haves</b>Sorting new enquiries as they come in, and one quote template for the whole office.</div>
+      <div><b>Deprioritise</b>Anything that touches advice, cover or a claims decision. That stays with a licensed person, so the audit leaves it out of the sums.</div>
+    </div>
+    <h4>What it's worth</h4>
+    <div class="money">
+      30 hours a week across the team on the jobs the interviews found<br>
+      × $50 an hour, what that time costs the business<br>
+      × 46 working weeks<br>
+      = $69,000 a year spent on it<br>
+      × 20% to 40% that's realistically recoverable<br>
+      = <span class="big">$14,000 to $28,000 a year*</span>, or 280 to 550 hours
+    </div>
+    <p class="note">* Worked out from the assumptions above, with the same 46 working weeks and 20% to 40% that the 6-minute check uses.</p>
   </div>
+<!-- shared:mockup-cta -->
+<div class="mockup-cta">
+  <p class="ask">That's a made-up business. Want the same sum worked out from your own hours and rates?</p>
+  <div class="btnrow">
+    <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
+  </div>
+  <p class="or">Not ready to talk? <a href="/check/" data-check-link>The 6-minute check</a> puts a rough figure on it for your own business.</p>
+</div>
+<!-- /shared:mockup-cta -->
+  <p style="margin-top:18px;color:var(--slate);font-size:15.5px">See a full mock-up for your sector: <a href="/ai-consulting/insurance-brokers/#mockup">insurance brokers</a>, <a href="/ai-consulting/accounting-firms/#mockup">accounting firms</a> or <a href="/ai-consulting/recruitment-agencies/#mockup">recruitment agencies</a>.</p>
 </div></section>
+
 <!-- shared:founder -->
 <section id="founder" class="alt"><div class="wrap">
   <div class="prose">
     <div class="kick">Who you'd be dealing with</div>
     <h2>Dave Richardson, QuantAI, Melbourne.</h2>
-    <p>I build and run my own businesses on this (noomoo, CarbonCut, and the sales and marketing system that runs across them), so when I suggest a change to the way your team works I've a fair idea of what it takes to keep it running once I've gone.</p>
+    <p>I build and run my own businesses on this, so when I suggest a change to the way your team works I've a fair idea of what it takes to keep it running once I've gone. This is what I've built and use every day:</p>
+    <ul style="color:var(--slate);font-size:16px;padding-left:20px;margin:0 0 14px">
+      <li><a href="https://noomoo.com.au" target="_blank" rel="noopener">noomoo</a>, with a CRM I built in-house that qualifies leads and sends the follow-ups automatically</li>
+      <li><a href="https://carboncut.com.au" target="_blank" rel="noopener">CarbonCut</a>, software that turns a pile of utility bills into a carbon report a business can put in front of a tender reviewer</li>
+      <li>The sales and marketing system I run across these businesses, with lead capture, follow-up and the pipeline all in one place</li>
+    </ul>
     <p>The audit is me doing the interviews, me writing the report and me in the room for the debrief, and every figure in it is worked out from what you and your team tell me, not from somebody else's survey.</p>
     <p>If you'd like to look me up before you book, I'm on <a href="https://www.linkedin.com/in/dave-richardson-3b4a697/" target="_blank" rel="noopener">LinkedIn</a>.</p>
   </div>
 </div></section>
 <!-- /shared:founder -->
+
+<!-- FAQ -->
+<section id="faq"><div class="wrap">
+  <div class="sec-head">
+    <div class="kick">Questions</div>
+    <h2>What people ask before they book.</h2>
+  </div>
+  <div class="faq">
+<!-- shared:core-faq -->
+<details><summary>What's in the report?</summary><p>Where the week goes, written up from the interviews, then each workflow that's worth changing with a figure on it from your team's own numbers, the ones AI should stay away from and why, and a plan for the next few months ranked by effort and by what each change is worth.</p></details>
+<details><summary>Do I have to hire you to build anything?</summary><p>No. The report's yours, and it's written so that you or anyone else can run with it. If you do bring me back for a build inside 60 days, the audit fee comes off it.</p></details>
+<details><summary>Do we need to be using AI already?</summary><p>No. Plenty of the firms I talk to are using it in bits and pieces or not at all, and that's fine, because the audit starts from where your week goes and not from the tools.</p></details>
+<details><summary>How long does it take?</summary><p>That mostly depends on your diary and how many of the team I'm talking to, so I'll give you dates on the call rather than guess here and get it wrong.</p></details>
+<details><summary>What happens to what we tell you?</summary><p>The interviews are only recorded with your OK, so that nothing gets lost, and the recordings, transcripts and notes are kept where only I can get at them and used for your audit and nothing else. Client details stay in business-grade tools that don't train on what goes into them, names come out wherever they don't need to be in, and a person checks anything that matters before it's used. The recordings are deleted 90 days after the debrief, or sooner if you ask, and nothing about your business gets published without your written OK, the case study included.</p></details>
+<!-- /shared:core-faq -->
+    <details><summary>What if there's nothing worth doing?</summary><p>Then I'll say so on the call, before you've spent anything. I'd much rather tell you that than talk you into an audit that won't pay for itself.</p></details>
+  </div>
+</div></section>
+
 <!-- APPROACH -->
-<section id="approach"><div class="wrap">
+<section id="approach" class="alt"><div class="wrap">
   <div class="sec-head">
     <div class="kick">How I work</div>
     <h2>If you bring me back to build it</h2>
     <p>We agree in writing what's changing before anything starts, then it gets built, and the people who'll be using it are trained so that you can run it without me.</p>
   </div>
-  <p style="margin-top:14px;color:var(--slate);font-size:16.5px">There's a short one-pager on how I work <a href="how-i-work/QuantAI_How_I_Work.html">here</a>. There are also five demonstration projects on <a href="https://github.com/R0ckard/QuantAI">GitHub</a>, built around made-up businesses to show the method.</p>
+  <p style="margin-top:14px;color:var(--slate);font-size:16.5px">There's more on <a href="how-i-work/QuantAI_How_I_Work.html">how a build works after the audit</a>. There are also five demonstration projects on <a href="https://github.com/R0ckard/QuantAI">GitHub</a>, built around made-up businesses to show the method.</p>
 </div></section>
 
 <!-- shared:contact -->
 <section class="contact" id="contact"><div class="wrap">
-  <h2>Start with the check, or a 15-minute call.</h2>
-  <p>The check takes about six minutes and shows you what the repeat work is costing before you spend anything on AI. The call is free, and I'll tell you straight whether there's anything worth doing.</p>
+  <h2>Start with a 15-minute call.</h2>
+  <p>If there's nothing worth doing, I'll tell you, and it's cost you a quarter of an hour.</p>
   <div class="btnrow" style="justify-content:center">
-    <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Free 15-minute call</a>
-    <a class="btn ghost" href="mailto:dave@quantai.com.au?subject=QuantAI%20enquiry">Email me</a>
+    <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
   </div>
+  <p style="margin:18px auto 0;font-size:15px">Not ready? <a href="/check/" data-check-link style="color:var(--viridian400);text-decoration:underline">Take the 6-minute check.</a></p>
 </div></section>
 <footer><div class="wrap">
   <div style="color:#c7d0dc;font-weight:600">QuantAI · Dave Richardson</div>
@@ -304,6 +372,13 @@
   }
 </style>
 <script>
+// Every "take the check" link further down a sector page starts the check
+// with the sector picked, the same as the link in the hero.
+(function () {
+  var hero = document.querySelector('.hero .checklink a');
+  if (!hero) return;
+  [].forEach.call(document.querySelectorAll('[data-check-link]'), function (a) { a.href = hero.getAttribute('href'); });
+})();
 (function () {
   var bar = document.getElementById('callbar'), hero = document.querySelector('.hero'), end = document.getElementById('contact');
   if (!bar || !hero || !end || !('IntersectionObserver' in window)) return;

@@ -43,9 +43,11 @@ for (const [slug, m] of Object.entries(MOCKUPS)) {
   });
 
   test(`${slug}: labelled, linked to the check with its sector, and readable by search`, () => {
-    // Labelled once, plainly, with the figures marked illustrative (Dave, 27 Oct 2026: no more than that).
+    // Labelled once, plainly, straight under the mock-up's heading (conversion brief, 28 Oct 2026),
+    // and its money is followed by the call to action.
     assert.ok(html.includes('<div class="kick">A mock-up audit</div>'));
-    assert.ok(html.includes('* Figures are illustrative'));
+    assert.ok(/<\/h3>\n\s*<p class="label">Illustrative audit · fictional business · figures modelled from stated assumptions<\/p>/.test(html));
+    assert.ok(html.includes('<!-- shared:mockup-cta -->'));
     const codes = QUESTIONS.find(q => q.id === '1.6').options.map(o => o[0]);
     assert.ok(codes.includes(m.sector));
     assert.ok(html.includes(`/check/?sector=${m.sector}`));
@@ -77,7 +79,11 @@ test('no long dashes anywhere a prospect reads, and every sector page is in the 
 test('the homepage carries the same shared half, so the audit is described one way across the site', () => {
   const html = read('index.html');
   assert.equal(build(html), html, 'run npm run shared');
-  for (const name of ['who-its-for', 'how-the-audit-works', 'founder', 'contact']) assert.ok(html.includes(`<!-- shared:${name} -->`), name);
+  for (const name of ['who-its-for', 'how-the-audit-works', 'founder', 'contact', 'core-faq', 'mockup-cta']) assert.ok(html.includes(`<!-- shared:${name} -->`), name);
+  const questions = (html.match(/<details><summary>/g) || []).length;
+  const schema = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(schema['@type'], 'FAQPage');
+  assert.equal(schema.mainEntity.length, questions);
   assert.ok(!/[–—]/.test(html));
   assert.ok(!/puts a number|carries a number/.test(html));
   for (const slug of Object.keys(MOCKUPS)) assert.ok(html.includes(`href="/ai-consulting/${slug}/"`), slug);

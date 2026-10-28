@@ -1,10 +1,10 @@
 <section class="contact" id="contact"><div class="wrap">
-  <h2>Start with the check, or a 15-minute call.</h2>
-  <p>The check takes about six minutes and shows you what the repeat work is costing before you spend anything on AI. The call is free, and I'll tell you straight whether there's anything worth doing.</p>
+  <h2>Start with a 15-minute call.</h2>
+  <p>If there's nothing worth doing, I'll tell you, and it's cost you a quarter of an hour.</p>
   <div class="btnrow" style="justify-content:center">
-    <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Free 15-minute call</a>
-    <a class="btn ghost" href="mailto:dave@quantai.com.au?subject=QuantAI%20enquiry">Email me</a>
+    <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
   </div>
+  <p style="margin:18px auto 0;font-size:15px">Not ready? <a href="/check/" data-check-link style="color:var(--viridian400);text-decoration:underline">Take the 6-minute check.</a></p>
 </div></section>
 <footer><div class="wrap">
   <div style="color:#c7d0dc;font-weight:600">QuantAI · Dave Richardson</div>
@@ -28,6 +28,13 @@
   }
 </style>
 <script>
+// Every "take the check" link further down a sector page starts the check
+// with the sector picked, the same as the link in the hero.
+(function () {
+  var hero = document.querySelector('.hero .checklink a');
+  if (!hero) return;
+  [].forEach.call(document.querySelectorAll('[data-check-link]'), function (a) { a.href = hero.getAttribute('href'); });
+})();
 (function () {
   var bar = document.getElementById('callbar'), hero = document.querySelector('.hero'), end = document.getElementById('contact');
   if (!bar || !hero || !end || !('IntersectionObserver' in window)) return;

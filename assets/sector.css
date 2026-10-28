@@ -72,6 +72,11 @@ section.alt .card{background:var(--paper)}
 .money{background:var(--paper);border-radius:6px;padding:16px 18px;font-family:var(--qa-mono);font-size:13.5px;color:var(--ink);line-height:1.8;overflow-x:auto}
 .money .big{font-family:var(--qa-display);font-size:26px;font-weight:700}
 .note{color:var(--graphite);font-size:12.5px;margin-top:10px}
+/* the call to action straight after "What it's worth" */
+.mockup-cta{border:1px solid var(--viridian400);background:var(--viridian050);border-radius:6px;padding:20px 22px;margin-top:18px}
+.mockup-cta .ask{font-family:var(--qa-display);font-size:20px;font-weight:600;color:var(--ink);margin:0 0 14px}
+.mockup-cta .btn.primary{background:var(--viridian);color:#fff}
+.mockup-cta .or{color:var(--slate);font-size:14.5px;margin:12px 0 0}
 /* the shared bottom half */
 .start{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:28px;align-items:stretch}
 .panel{background:#fff;border:1px solid var(--line);border-radius:6px;padding:22px 24px}

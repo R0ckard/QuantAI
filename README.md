@@ -4,7 +4,7 @@ I'm Dave Richardson. QuantAI helps professional services firms redesign how thei
 
 This repository holds five worked demonstration projects. Each one takes a realistic brief for a firm in a different sector and builds the whole thing end to end: the strategy, the working prototypes (Claude Projects, prompt libraries, live dashboards), the diagrams, a before and after benefits model, editable SOPs, and a walkthrough. They are built around representative client scenarios to show the method and the standard of the work, so the figures are modelled estimates under stated assumptions, not measured client outcomes.
 
-**How I work:** consent-based interviews to understand the real workflows, a clear brief we agree on, delivery with Claude, Cowork and Code, then the enablement to make it stick. There is a short one-pager on this in [`how-i-work/`](how-i-work/QuantAI_How_I_Work.html).
+**How I work:** it starts with a free 15-minute call, then an audit: interviews, a written report and a debrief. If a client wants me to build what the audit recommends, we agree the scope and price in writing, I build it on the tools they already pay for, train the people who'll use it, and check the hours against the audit's figures a month or so in. There's a short page on this at [quantai.com.au](https://quantai.com.au/how-i-work/QuantAI_How_I_Work.html).
 
 > A quick note on the files: the case studies, dashboards and walkthroughs are HTML, built to open in a browser. GitHub shows them as source, so to see them rendered, download the repo (or a single file) and open it locally.
 
