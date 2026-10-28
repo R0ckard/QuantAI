@@ -84,3 +84,14 @@ test('the homepage carries the same shared half, so the audit is described one w
   assert.ok(html.includes('<a href="#sectors">By sector</a>') && html.includes('id="sectors"'));
   assert.equal(sharedPages()[0], path.join(root, 'index.html'));
 });
+
+test('there is a privacy policy, written plainly, and every page that collects anything links to it', () => {
+  const page = read('privacy/index.html');
+  assert.ok(!/[–—]/.test(page));
+  assert.match(page, /<link rel="canonical" href="https:\/\/quantai\.com\.au\/privacy\/">/);
+  assert.match(page, /ABN 30 724 947 983/);
+  assert.match(read('sitemap.xml'), /quantai\.com\.au\/privacy\//);
+  for (const f of [...sharedPages(), path.join(root, 'check/index.html')]) {
+    assert.match(fs.readFileSync(f, 'utf8'), /href="\/privacy\/"/, f);
+  }
+});
