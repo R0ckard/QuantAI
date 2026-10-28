@@ -12,3 +12,28 @@
   <div>Jobchange Australia trading as QuantAI · ABN 30 724 947 983</div>
   <div>AI consulting for <a href="/ai-consulting/insurance-brokers/">insurance brokers</a> · <a href="/ai-consulting/accounting-firms/">accounting firms</a> · <a href="/ai-consulting/recruitment-agencies/">recruitment agencies</a></div>
 </div></footer>
+<div class="callbar" id="callbar">
+  <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
+  <span>Free, on Zoom</span>
+</div>
+<style>
+  /* Phones only: the call button follows the reader once the hero has gone, and gets out of the way at the final call to action. */
+  .callbar{display:none}
+  @media(max-width:720px){
+    body{padding-bottom:72px}
+    .callbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;align-items:center;justify-content:center;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(15,27,42,.97);border-top:1px solid rgba(255,255,255,.12);transform:translateY(110%);visibility:hidden;transition:transform .2s ease,visibility .2s}
+    .callbar.on{transform:none;visibility:visible}
+    .callbar .btn{flex:1;max-width:320px;text-align:center;padding:11px 16px}
+    .callbar span{color:#9fb0c4;font-size:13px;white-space:nowrap}
+  }
+</style>
+<script>
+(function () {
+  var bar = document.getElementById('callbar'), hero = document.querySelector('.hero'), end = document.getElementById('contact');
+  if (!bar || !hero || !end || !('IntersectionObserver' in window)) return;
+  var past = false, atEnd = false;
+  function set() { bar.classList.toggle('on', past && !atEnd); }
+  new IntersectionObserver(function (e) { past = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; set(); }).observe(hero);
+  new IntersectionObserver(function (e) { atEnd = e[0].isIntersecting || e[0].boundingClientRect.top < 0; set(); }).observe(end);
+})();
+</script>

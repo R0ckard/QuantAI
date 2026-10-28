@@ -57,6 +57,12 @@
   .btn.ghost:hover{border-color:#fff;text-decoration:none}
   .hero .tiny{margin-top:22px;font-size:13px;color:#9fb0c4}
   .hero .tiny b{color:#dbe2ec;font-weight:600}
+  /* hero: the call leads, the check is a text link under it, and the founding strip sits below */
+  .hero .callnote{margin:12px 0 0;font-size:14.5px;color:#9fb0c4}
+  .hero .checklink{margin:6px 0 0;font-size:15px;color:#dbe2ec}
+  .hero .checklink a{color:var(--viridian400);text-decoration:underline}
+  .founding-strip{background:var(--viridian050);border-bottom:1px solid #cfeae5;color:#0E4B45;font-size:14.5px;padding:11px 0}
+  .founding-strip a{font-weight:600;text-decoration:underline}
   /* sections */
   section{padding:64px 0}
   h2{font-family:var(--qa-display);font-weight:600;font-size:28px;letter-spacing:-.01em;color:var(--ink);margin:0 0 8px}
@@ -114,7 +120,10 @@
   .start .price{background:var(--viridian050);border:1px solid var(--viridian400);border-radius:6px;padding:22px 24px}
   .start .price .fig{font-family:var(--qa-display);font-weight:700;font-size:38px;color:var(--ink);line-height:1;margin:0}
   .start .price .sub{font-family:var(--qa-mono);font-size:11.5px;color:var(--viridian);letter-spacing:.06em;text-transform:uppercase;margin:6px 0 14px}
-  .start .price p{color:var(--slate);font-size:14.5px;margin:0 0 18px}
+  .start .price p{color:var(--slate);font-size:14.5px;margin:0 0 14px}
+  .start .price .walk{color:var(--ink);font-weight:600;margin:0}
+  .start .price ul{margin:6px 0 14px;padding-left:20px;color:var(--slate);font-size:14.5px}
+  .start .price li{margin-bottom:6px}
   .start .price .btn.primary{background:var(--viridian);color:#fff}
   .start .price .btn.primary:hover{background:var(--viridian400);color:#08221f}
   .start .price .btn.ghost{border:1px solid var(--viridian400);color:var(--viridian)}
@@ -133,7 +142,7 @@
     <a href="#sectors">By sector</a>
     <a href="#audit" class="hide">How the audit works</a>
     <a href="/check/" class="hide">6-minute AI check</a>
-    <a href="#contact" class="cta">Get in touch</a>
+    <a href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener" class="cta">Book a call</a>
   </div>
 </div></div>
 
@@ -143,10 +152,12 @@
   <h1>Find out where AI is worth using in your business, and what each change is worth.</h1>
   <p class="lead">An audit looks at where the opportunities are, where revenue is leaking and which processes are falling down, and puts a figure on each change that's worth making, worked out from your own hours and rates. Some of those will be quick wins and some will take longer, and what you do with them is your call.</p>
   <div class="btnrow">
-    <a class="btn primary" href="/check/">Take the free 6-minute check</a>
-    <a class="btn ghost" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Free 15-minute call</a>
+    <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
   </div>
+  <p class="callnote">It's free and on Zoom, and I'll tell you on the call whether an audit's worth doing.</p>
+  <p class="checklink">Not ready to talk? <a href="/check/">Take the 6-minute check.</a></p>
 </div></header>
+<div class="founding-strip" data-founding><div class="wrap">Founding audits: $1,500 + GST<span data-founding-left>, 3 left</span>. <a href="#audit">See how it works</a></div></div>
 
 <!-- WHAT I BUILD -->
 <section id="build"><div class="wrap">
@@ -186,6 +197,7 @@
     <div class="kick">Who it's for</div>
     <h2>Firms of about five to thirty people.</h2>
     <p>It suits a business where the principals are still close enough to the work to know where the week's going, where the same jobs keep coming round, and where somebody's already wondering whether AI could take some of it off the team's plate.</p>
+    <p>It's probably not for you if you're a sole trader, if you've more than about fifty staff and a transformation team already, or if you want someone to pick an AI tool for you before anyone's looked at the work.</p>
   </div>
 </div></section>
 <!-- /shared:who-its-for -->
@@ -210,10 +222,19 @@
       <p class="fig" data-founding>$1,500</p>
       <p class="sub" data-founding>+ GST · Founding audit</p>
       <p data-founding="line">Three founding audits at $1,500 + GST. Once they're gone, audits move to standard rates.</p>
-      <p data-founding-over hidden>The three founding audits have gone. Ask me about the standard rate.</p>
-      <p>That covers the interviews, one written report and one debrief. In return I ask for an anonymised case study and half an hour of feedback on how it went, and if you go ahead with a build inside 60 days the fee comes off it.</p>
+      <p data-founding-over hidden>The three founding audits have gone.</p>
+      <p>Standard audits start at $2,000 + GST.</p>
+      <p class="walk">What you walk away with</p>
+      <ul>
+        <li>A written report with a dollar figure on every recommendation, on your team's own numbers</li>
+        <li>A ranked plan for the next three to six months</li>
+        <li>A list of the jobs AI should stay away from in your business, and why</li>
+      </ul>
+      <p data-until="2026-12-10"><b>Book by 10 December</b> and the interviews and debrief are done before the Christmas break.</p>
+      <p data-founding>The founding price comes with three asks: an anonymised case study, half an hour of feedback, and your OK to use a short quote if you're happy with it.</p>
+      <p>If you go ahead with a build within 60 days, the fee comes off the build.</p>
       <div class="btnrow">
-        <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Start with the free call</a>
+        <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
         <a class="btn ghost" href="mailto:dave@quantai.com.au?subject=AI%20audit">Email me</a>
       </div>
     </div>
@@ -238,6 +259,7 @@
     <h2>Dave Richardson, QuantAI, Melbourne.</h2>
     <p>I build and run my own businesses on this (noomoo, CarbonCut, and the sales and marketing system that runs across them), so when I suggest a change to the way your team works I've a fair idea of what it takes to keep it running once I've gone.</p>
     <p>The audit is me doing the interviews, me writing the report and me in the room for the debrief, and every figure in it is worked out from what you and your team tell me, not from somebody else's survey.</p>
+    <p>If you'd like to look me up before you book, I'm on <a href="https://www.linkedin.com/in/dave-richardson-3b4a697/" target="_blank" rel="noopener">LinkedIn</a>.</p>
   </div>
 </div></section>
 <!-- /shared:founder -->
@@ -266,6 +288,31 @@
   <div>Jobchange Australia trading as QuantAI · ABN 30 724 947 983</div>
   <div>AI consulting for <a href="/ai-consulting/insurance-brokers/">insurance brokers</a> · <a href="/ai-consulting/accounting-firms/">accounting firms</a> · <a href="/ai-consulting/recruitment-agencies/">recruitment agencies</a></div>
 </div></footer>
+<div class="callbar" id="callbar">
+  <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
+  <span>Free, on Zoom</span>
+</div>
+<style>
+  /* Phones only: the call button follows the reader once the hero has gone, and gets out of the way at the final call to action. */
+  .callbar{display:none}
+  @media(max-width:720px){
+    body{padding-bottom:72px}
+    .callbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;align-items:center;justify-content:center;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(15,27,42,.97);border-top:1px solid rgba(255,255,255,.12);transform:translateY(110%);visibility:hidden;transition:transform .2s ease,visibility .2s}
+    .callbar.on{transform:none;visibility:visible}
+    .callbar .btn{flex:1;max-width:320px;text-align:center;padding:11px 16px}
+    .callbar span{color:#9fb0c4;font-size:13px;white-space:nowrap}
+  }
+</style>
+<script>
+(function () {
+  var bar = document.getElementById('callbar'), hero = document.querySelector('.hero'), end = document.getElementById('contact');
+  if (!bar || !hero || !end || !('IntersectionObserver' in window)) return;
+  var past = false, atEnd = false;
+  function set() { bar.classList.toggle('on', past && !atEnd); }
+  new IntersectionObserver(function (e) { past = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; set(); }).observe(hero);
+  new IntersectionObserver(function (e) { atEnd = e[0].isIntersecting || e[0].boundingClientRect.top < 0; set(); }).observe(end);
+})();
+</script>
 <!-- /shared:contact -->
 <script>
 document.querySelectorAll('a.btn[href^="mailto:"]').forEach(function(a){

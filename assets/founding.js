@@ -7,9 +7,13 @@
 //   data-founding         anything else that only makes sense while spots
 //                         remain (the price and its "Founding audit" label)
 //   data-founding-over    hidden until every spot is taken, then shown
+//   data-founding-left    the strip under the hero: ", 3 left" as written,
+//                         the live number once it's read
+//   data-until="YYYY-MM-DD"  hidden once that day is over in Melbourne (the
+//                         10 December booking cut-off before Christmas)
 //
-// If the number cannot be read, the line says "Ask about founding audits."
-// and nothing else changes.
+// If the number cannot be read, the line says "Ask about founding audits.",
+// the strip drops its count, and nothing else changes.
 (function () {
   var URL_ = 'https://gtm-engine-dave-s-projects16.vercel.app/api/public/founding';
   var WORDS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
@@ -28,11 +32,17 @@
       el.textContent = cap(word(f.total)) + ' founding audits at $1,500 + GST, and ' + left +
         ". Once they're gone, audits move to standard rates.";
     });
+    all('[data-founding-left]').forEach(function (el) { el.textContent = ', ' + f.remaining + ' left'; });
   }
 
   function unknown() {
     all('[data-founding="line"]').forEach(function (el) { el.textContent = 'Ask about founding audits.'; });
+    all('[data-founding-left]').forEach(function (el) { el.textContent = ''; });
   }
+
+  all('[data-until]').forEach(function (el) {
+    if (new Date() > new Date(el.getAttribute('data-until') + 'T23:59:59+11:00')) el.hidden = true;
+  });
 
   if (!window.fetch) return;
   fetch(URL_, { mode: 'cors' })
