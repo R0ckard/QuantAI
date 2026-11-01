@@ -20,6 +20,7 @@ const MOCKUPS = {
   'insurance-brokers': { sector: 'INS', hours: 'H30', cost: 'C50', words: ['30 hours a week', '$50 an hour'] },
   'accounting-firms': { sector: 'ACC', hours: 'H30', cost: 'C75', words: ['30 hours a week', '$75 an hour'] },
   'recruitment-agencies': { sector: 'REC', hours: 'H60', cost: 'C50', words: ['60 hours a week', '$50 an hour'] },
+  'not-for-profits': { sector: 'NFP', hours: 'H60', cost: 'C35', words: ['60 hours a week', '$35 an hour'] },
 };
 
 test('there is a page for each mock-up, and nothing else', () => {
