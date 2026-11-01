@@ -47,7 +47,9 @@ for (const [slug, m] of Object.entries(MOCKUPS)) {
     // Labelled once, plainly, straight under the mock-up's heading (conversion brief, 28 Oct 2026),
     // and its money is followed by the call to action.
     assert.ok(html.includes('<div class="kick">A mock-up audit</div>'));
-    assert.ok(/<\/h3>\n\s*<p class="label">Illustrative audit · fictional business · figures modelled from stated assumptions<\/p>/.test(html));
+    assert.ok(/<\/h3>\n\s*<p class="label">Example (NFP )?scenario<\/p>/.test(html));
+    // Never "fictional" or "made-up" (Dave, 27 Oct and 1 Nov 2026): the label says it once.
+    assert.ok(!/fictional|made-up/i.test(html));
     assert.ok(html.includes('<!-- shared:mockup-cta -->'));
     const codes = QUESTIONS.find(q => q.id === '1.6').options.map(o => o[0]);
     assert.ok(codes.includes(m.sector));
