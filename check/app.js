@@ -160,7 +160,7 @@ function renderIntro(root) {
     </div>
     <div class="intro-quote">There are no right answers here and nothing gets checked against you. The closer your answers are, the more useful your report is. Dave reads every one of these himself before it goes back to you.</div>
     <div class="actions"><span></span><button class="btn primary" id="next">Start the check</button></div>
-    <p class="meta">Your answers are used to write your report and nothing else, but if you'd rather they weren't stored, reply to the email that brings the report and they'll be deleted.</p>`;
+    <p class="meta">Your answers are used to write your report and the two short follow-up emails QuantAI sends after it, and that's all. If you'd rather they weren't stored, just reply to the email that brings the report and they'll be deleted.</p>`;
   $('#next').addEventListener('click', () => go(state.screen + 1));
 }
 
@@ -344,7 +344,7 @@ function renderSubmit(root) {
     <label class="consent"><input type="checkbox" id="consent"${state.consent ? ' checked' : ''}><span>${esc(CONSENT_WORDING)}</span></label>
     <div id="ts" class="turnstile"></div>
     <div class="actions"><button type="button" class="btn ghost" id="back">Back</button><button type="button" class="btn primary" id="send">Send my answers</button></div>
-    <p class="meta">Your answers are used to write your report and nothing else.</p>`;
+    <p class="meta">Your answers are only used for your report and the two short follow-up emails that come after it.</p>`;
   $('#back').addEventListener('click', () => go(state.screen - 1));
   $('#consent').addEventListener('change', e => { state.consent = e.target.checked; save(); });
   if (!stub && CONFIG.TURNSTILE_SITE_KEY) mountTurnstile();
