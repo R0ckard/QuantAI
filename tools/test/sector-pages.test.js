@@ -90,7 +90,7 @@ test('the homepage carries the same shared half, so the audit is described one w
   assert.ok(!/[–—]/.test(html));
   assert.ok(!/puts a number|carries a number/.test(html));
   for (const slug of Object.keys(MOCKUPS)) assert.ok(html.includes(`href="/ai-consulting/${slug}/"`), slug);
-  assert.ok(html.includes('<a href="#sectors">By sector</a>') && html.includes('id="sectors"'));
+  assert.ok(html.includes('id="sectors"'));
   assert.equal(sharedPages()[0], path.join(root, 'index.html'));
 });
 
@@ -102,5 +102,18 @@ test('there is a privacy policy, written plainly, and every page that collects a
   assert.match(read('sitemap.xml'), /quantai\.com\.au\/privacy\//);
   for (const f of [...sharedPages(), path.join(root, 'check/index.html')]) {
     assert.match(fs.readFileSync(f, 'utf8'), /href="\/privacy\/"/, f);
+  }
+});
+
+test('the menu on the homepage and every sector page reaches all the sector pages, at any width', () => {
+  for (const file of sharedPages()) {
+    const html = fs.readFileSync(file, 'utf8');
+    const nav = html.match(/<div class="nav">[\s\S]*?<\/div><\/div>/)[0];
+    for (const slug of Object.keys(MOCKUPS)) assert.ok(nav.includes(`href="/ai-consulting/${slug}/"`), `${file}: ${slug}`);
+    assert.ok(nav.includes('class="navtoggle"'), file);
+    // Nothing in the menu is hidden on a phone any more: it folds behind the Menu button.
+    assert.ok(!nav.includes('class="hide"'), file);
+    assert.ok(html.includes('href="/assets/nav.css"') && html.includes('src="/assets/nav.js"'), file);
+    assert.ok(!html.includes('Free, on Zoom'), file);
   }
 });

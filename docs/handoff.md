@@ -23,6 +23,19 @@ in this repo.** It is a module in the GTM engine at
 
 ## What's done
 
+- **Site menu (10 Nov, on `claude/cool-newton-j019c8`, not merged
+  or live yet):** Dave found on his phone that the sector pages couldn't
+  be reached from the menu, that a phone held upright showed almost no menu,
+  and that the logo ran into the links on a phone held sideways. The homepage
+  and the four sector pages now share one menu (`assets/nav.css`,
+  `assets/nav.js`): a row of links with a "By sector" drop-down above 980px,
+  and a Menu button below it that opens every link with the four sector pages
+  listed. The "Free, on Zoom" note is gone from the phone call bar
+  (`shared/contact.html`), and the hero line under the call button no longer
+  mentions Zoom on any of the five pages. Dave is rewriting the content and
+  the SEO himself.
+  The check landing page and the privacy page keep their own small navs.
+  This file's other sections predate the sector pages and need a rewrite.
 - **Phase 0 survey:** `docs/SURVEY.md`. How the check is built, every page's
   title and meta, the five worked examples as raw material, what noomoo-crm
   really contains, and where the v2 brief was wrong. One part is now

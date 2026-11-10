@@ -24,6 +24,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sector.css">
+<link rel="stylesheet" href="/assets/nav.css">
+<script src="/assets/nav.js" defer></script>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico?v=2" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
@@ -35,13 +37,23 @@
 
 <div class="nav"><div class="wrap">
   <a class="home" href="/">QuantAI</a>
-  <div class="links">
-    <a href="#week" class="hide">Where the week goes</a>
-    <a href="#mockup" class="hide">A mock-up audit</a>
-    <a href="#audit" class="hide">How the audit works</a>
-    <a href="/check/?sector=NFP" class="hide">6-minute check</a>
-    <a href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener" class="cta">Book a call</a>
-  </div>
+  <nav class="links" id="navlinks" aria-label="Site">
+    <a href="#week">Where the week goes</a>
+    <div class="drop">
+      <button type="button" class="dropbtn" aria-expanded="false" aria-controls="sectorlinks">By sector</button>
+      <div class="droplist" id="sectorlinks">
+        <a href="/ai-consulting/insurance-brokers/">Insurance brokers</a>
+        <a href="/ai-consulting/accounting-firms/">Accounting firms</a>
+        <a href="/ai-consulting/recruitment-agencies/">Recruitment agencies</a>
+        <a href="/ai-consulting/not-for-profits/" aria-current="page">Not-for-profits</a>
+      </div>
+    </div>
+    <a href="#mockup">A mock-up audit</a>
+    <a href="#audit">How the audit works</a>
+    <a href="/check/?sector=NFP">6-minute check</a>
+  </nav>
+  <a href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener" class="cta">Book a call</a>
+  <button type="button" class="navtoggle" aria-expanded="false" aria-controls="navlinks"><i aria-hidden="true"></i>Menu</button>
 </div></div>
 
 <header class="hero"><div class="wrap">
@@ -51,7 +63,7 @@
   <div class="btnrow">
     <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
   </div>
-  <p class="callnote">It's free and on Zoom, and I'll tell you on the call whether an audit's worth doing.</p>
+  <p class="callnote">It's free, and I'll tell you on the call whether an audit's worth doing.</p>
   <p class="checklink">Not ready to talk? <a href="/check/?sector=NFP">Take the 6-minute check.</a></p>
 </div></header>
 <div class="founding-strip" data-founding><div class="wrap">Founding audits: $1,500 + GST<span data-founding-left>, 3 left</span>. <a href="#audit">See how it works</a></div></div>
@@ -238,7 +250,6 @@
 </div></footer>
 <div class="callbar" id="callbar">
   <a class="btn primary" href="https://cal.com/dave-richardson/15min" target="_blank" rel="noopener">Book a 15-minute call</a>
-  <span>Free, on Zoom</span>
 </div>
 <style>
   /* Phones only: the call button follows the reader once the hero has gone, and gets out of the way at the final call to action. */
@@ -248,7 +259,6 @@
     .callbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;align-items:center;justify-content:center;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(15,27,42,.97);border-top:1px solid rgba(255,255,255,.12);transform:translateY(110%);visibility:hidden;transition:transform .2s ease,visibility .2s}
     .callbar.on{transform:none;visibility:visible}
     .callbar .btn{flex:1;max-width:320px;text-align:center;padding:11px 16px}
-    .callbar span{color:#9fb0c4;font-size:13px;white-space:nowrap}
   }
 </style>
 <script>
