@@ -105,10 +105,10 @@ test('there is a privacy policy, written plainly, and every page that collects a
   }
 });
 
-test('the menu on the homepage and every sector page reaches all the sector pages, at any width', () => {
-  for (const file of sharedPages()) {
+test('the menu on the homepage, the check landing page and every sector page reaches all the sector pages, at any width', () => {
+  for (const file of [...sharedPages(), path.join(root, 'admin-load-check.html')]) {
     const html = fs.readFileSync(file, 'utf8');
-    const nav = html.match(/<div class="nav">[\s\S]*?<\/div><\/div>/)[0];
+    const nav = html.match(/<(div|nav) class="nav"[\s\S]*?class="navtoggle"[\s\S]*?<\/button>/)[0];
     for (const slug of Object.keys(MOCKUPS)) assert.ok(nav.includes(`href="/ai-consulting/${slug}/"`), `${file}: ${slug}`);
     assert.ok(nav.includes('class="navtoggle"'), file);
     // Nothing in the menu is hidden on a phone any more: it folds behind the Menu button.

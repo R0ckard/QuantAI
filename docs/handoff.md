@@ -23,8 +23,7 @@ in this repo.** It is a module in the GTM engine at
 
 ## What's done
 
-- **Site menu (10 Nov, on `claude/cool-newton-j019c8`, not merged
-  or live yet):** Dave found on his phone that the sector pages couldn't
+- **Site menu (10 Nov, on `claude/cool-newton-j019c8`, merged 10 Nov; the 11 Nov follow-up is on the same branch name):** Dave found on his phone that the sector pages couldn't
   be reached from the menu, that a phone held upright showed almost no menu,
   and that the logo ran into the links on a phone held sideways. The homepage
   and the four sector pages now share one menu (`assets/nav.css`,
@@ -34,7 +33,13 @@ in this repo.** It is a module in the GTM engine at
   (`shared/contact.html`), and the hero line under the call button no longer
   mentions Zoom on any of the five pages. Dave is rewriting the content and
   the SEO himself.
-  The check landing page and the privacy page keep their own small navs.
+  The check landing page got the same menu on 11 Nov, and the menu labels
+  became Insurance, Accounting, Recruitment and Not-for-profits (the URLs
+  and page copy are unchanged). The privacy page keeps its own small nav.
+- **Sectors (Dave, 11 Nov):** four are live (insurance, accounting,
+  recruitment, not-for-profits). The next two are aged care and NDIS, and
+  pest control (which may sit better under trades), and both are on hold.
+  Don't build their pages or add them to the menu until Dave says so.
   This file's other sections predate the sector pages and need a rewrite.
 - **Phase 0 survey:** `docs/SURVEY.md`. How the check is built, every page's
   title and meta, the five worked examples as raw material, what noomoo-crm

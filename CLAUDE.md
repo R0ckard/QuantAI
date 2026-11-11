@@ -45,7 +45,8 @@ index.html              homepage (hero, what I build, what I help with, where
                         to start, approach, contact). No worked-examples
                         section since 10 Oct 2026
 admin-load-check.html   landing page for the 6-minute AI check
-assets/nav.css, nav.js  the menu on the homepage and the sector pages: a row with
+assets/nav.css, nav.js  the menu on the homepage, the check landing page and the
+                        sector pages: a row with
                         a "By sector" drop-down when wide, a Menu button under 980px
 check/                  the check itself: static, public, noindex, ES modules
 worker/                 Cloudflare Worker behind check/, holds every key, deployed
